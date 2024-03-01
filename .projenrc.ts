@@ -36,5 +36,11 @@ const project = new cdk.JsiiProject({
     "fs",
     "yaml",
   ],
+
+  // Define additional targets beyond JavaScript
+  publishToPypi: {
+    module: "projen_utils",
+    distName: "projen-utils",
+  },
 });
 project.synth();
