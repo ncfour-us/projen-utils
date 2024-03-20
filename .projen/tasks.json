@@ -176,6 +176,9 @@
       "steps": [
         {
           "exec": "jsii-pacmak -v --target js"
+        },
+        {
+          "exec": "\n  bash -c 'files=$(ls dist/js/*.tgz | grep -E \"^(.*)@(.*)\\.tgz\");\n  for file in ${files[@]};\n    do newfile=$(echo $file | sed -E \"s/^(.*)\\@(.*)\\.tgz$/\\1-\\2.tgz/\");\n    echo \"moving $file to $newfile\";\n    mv $file $newfile;\n  done'\n"
         }
       ]
     },
