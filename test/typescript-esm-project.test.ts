@@ -4,6 +4,7 @@ import { spawn } from "child_process";
 import fs from "fs";
 import { test, expect } from "@jest/globals";
 
+import { NodePackageManager } from "projen/lib/javascript";
 import YAML from "yaml";
 
 import {
@@ -20,6 +21,9 @@ test("typescript-esm-project-version-file", () => {
     defaultReleaseBranch: "main",
     // add versionFile to project
     addVersionFile: true,
+
+    // Remove implied dependency on/use of yarn package manager
+    packageManager: NodePackageManager.NPM,
   });
 
   // create the project
@@ -76,6 +80,9 @@ test("typescript-esm-project-commands", () => {
         file: "command2.js",
       },
     ],
+
+    // Remove implied dependency on/use of yarn package manager
+    packageManager: NodePackageManager.NPM,
   });
 
   // create the project
@@ -113,6 +120,9 @@ test("typescript-esm-project-instantiate", () => {
     description: "test-esm-project description",
     packageName: "test-esm-package-name",
     defaultReleaseBranch: "main",
+
+    // Remove implied dependency on/use of yarn package manager
+    packageManager: NodePackageManager.NPM,
   });
 
   const preCommitConfig = new PreCommitConfigFile(esmProject, {

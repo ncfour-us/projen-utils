@@ -71,8 +71,9 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     this.testTask.env("NODE_OPTIONS", "--experimental-vm-modules");
 
     // patch package.json to remove a transform inserted by the TypeScriptProject package
-    const packageJson = this.tryFindObjectFile("package.json");
-    packageJson?.patch(JsonPatch.remove("/jest/transform/^.+\\.[t]sx?$"));
+    // const packageJson = this.tryFindObjectFile("package.json");
+    // packageJson?.patch(JsonPatch.remove("/jest/transform/^.+\\.[t]sx?$"));
+    this.package.file.patch(JsonPatch.remove("/jest/transform/^.+\\.[t]sx?$"));
 
     // getting ts-node to work in ESM mode just wasn't working.  Switch to using tsx to run the projen generator
     this.defaultTask?.reset(
@@ -97,7 +98,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
       const createVersion = this.addTask("create-version", {
         description:
           "customized task to run a script which generates version.ts",
-        exec: "yarn run create-version",
+        exec: "npm run create-version",
       });
 
       // this adds the create-version task as a sub-task of the pre-created preCompileTask.

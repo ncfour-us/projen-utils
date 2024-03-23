@@ -5,6 +5,8 @@ import fs from "fs";
 import { test, expect } from "@jest/globals";
 
 import { typescript } from "projen";
+import { NodePackageManager } from "projen/lib/javascript";
+
 import YAML from "yaml";
 
 import {
@@ -18,6 +20,9 @@ test("pre-commit-config-instantiate", () => {
     description: "test-project description",
     packageName: "test-package-name",
     defaultReleaseBranch: "main",
+
+    // Remove implied dependency on/use of yarn package manager
+    packageManager: NodePackageManager.NPM,
   });
 
   const preCommitConfig = new PreCommitConfigFile(project, {
