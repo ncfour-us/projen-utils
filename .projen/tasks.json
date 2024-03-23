@@ -136,7 +136,7 @@
       "description": "Install project dependencies and update lockfile (non-frozen)",
       "steps": [
         {
-          "exec": "yarn install --check-files"
+          "exec": "npm install"
         }
       ]
     },
@@ -145,7 +145,7 @@
       "description": "Install project dependencies using frozen lockfile",
       "steps": [
         {
-          "exec": "yarn install --check-files --frozen-lockfile"
+          "exec": "npm ci"
         }
       ]
     },
@@ -176,9 +176,6 @@
       "steps": [
         {
           "exec": "jsii-pacmak -v --target js"
-        },
-        {
-          "exec": "\n  bash -c 'files=$(ls dist/js/*.tgz | grep -E \"^(.*)@(.*)\\.tgz\");\n  for file in ${files[@]};\n    do newfile=$(echo $file | sed -E \"s/^(.*)\\@(.*)\\.tgz$/\\1-\\2.tgz/\");\n    echo \"moving $file to $newfile\";\n    mv $file $newfile;\n  done'\n"
         }
       ]
     },
@@ -281,10 +278,10 @@
           "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@jest/globals,@types/jest,eslint-config-prettier,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,fs,jest,jsii-diff,jsii-docgen,jsii-pacmak,jsii-rosetta,jsii,prettier,projen,ts-jest,ts-node,typescript,yaml,constructs"
         },
         {
-          "exec": "yarn install --check-files"
+          "exec": "npm install"
         },
         {
-          "exec": "yarn upgrade @jest/globals @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser constructs eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint fs jest jest-junit jsii-diff jsii-docgen jsii-pacmak jsii-rosetta jsii prettier projen standard-version ts-jest ts-node typescript yaml"
+          "exec": "npm update @jest/globals @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser constructs eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint fs jest jest-junit jsii-diff jsii-docgen jsii-pacmak jsii-rosetta jsii prettier projen standard-version ts-jest ts-node typescript yaml"
         },
         {
           "exec": "npx projen"
