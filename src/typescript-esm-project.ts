@@ -1,6 +1,9 @@
 // Copyright (c) 2024 Tim Hahn
 
 import { javascript, typescript, JsonPatch } from "projen";
+// NodePackageManger is used later in the code to overcome
+// a subtle dependency by the projen tool on using yarn "classic".
+import { NodePackageManager } from "projen/lib/javascript";
 
 export interface CommandParameters {
   readonly name: string;
@@ -28,6 +31,13 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     // and over-riding those that need to be set for ESM
     const typeScriptProjectOptions: typescript.TypeScriptProjectOptions = {
       ...options,
+
+      // The following setting/override was added to overcome a subtle
+      // dependency by the projen tool on using yarn "classic".
+
+      // if not specified, default to use npm
+      packageManager: options.packageManager ?? NodePackageManager.NPM,
+
       // start clauses added to enable ESM module usage
       devDeps: additionalDevDeps,
       minNodeVersion: "18.0.0",
