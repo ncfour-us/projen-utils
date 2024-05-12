@@ -40,7 +40,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
 
       // start clauses added to enable ESM module usage
       devDeps: additionalDevDeps,
-      minNodeVersion: "18.0.0",
+      minNodeVersion: options.minNodeVersion ?? "18.0.0",
       workflowNodeVersion: "18.x",
       tsconfig: {
         compilerOptions: {
