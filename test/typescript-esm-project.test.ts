@@ -23,7 +23,7 @@ test("typescript-esm-project-version-file", () => {
     addVersionFile: true,
 
     // Remove implied dependency on/use of yarn package manager
-    packageManager: NodePackageManager.NPM,
+    packageManager: NodePackageManager.PNPM,
   });
 
   // create the project
@@ -82,7 +82,7 @@ test("typescript-esm-project-commands", () => {
     ],
 
     // Remove implied dependency on/use of yarn package manager
-    packageManager: NodePackageManager.NPM,
+    packageManager: NodePackageManager.PNPM,
   });
 
   // create the project
@@ -122,7 +122,7 @@ test("typescript-esm-project-instantiate", () => {
     defaultReleaseBranch: "main",
 
     // Remove implied dependency on/use of yarn package manager
-    packageManager: NodePackageManager.NPM,
+    packageManager: NodePackageManager.PNPM,
   });
 
   const preCommitConfig = new PreCommitConfigFile(esmProject, {

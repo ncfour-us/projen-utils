@@ -35,8 +35,8 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
       // The following setting/override was added to overcome a subtle
       // dependency by the projen tool on using yarn "classic".
 
-      // if not specified, default to use npm
-      packageManager: options.packageManager ?? NodePackageManager.NPM,
+      // if not specified, default to use pnpm
+      packageManager: options.packageManager ?? NodePackageManager.PNPM,
 
       // start clauses added to enable ESM module usage
       devDeps: additionalDevDeps,
