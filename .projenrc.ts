@@ -6,10 +6,11 @@ const project = new cdk.JsiiProject({
   author: "Tim Hahn",
   authorAddress: "hahntj@gmail.com",
   defaultReleaseBranch: "main",
-  jsiiVersion: "~5.4.0",
+  jsiiVersion: "~5.9.0",
+  projenVersion: "^0.99.61",
   name: "projen-utils",
   projenrcTs: true,
-  packageManager: NodePackageManager.NPM,
+  packageManager: NodePackageManager.PNPM,
   repositoryUrl: "https://github.com/hahntj/projen-utils.git",
 
   // set up the package name in package.json
@@ -39,6 +40,10 @@ const project = new cdk.JsiiProject({
     "@jest/globals",
     "fs",
     "yaml",
+    "@eslint/compat",
+    "globals",
+    "@eslint/js",
+    "@eslint/eslintrc",
   ],
 
   // Define additional targets beyond JavaScript
