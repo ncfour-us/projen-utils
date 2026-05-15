@@ -159,8 +159,90 @@ test("typescript-esm-project-instantiate", () => {
   expect(preCommitConfig.path).toBeDefined();
   expect(packageJson.type).toBe("module");
   expect(yamlDocument.repos).toBeDefined();
+  expect(yamlDocument.repos.length).toBe(6);
+  expect(yamlDocument.repos[0].repo).toBe(
+    "https://github.com/commitizen-tools/commitizen",
+  );
+});
+
+test("typescript-esm-project-instantiate esLintFlatConfig", () => {
+  const esmProject = new TypeScriptESMProject({
+    name: "test-esm-project",
+    description: "test-esm-project description",
+    packageName: "test-esm-package-name",
+    defaultReleaseBranch: "main",
+
+    // Remove implied dependency on/use of yarn package manager
+    packageManager: NodePackageManager.PNPM,
+
+    eslintFlatConfig: true,
+  });
+
+  // create the project
+  esmProject.synth();
+
+  // read the file
+  const synthedPackageJson = fs.readFileSync(
+    `${esmProject.outdir}/package.json`,
+    { encoding: "utf-8" },
+  );
+
+  // parse the file so it can be evaluated
+  const packageJson = JSON.parse(synthedPackageJson);
+
+  // read the file
+  const synthedFile = fs.readFileSync(`${esmProject.outdir}/eslint.config.ts`, {
+    encoding: "utf-8",
+  });
+
+  // clean up the synthesized folder
+  spawn("rm", ["-rf", esmProject.outdir]);
+
+  expect(packageJson.type).toBe("module");
+  expect(synthedFile.length).toBeGreaterThan(0);
+});
+
+test("typescript-esm-project-instantiate precommitConfig", () => {
+  const esmProject = new TypeScriptESMProject({
+    name: "test-esm-project",
+    description: "test-esm-project description",
+    packageName: "test-esm-package-name",
+    defaultReleaseBranch: "main",
+
+    // Remove implied dependency on/use of yarn package manager
+    packageManager: NodePackageManager.PNPM,
+
+    precommitConfig: true,
+  });
+
+  // create the project
+  esmProject.synth();
+
+  // read the file
+  const synthedPackageJson = fs.readFileSync(
+    `${esmProject.outdir}/package.json`,
+    { encoding: "utf-8" },
+  );
+
+  // parse the file so it can be evaluated
+  const packageJson = JSON.parse(synthedPackageJson);
+
+  // read the file
+  const synthedFile = fs.readFileSync(
+    `${esmProject.outdir}/.pre-commit-config.yaml`,
+    { encoding: "utf-8" },
+  );
+
+  // parse the file so it can be evaluated
+  const yamlDocument = YAML.parse(synthedFile);
+
+  // clean up the synthesized folder
+  spawn("rm", ["-rf", esmProject.outdir]);
+
+  expect(packageJson.type).toBe("module");
+  expect(yamlDocument.repos).toBeDefined();
   expect(yamlDocument.repos.length).toBe(4);
   expect(yamlDocument.repos[0].repo).toBe(
-    "https://github.com/pre-commit/pre-commit-hooks",
+    "https://github.com/commitizen-tools/commitizen",
   );
 });

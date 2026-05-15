@@ -49,8 +49,8 @@ test("pre-commit-config-instantiate", () => {
 
   expect(preCommitConfig.path).toBeDefined();
   expect(yamlDocument.repos).toBeDefined();
-  expect(yamlDocument.repos.length).toBe(4);
+  expect(yamlDocument.repos.length).toBe(6);
   expect(yamlDocument.repos[0].repo).toBe(
-    "https://github.com/pre-commit/pre-commit-hooks",
+    "https://github.com/commitizen-tools/commitizen",
   );
 });

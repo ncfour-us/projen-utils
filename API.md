@@ -2286,6 +2286,8 @@ const typeScriptESMProjectOptions: TypeScriptESMProjectOptions = { ... }
 | <code><a href="#@ncfour/projen-utils.TypeScriptESMProjectOptions.property.typescriptVersion">typescriptVersion</a></code> | <code>string</code> | TypeScript version to use. |
 | <code><a href="#@ncfour/projen-utils.TypeScriptESMProjectOptions.property.addVersionFile">addVersionFile</a></code> | <code>boolean</code> | *No description.* |
 | <code><a href="#@ncfour/projen-utils.TypeScriptESMProjectOptions.property.commands">commands</a></code> | <code><a href="#@ncfour/projen-utils.CommandParameters">CommandParameters</a>[]</code> | *No description.* |
+| <code><a href="#@ncfour/projen-utils.TypeScriptESMProjectOptions.property.eslintFlatConfig">eslintFlatConfig</a></code> | <code>boolean</code> | *No description.* |
+| <code><a href="#@ncfour/projen-utils.TypeScriptESMProjectOptions.property.precommitConfig">precommitConfig</a></code> | <code>boolean</code> | *No description.* |
 
 ---
 
@@ -4604,6 +4606,26 @@ public readonly commands: CommandParameters[];
 ```
 
 - *Type:* <a href="#@ncfour/projen-utils.CommandParameters">CommandParameters</a>[]
+
+---
+
+##### `eslintFlatConfig`<sup>Optional</sup> <a name="eslintFlatConfig" id="@ncfour/projen-utils.TypeScriptESMProjectOptions.property.eslintFlatConfig"></a>
+
+```typescript
+public readonly eslintFlatConfig: boolean;
+```
+
+- *Type:* boolean
+
+---
+
+##### `precommitConfig`<sup>Optional</sup> <a name="precommitConfig" id="@ncfour/projen-utils.TypeScriptESMProjectOptions.property.precommitConfig"></a>
+
+```typescript
+public readonly precommitConfig: boolean;
+```
+
+- *Type:* boolean
 
 ---
 

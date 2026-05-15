@@ -1,7 +1,10 @@
 // Copyright (c) 2024 Tim Hahn
 
+import { readFileSync } from "node:fs";
+
 import { IConstruct } from "constructs";
-import { YamlFile } from "projen";
+import { SampleFile, YamlFile, Project, JsonPatch } from "projen";
+import { TypeScriptProject } from "projen/lib/typescript";
 
 export enum PreCommitConfigFileTypes {
   TERRAFORM,
@@ -26,23 +29,51 @@ export class PreCommitConfigFile extends YamlFile {
       obj: {
         repos: [
           {
+            repo: "https://github.com/commitizen-tools/commitizen",
+            rev: "v4.8.3",
+            hooks: [
+              {
+                id: "commitizen",
+                stages: ["commit-msg"],
+              },
+            ],
+          },
+          {
             repo: "https://github.com/pre-commit/pre-commit-hooks",
-            rev: "v4.5.0",
+            rev: "v5.0.0",
             hooks: [
               {
                 id: "trailing-whitespace",
+                exclude: "(.*\\.svg|^\\.yarn/.*)",
+                stages: ["pre-commit"],
               },
               {
                 id: "end-of-file-fixer",
                 exclude:
-                  "^(\\.pre-commit-config\\.yaml|" +
+                  "^(" +
+                  "\\.pre-commit-config\\.yaml|" +
                   "\\.gitignore|" +
                   "\\.gitattributes|" +
                   "\\.projen/.*|" +
-                  "\\.github/.*)$",
+                  "\\.github/.*|" +
+                  ".*\\.svg|" +
+                  "\\.yarn/.*|" +
+                  "LICENSE|" +
+                  "\.mergify\.yml|" +
+                  "tsconfig\.json|" +
+                  "tsconfig\.dev\.json|" +
+                  "\.npmignore" +
+                  ")$",
+                stages: ["pre-commit"],
               },
               {
                 id: "check-added-large-files",
+                stages: ["pre-commit"],
+              },
+              {
+                id: "check-yaml",
+                exclude: "^(" + "pnpm-lock\.yaml" + ")$",
+                stages: ["pre-commit"],
               },
             ],
           },
@@ -73,6 +104,7 @@ export class PreCommitConfigFile extends YamlFile {
                 id: "bandit",
                 files: "^.*\\.py$",
                 types: ["python"],
+                stages: ["pre-commit"],
               },
             ],
           });
@@ -84,6 +116,7 @@ export class PreCommitConfigFile extends YamlFile {
                 id: "black",
                 files: "^.*\\.py$",
                 types: ["python"],
+                stages: ["pre-commit"],
               },
             ],
           });
@@ -91,14 +124,58 @@ export class PreCommitConfigFile extends YamlFile {
         case PreCommitConfigFileTypes.JAVASCRIPT:
         case PreCommitConfigFileTypes.TYPESCRIPT:
           this.addToArray("repos", {
-            repo: "https://github.com/pre-commit/mirrors-eslint",
-            rev: "v8.56.0",
+            repo: "local",
             hooks: [
               {
-                id: "eslint",
+                id: "prettier",
+                name: "prettier",
+                language: "node",
+                entry: "pnpm prettier --write --ignore-unknown",
+                files: "\\.[jt]sx?$", // *.js, *.jsx, *.ts and *.tsx
+                exclude: "^\\.yarn/.*",
+                types: ["file"],
+                stages: ["pre-commit"],
               },
             ],
           });
+          this.addToArray("repos", {
+            repo: "local",
+            hooks: [
+              {
+                id: "eslint",
+                name: "eslint",
+                language: "node",
+                entry: "pnpm eslint",
+                files: "\\.[jt]sx?$", // *.js, *.jsx, *.ts and *.tsx
+                types: ["file"],
+                stages: ["pre-commit"],
+                additional_dependencies: ["jiti"],
+              },
+            ],
+          });
+
+          // adjust the parent project to enable running prettier
+          //  - add a package dev dependency
+          (scope as TypeScriptProject).addDevDeps("prettier");
+
+          //  - create a prettier.config.ts file
+          const prettierConfigContents = readFileSync(
+            `${__dirname}/files/prettier.config.ts.sample`,
+            {
+              encoding: "utf8",
+            },
+          );
+          new SampleFile(scope as Project, "prettier.config.ts", {
+            contents: prettierConfigContents,
+          });
+
+          //  - update tsconfig.json
+          const tsconfigDev = (scope as Project).tryFindObjectFile(
+            "tsconfig.dev.json",
+          );
+          tsconfigDev?.patch(JsonPatch.add("/include/-", "prettier.config.ts"));
+          (scope as Project).addPackageIgnore("prettier.config.ts");
+
           break;
         case PreCommitConfigFileTypes.CLOUDFORMATION:
         case PreCommitConfigFileTypes.JAVA:

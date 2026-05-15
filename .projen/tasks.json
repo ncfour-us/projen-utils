@@ -89,6 +89,12 @@
       "steps": [
         {
           "exec": "jsii --silence-warnings=reserved-word"
+        },
+        {
+          "exec": "mkdir -p lib/files"
+        },
+        {
+          "exec": "cp src/files/* lib/files/."
         }
       ]
     },
