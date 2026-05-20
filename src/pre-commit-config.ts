@@ -154,6 +154,9 @@ export class PreCommitConfigFile extends YamlFile {
             ],
           });
 
+          // add the .pre-commit-config.yaml file to the list of files ignored by NPM Package managers
+          (scope as Project).addPackageIgnore(".pre-commit-config.yaml");
+
           // adjust the parent project to enable running prettier
           //  - add a package dev dependency
           (scope as TypeScriptProject).addDevDeps("prettier");
