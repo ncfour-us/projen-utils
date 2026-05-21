@@ -62,7 +62,8 @@ export class PreCommitConfigFile extends YamlFile {
                   "\.mergify\.yml|" +
                   "tsconfig\.json|" +
                   "tsconfig\.dev\.json|" +
-                  "\.npmignore" +
+                  "\.npmignore|" +
+                  "CHANGELOG.md" +
                   ")$",
                 stages: ["pre-commit"],
               },
