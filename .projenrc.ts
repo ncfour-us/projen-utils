@@ -11,10 +11,10 @@ const project = new cdk.JsiiProject({
   name: "projen-utils",
   projenrcTs: true,
   packageManager: NodePackageManager.PNPM,
-  repositoryUrl: "https://github.com/hahntj/projen-utils.git",
+  repositoryUrl: "https://github.com/ncfour-us/projen-utils.git",
 
   // set up the package name in package.json
-  packageName: "@ncfour/projen-utils",
+  packageName: "@ncfour-us/projen-utils",
 
   // set up the project with a LICENSE and copyright info
   license: "MIT",
