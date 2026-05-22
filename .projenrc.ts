@@ -6,7 +6,7 @@ const project = new cdk.JsiiProject({
   author: "Tim Hahn",
   authorAddress: "hahntj@gmail.com",
   defaultReleaseBranch: "main",
-  jsiiVersion: "~5.9.0",
+  jsiiVersion: "~5.9.41",
   projenVersion: "^0.99.61",
   name: "projen-utils",
   projenrcTs: true,
