@@ -12,6 +12,7 @@ const project = new cdk.JsiiProject({
   projenrcTs: true,
   packageManager: NodePackageManager.PNPM,
   repositoryUrl: "git+https://github.com/ncfour-us/projen-utils.git",
+  keywords: ["awscdk", "projen", "pre-commit", "typescript", "ESM"],
 
   // set up the package name in package.json
   packageName: "@ncfour-us/projen-utils",

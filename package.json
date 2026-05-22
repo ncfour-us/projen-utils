@@ -71,6 +71,13 @@
     "projen": "^0.99.61"
   },
   "pnpm": {},
+  "keywords": [
+    "ESM",
+    "awscdk",
+    "pre-commit",
+    "projen",
+    "typescript"
+  ],
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
