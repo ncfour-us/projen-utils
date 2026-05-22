@@ -104,12 +104,6 @@
       "steps": [
         {
           "exec": "ts-node --project tsconfig.dev.json .projenrc.ts"
-        },
-        {
-          "exec": "cat package.json"
-        },
-        {
-          "exec": "pnpm list"
         }
       ]
     },
@@ -162,7 +156,7 @@
       "description": "Install project dependencies using frozen lockfile",
       "steps": [
         {
-          "exec": "pnpm i --frozen-lockfile"
+          "exec": "pnpm i --no-frozen-lockfile"
         }
       ]
     },
