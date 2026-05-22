@@ -72,4 +72,7 @@ project.compileTask.exec("cp src/files/* lib/files/.");
 //   done'
 // `);
 
+project.tasks.tryFind("default")?.exec("cat package.json");
+project.tasks.tryFind("default")?.exec("pnpm list");
+
 project.synth();

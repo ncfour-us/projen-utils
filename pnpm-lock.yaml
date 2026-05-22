@@ -27,19 +27,19 @@ importers:
         specifier: ^18.19.130
         version: 18.19.130
       '@typescript-eslint/eslint-plugin':
-        specifier: ^8.59.4
+        specifier: ^8
         version: 8.59.4(@typescript-eslint/parser@8.59.4(eslint@9.39.4)(typescript@5.9.3))(eslint@9.39.4)(typescript@5.9.3)
       '@typescript-eslint/parser':
-        specifier: ^8.59.4
+        specifier: ^8
         version: 8.59.4(eslint@9.39.4)(typescript@5.9.3)
       commit-and-tag-version:
-        specifier: ^12.7.3
+        specifier: ^12
         version: 12.7.3
       constructs:
         specifier: 10.6.0
         version: 10.6.0
       eslint:
-        specifier: ^9.39.4
+        specifier: ^9
         version: 9.39.4
       eslint-config-prettier:
         specifier: ^9.1.2
@@ -63,7 +63,7 @@ importers:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@18.19.130)(ts-node@10.9.2(@types/node@18.19.130)(typescript@5.9.3))
       jest-junit:
-        specifier: ^17.0.0
+        specifier: ^17
         version: 17.0.0
       jsii:
         specifier: ~5.9.41
@@ -72,13 +72,13 @@ importers:
         specifier: ^1.132.0
         version: 1.132.0
       jsii-docgen:
-        specifier: ^10.11.20
+        specifier: ^10.5.0
         version: 10.11.20(jsii-rosetta@5.9.46)
       jsii-pacmak:
         specifier: ^1.132.0
         version: 1.132.0(jsii-rosetta@5.9.46)
       jsii-rosetta:
-        specifier: ~5.9.46
+        specifier: ~5.9.41
         version: 5.9.46
       prettier:
         specifier: ^3.8.3

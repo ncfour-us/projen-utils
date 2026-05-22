@@ -104,6 +104,12 @@
       "steps": [
         {
           "exec": "ts-node --project tsconfig.dev.json .projenrc.ts"
+        },
+        {
+          "exec": "cat package.json"
+        },
+        {
+          "exec": "pnpm list"
         }
       ]
     },
