@@ -26,6 +26,8 @@ test("typescript-esm-project-version-file", () => {
     packageManager: NodePackageManager.PNPM,
   });
 
+  fs.copyFileSync("./pnpm-lock.yaml", `${esmProject.outdir}/pnpm-lock.yaml`);
+
   // create the project
   esmProject.synth();
 
@@ -85,6 +87,8 @@ test("typescript-esm-project-commands", () => {
     packageManager: NodePackageManager.PNPM,
   });
 
+  fs.copyFileSync("./pnpm-lock.yaml", `${esmProject.outdir}/pnpm-lock.yaml`);
+
   // create the project
   esmProject.synth();
 
@@ -132,6 +136,8 @@ test("typescript-esm-project-instantiate", () => {
     ],
   });
 
+  fs.copyFileSync("./pnpm-lock.yaml", `${esmProject.outdir}/pnpm-lock.yaml`);
+
   // create the project
   esmProject.synth();
 
@@ -177,6 +183,8 @@ test("typescript-esm-project-instantiate esLintFlatConfig", () => {
 
     eslintFlatConfig: true,
   });
+
+  fs.copyFileSync("./pnpm-lock.yaml", `${esmProject.outdir}/pnpm-lock.yaml`);
 
   // create the project
   esmProject.synth();
