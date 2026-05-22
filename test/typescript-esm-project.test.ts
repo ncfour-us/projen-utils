@@ -1,10 +1,12 @@
 // Copyright (c) 2024 Tim Hahn
 
-import { spawn, spawnSync } from "child_process";
-import fs from "fs";
+// import { spawn, spawnSync } from "child_process";
+// import fs from "fs";
 import { test, expect } from "@jest/globals";
 
 import { NodePackageManager } from "projen/lib/javascript";
+import { Testing } from "projen/lib/testing";
+
 // import YAML from "yaml";
 
 // import {
@@ -26,29 +28,11 @@ test("typescript-esm-project-version-file", () => {
     packageManager: NodePackageManager.PNPM,
   });
 
-  fs.copyFileSync("./pnpm-lock.yaml", `${esmProject.outdir}/pnpm-lock.yaml`);
-  fs.copyFileSync("./package.json", `${esmProject.outdir}/package.json`);
-  const result = spawnSync("ls", ["-al", esmProject.outdir]);
-  console.log(result.stdout.toString());
-
   // create the project
-  esmProject.synth();
+  const snapshot = Testing.synth(esmProject);
 
-  // read the package.json file
-  const synthedPackageJson = fs.readFileSync(
-    `${esmProject.outdir}/package.json`,
-    { encoding: "utf-8" },
-  );
-
-  // parse the file so it can be evaluated
-  const packageJson = JSON.parse(synthedPackageJson);
-
-  const createVersionCommand = packageJson.scripts["create-version"];
-
-  // read the package.json file
-  const synthedGitIgnore = fs.readFileSync(`${esmProject.outdir}/.gitignore`, {
-    encoding: "utf-8",
-  });
+  // get information from synthed project
+  const synthedGitIgnore = snapshot[".gitignore"];
 
   const gitIgnoreLines = synthedGitIgnore.split("\n");
 
@@ -59,12 +43,11 @@ test("typescript-esm-project-version-file", () => {
     }
   }
 
-  // clean up the synthesized folder
-  spawn("rm", ["-rf", esmProject.outdir]);
-
   // unit test checks
-  expect(packageJson.type).toBe("module");
-  expect(createVersionCommand.startsWith("echo")).toBe(true);
+  expect(snapshot["package.json"].type).toBe("module");
+  expect(
+    snapshot["package.json"].scripts["create-version"].startsWith("echo"),
+  ).toBe(true);
   expect(foundVersionIgnore).toBe(true);
 });
 

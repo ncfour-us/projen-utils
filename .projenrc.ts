@@ -72,9 +72,4 @@ project.compileTask.exec("cp src/files/* lib/files/.");
 //   done'
 // `);
 
-// project.tasks.tryFind("default")?.exec("cat package.json");
-// project.tasks.tryFind("default")?.exec("pnpm list");
-project.tasks.tryFind("install:ci")?.reset();
-project.tasks.tryFind("install:ci")?.exec("pnpm i --no-frozen-lockfile")
-
 project.synth();

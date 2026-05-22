@@ -156,7 +156,7 @@
       "description": "Install project dependencies using frozen lockfile",
       "steps": [
         {
-          "exec": "pnpm i --no-frozen-lockfile"
+          "exec": "pnpm i --frozen-lockfile"
         }
       ]
     },
