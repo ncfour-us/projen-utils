@@ -11,7 +11,7 @@ const project = new cdk.JsiiProject({
   name: "projen-utils",
   projenrcTs: true,
   packageManager: NodePackageManager.PNPM,
-  repositoryUrl: "https://github.com/ncfour-us/projen-utils.git",
+  repositoryUrl: "git+https://github.com/ncfour-us/projen-utils.git",
 
   // set up the package name in package.json
   packageName: "@ncfour-us/projen-utils",

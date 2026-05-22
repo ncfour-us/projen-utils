@@ -2,7 +2,7 @@
   "name": "@ncfour-us/projen-utils",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ncfour-us/projen-utils.git"
+    "url": "git+https://github.com/ncfour-us/projen-utils.git"
   },
   "scripts": {
     "build": "projen build",

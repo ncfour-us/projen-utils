@@ -7,12 +7,12 @@ import { test, expect } from "@jest/globals";
 import { NodePackageManager } from "projen/lib/javascript";
 import { Testing } from "projen/lib/testing";
 
-// import YAML from "yaml";
+import YAML from "yaml";
 
-// import {
-//   PreCommitConfigFile,
-//   PreCommitConfigFileTypes,
-// } from "../src/pre-commit-config";
+import {
+  PreCommitConfigFile,
+  PreCommitConfigFileTypes,
+} from "../src/pre-commit-config";
 import { TypeScriptESMProject } from "../src/typescript-esm-project";
 
 test("typescript-esm-project-version-file", () => {
@@ -51,192 +51,122 @@ test("typescript-esm-project-version-file", () => {
   expect(foundVersionIgnore).toBe(true);
 });
 
-// test("typescript-esm-project-commands", () => {
-//   const esmProject = new TypeScriptESMProject({
-//     name: "test-esm-project",
-//     description: "test-esm-project description",
-//     packageName: "test-esm-package-name",
-//     defaultReleaseBranch: "main",
-//     // add commands to project
-//     commands: [
-//       {
-//         name: "command1",
-//         file: "command1.js",
-//       },
-//       {
-//         name: "command2",
-//         file: "command2.js",
-//       },
-//     ],
+test("typescript-esm-project-commands", () => {
+  const esmProject = new TypeScriptESMProject({
+    name: "test-esm-project",
+    description: "test-esm-project description",
+    packageName: "test-esm-package-name",
+    defaultReleaseBranch: "main",
+    // add commands to project
+    commands: [
+      {
+        name: "command1",
+        file: "command1.js",
+      },
+      {
+        name: "command2",
+        file: "command2.js",
+      },
+    ],
 
-//     // Remove implied dependency on/use of yarn package manager
-//     packageManager: NodePackageManager.PNPM,
-//   });
+    // Remove implied dependency on/use of yarn package manager
+    packageManager: NodePackageManager.PNPM,
+  });
 
-//   fs.copyFileSync("./pnpm-lock.yaml", `${esmProject.outdir}/pnpm-lock.yaml`);
+  // create the project
+  const snapshot = Testing.synth(esmProject);
 
-//   // create the project
-//   esmProject.synth();
+  // unit test checks
+  expect(snapshot["package.json"].type).toBe("module");
+  expect(snapshot["package.json"].scripts.command1).toBe(
+    "node ./lib/command1.js",
+  );
+  expect(snapshot["package.json"].scripts.command2).toBe(
+    "node ./lib/command2.js",
+  );
+  expect(snapshot["package.json"].bin.command1).toBe("./lib/command1.js");
+  expect(snapshot["package.json"].bin.command2).toBe("./lib/command2.js");
+});
 
-//   // read the package.json file
-//   const synthedPackageJson = fs.readFileSync(
-//     `${esmProject.outdir}/package.json`,
-//     { encoding: "utf-8" },
-//   );
+test("typescript-esm-project-instantiate", () => {
+  const esmProject = new TypeScriptESMProject({
+    name: "test-esm-project",
+    description: "test-esm-project description",
+    packageName: "test-esm-package-name",
+    defaultReleaseBranch: "main",
 
-//   // parse the file so it can be evaluated
-//   const packageJson = JSON.parse(synthedPackageJson);
+    // Remove implied dependency on/use of yarn package manager
+    packageManager: NodePackageManager.PNPM,
+  });
 
-//   const command1Command = packageJson.scripts.command1;
-//   const command2Command = packageJson.scripts.command2;
+  const preCommitConfig = new PreCommitConfigFile(esmProject, {
+    fileTypes: [
+      PreCommitConfigFileTypes.PYTHON,
+      PreCommitConfigFileTypes.TYPESCRIPT,
+    ],
+  });
 
-//   const command1Bin = packageJson.bin.command1;
-//   const command2Bin = packageJson.bin.command2;
+  // create the project
+  const snapshot = Testing.synth(esmProject);
 
-//   // clean up the synthesized folder
-//   spawn("rm", ["-rf", esmProject.outdir]);
+  // parse the file so it can be evaluated
+  const yamlDocument = YAML.parse(snapshot[".pre-commit-config.yaml"]);
 
-//   // unit test checks
-//   expect(packageJson.type).toBe("module");
-//   expect(command1Command).toBe("node ./lib/command1.js");
-//   expect(command2Command).toBe("node ./lib/command2.js");
-//   expect(command1Bin).toBe("./lib/command1.js");
-//   expect(command2Bin).toBe("./lib/command2.js");
-// });
+  expect(preCommitConfig.path).toBeDefined();
+  expect(snapshot["package.json"].type).toBe("module");
+  expect(yamlDocument.repos).toBeDefined();
+  expect(yamlDocument.repos.length).toBe(6);
+  expect(yamlDocument.repos[0].repo).toBe(
+    "https://github.com/commitizen-tools/commitizen",
+  );
+});
 
-// test("typescript-esm-project-instantiate", () => {
-//   const esmProject = new TypeScriptESMProject({
-//     name: "test-esm-project",
-//     description: "test-esm-project description",
-//     packageName: "test-esm-package-name",
-//     defaultReleaseBranch: "main",
+test("typescript-esm-project-instantiate esLintFlatConfig", () => {
+  const esmProject = new TypeScriptESMProject({
+    name: "test-esm-project",
+    description: "test-esm-project description",
+    packageName: "test-esm-package-name",
+    defaultReleaseBranch: "main",
 
-//     // Remove implied dependency on/use of yarn package manager
-//     packageManager: NodePackageManager.PNPM,
-//   });
+    // Remove implied dependency on/use of yarn package manager
+    packageManager: NodePackageManager.PNPM,
 
-//   const preCommitConfig = new PreCommitConfigFile(esmProject, {
-//     fileTypes: [
-//       PreCommitConfigFileTypes.PYTHON,
-//       PreCommitConfigFileTypes.TYPESCRIPT,
-//     ],
-//   });
+    eslintFlatConfig: true,
+  });
 
-//   fs.copyFileSync("./pnpm-lock.yaml", `${esmProject.outdir}/pnpm-lock.yaml`);
+  // create the project
+  const snapshot = Testing.synth(esmProject);
 
-//   // create the project
-//   esmProject.synth();
+  expect(snapshot["package.json"].type).toBe("module");
+  expect(snapshot["eslint.config.ts"].length).toBeGreaterThan(0);
+});
 
-//   // read the file
-//   const synthedPackageJson = fs.readFileSync(
-//     `${esmProject.outdir}/package.json`,
-//     { encoding: "utf-8" },
-//   );
+test("typescript-esm-project-instantiate precommitConfig", () => {
+  const esmProject = new TypeScriptESMProject({
+    name: "test-esm-project",
+    description: "test-esm-project description",
+    packageName: "test-esm-package-name",
+    defaultReleaseBranch: "main",
 
-//   // parse the file so it can be evaluated
-//   const packageJson = JSON.parse(synthedPackageJson);
+    // Remove implied dependency on/use of yarn package manager
+    packageManager: NodePackageManager.PNPM,
 
-//   // read the file
-//   const synthedFile = fs.readFileSync(
-//     `${esmProject.outdir}/.pre-commit-config.yaml`,
-//     { encoding: "utf-8" },
-//   );
+    precommitConfig: true,
+  });
 
-//   // parse the file so it can be evaluated
-//   const yamlDocument = YAML.parse(synthedFile);
+  // create the project
+  const snapshot = Testing.synth(esmProject);
 
-//   // clean up the synthesized folder
-//   spawn("rm", ["-rf", esmProject.outdir]);
+  // read the file
+  const synthedFile = snapshot[".pre-commit-config.yaml"];
 
-//   expect(preCommitConfig.path).toBeDefined();
-//   expect(packageJson.type).toBe("module");
-//   expect(yamlDocument.repos).toBeDefined();
-//   expect(yamlDocument.repos.length).toBe(6);
-//   expect(yamlDocument.repos[0].repo).toBe(
-//     "https://github.com/commitizen-tools/commitizen",
-//   );
-// });
+  // parse the file so it can be evaluated
+  const yamlDocument = YAML.parse(synthedFile);
 
-// test("typescript-esm-project-instantiate esLintFlatConfig", () => {
-//   const esmProject = new TypeScriptESMProject({
-//     name: "test-esm-project",
-//     description: "test-esm-project description",
-//     packageName: "test-esm-package-name",
-//     defaultReleaseBranch: "main",
-
-//     // Remove implied dependency on/use of yarn package manager
-//     packageManager: NodePackageManager.PNPM,
-
-//     eslintFlatConfig: true,
-//   });
-
-//   fs.copyFileSync("./pnpm-lock.yaml", `${esmProject.outdir}/pnpm-lock.yaml`);
-
-//   // create the project
-//   esmProject.synth();
-
-//   // read the file
-//   const synthedPackageJson = fs.readFileSync(
-//     `${esmProject.outdir}/package.json`,
-//     { encoding: "utf-8" },
-//   );
-
-//   // parse the file so it can be evaluated
-//   const packageJson = JSON.parse(synthedPackageJson);
-
-//   // read the file
-//   const synthedFile = fs.readFileSync(`${esmProject.outdir}/eslint.config.ts`, {
-//     encoding: "utf-8",
-//   });
-
-//   // clean up the synthesized folder
-//   spawn("rm", ["-rf", esmProject.outdir]);
-
-//   expect(packageJson.type).toBe("module");
-//   expect(synthedFile.length).toBeGreaterThan(0);
-// });
-
-// test("typescript-esm-project-instantiate precommitConfig", () => {
-//   const esmProject = new TypeScriptESMProject({
-//     name: "test-esm-project",
-//     description: "test-esm-project description",
-//     packageName: "test-esm-package-name",
-//     defaultReleaseBranch: "main",
-
-//     // Remove implied dependency on/use of yarn package manager
-//     packageManager: NodePackageManager.PNPM,
-
-//     precommitConfig: true,
-//   });
-
-//   // create the project
-//   esmProject.synth();
-
-//   // read the file
-//   const synthedPackageJson = fs.readFileSync(
-//     `${esmProject.outdir}/package.json`,
-//     { encoding: "utf-8" },
-//   );
-
-//   // parse the file so it can be evaluated
-//   const packageJson = JSON.parse(synthedPackageJson);
-
-//   // read the file
-//   const synthedFile = fs.readFileSync(
-//     `${esmProject.outdir}/.pre-commit-config.yaml`,
-//     { encoding: "utf-8" },
-//   );
-
-//   // parse the file so it can be evaluated
-//   const yamlDocument = YAML.parse(synthedFile);
-
-//   // clean up the synthesized folder
-//   spawn("rm", ["-rf", esmProject.outdir]);
-
-//   expect(packageJson.type).toBe("module");
-//   expect(yamlDocument.repos).toBeDefined();
-//   expect(yamlDocument.repos.length).toBe(4);
-//   expect(yamlDocument.repos[0].repo).toBe(
-//     "https://github.com/commitizen-tools/commitizen",
-//   );
-// });
+  expect(snapshot["package.json"].type).toBe("module");
+  expect(yamlDocument.repos).toBeDefined();
+  expect(yamlDocument.repos.length).toBe(4);
+  expect(yamlDocument.repos[0].repo).toBe(
+    "https://github.com/commitizen-tools/commitizen",
+  );
+});
