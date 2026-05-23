@@ -1,4 +1,4 @@
-import { cdk, JsonPatch } from "projen";
+import { cdk } from "projen";
 
 // import { cdk, Task } from "projen";
 import { NodePackageManager } from "projen/lib/javascript";
@@ -48,6 +48,9 @@ const project = new cdk.JsiiProject({
     "@eslint/eslintrc",
   ],
 
+  // use "Trusted Publishing" to interact with NPMJS (better than using NPM_TOKENs)
+  npmTrustedPublishing: true,
+
   // Define additional targets beyond JavaScript
   // publishToPypi: {
   //   module: "projen_utils",
@@ -74,16 +77,19 @@ project.compileTask.exec("cp src/files/* lib/files/.");
 //   done'
 // `);
 
-const releaseFile = project.tryFindObjectFile(".github/workflows/release.yml");
-releaseFile?.patch(
-  JsonPatch.add("/jobs/release_npm/permissions/id-token", "write"),
-);
-releaseFile?.patch(
-  JsonPatch.add(
-    "/jobs/release_npm/steps/10/env/NPM_TRUSTED_PUBLISHER",
-    "${{ vars.NPM_TRUSTED_PUBLISHER }}",
-  ),
-);
-console.log(`releaseFile: ${releaseFile?.path}`);
+// HACK: The code below was written before finding out that the NodePackage project
+//       type supports a "npmTrustedPublishing" option.  This option sets up the
+//       Github workflow to the equivalent of what was done with patching below.
+//
+// const releaseFile = project.tryFindObjectFile(".github/workflows/release.yml");
+// releaseFile?.patch(
+//   JsonPatch.add("/jobs/release_npm/permissions/id-token", "write"),
+// );
+// releaseFile?.patch(
+//   JsonPatch.add(
+//     "/jobs/release_npm/steps/10/env/NPM_TRUSTED_PUBLISHER",
+//     "${{ vars.NPM_TRUSTED_PUBLISHER }}",
+//   ),
+// );
 
 project.synth();
