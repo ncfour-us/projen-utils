@@ -49,10 +49,10 @@ const project = new cdk.JsiiProject({
   ],
 
   // Define additional targets beyond JavaScript
-  publishToPypi: {
-    module: "projen_utils",
-    distName: "projen-utils",
-  },
+  // publishToPypi: {
+  //   module: "projen_utils",
+  //   distName: "projen-utils",
+  // },
 });
 
 // make sure the sample files used are added to the package contents (and thus available at synth time)
