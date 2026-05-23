@@ -76,6 +76,9 @@ project.compileTask.exec("cp src/files/* lib/files/.");
 
 const releaseFile = project.tryFindObjectFile(".github/workflows/release.yml");
 releaseFile?.patch(
+  JsonPatch.add("/jobs/release_npm/permissions/id-token", "write"),
+);
+releaseFile?.patch(
   JsonPatch.add(
     "/jobs/release_npm/steps/10/env/NPM_TRUSTED_PUBLISHER",
     "${{ vars.NPM_TRUSTED_PUBLISHER }}",
