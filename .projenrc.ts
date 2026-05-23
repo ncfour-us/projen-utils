@@ -74,8 +74,13 @@ project.compileTask.exec("cp src/files/* lib/files/.");
 //   done'
 // `);
 
-const releaseFile = project.tryFindObjectFile('.github/workflows/release.yml');
-releaseFile?.patch(JsonPatch.add('/jobs/release_npm/steps/10/env/NPM_TRUSTED_PUBLISHER', '${{ vars.NPM_TRUSTED_PUBLISHER }}' ));
+const releaseFile = project.tryFindObjectFile(".github/workflows/release.yml");
+releaseFile?.patch(
+  JsonPatch.add(
+    "/jobs/release_npm/steps/10/env/NPM_TRUSTED_PUBLISHER",
+    "${{ vars.NPM_TRUSTED_PUBLISHER }}",
+  ),
+);
 console.log(`releaseFile: ${releaseFile?.path}`);
 
 project.synth();
