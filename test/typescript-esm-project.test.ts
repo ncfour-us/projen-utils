@@ -115,7 +115,7 @@ test("typescript-esm-project-instantiate", () => {
   expect(preCommitConfig.path).toBeDefined();
   expect(snapshot["package.json"].type).toBe("module");
   expect(yamlDocument.repos).toBeDefined();
-  expect(yamlDocument.repos.length).toBe(6);
+  expect(yamlDocument.repos.length).toBe(5);
   expect(yamlDocument.repos[0].repo).toBe(
     "https://github.com/commitizen-tools/commitizen",
   );
@@ -165,8 +165,43 @@ test("typescript-esm-project-instantiate precommitConfig", () => {
 
   expect(snapshot["package.json"].type).toBe("module");
   expect(yamlDocument.repos).toBeDefined();
+  expect(yamlDocument.repos.length).toBe(3);
+  expect(yamlDocument.repos[0].repo).toBe(
+    "https://github.com/commitizen-tools/commitizen",
+  );
+});
+
+test("typescript-esm-project-instantiate prettierFlatConfig, precommitConfig", () => {
+  const esmProject = new TypeScriptESMProject({
+    name: "test-esm-project",
+    description: "test-esm-project description",
+    packageName: "test-esm-package-name",
+    defaultReleaseBranch: "main",
+
+    // Remove implied dependency on/use of yarn package manager
+    packageManager: NodePackageManager.PNPM,
+
+    precommitConfig: true,
+    prettierFlatConfig: true,
+  });
+
+  // create the project
+  const snapshot = Testing.synth(esmProject);
+
+  // read the file
+  const synthedFile = snapshot[".pre-commit-config.yaml"];
+
+  // parse the file so it can be evaluated
+  const yamlDocument = YAML.parse(synthedFile);
+
+  // read the prettier.config.ts file
+  const prettierFile = snapshot["prettier.config.ts"];
+
+  expect(snapshot["package.json"].type).toBe("module");
+  expect(yamlDocument.repos).toBeDefined();
   expect(yamlDocument.repos.length).toBe(4);
   expect(yamlDocument.repos[0].repo).toBe(
     "https://github.com/commitizen-tools/commitizen",
   );
+  expect(prettierFile.length).toBeGreaterThan(0);
 });

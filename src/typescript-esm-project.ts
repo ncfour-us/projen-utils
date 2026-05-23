@@ -24,6 +24,7 @@ export interface TypeScriptESMProjectOptions
   readonly addVersionFile?: boolean;
   readonly commands?: CommandParameters[];
   readonly eslintFlatConfig?: boolean;
+  readonly prettierFlatConfig?: boolean;
   readonly precommitConfig?: boolean;
 }
 
@@ -34,6 +35,12 @@ export interface TypeScriptESMProjectOptions
  * @pjid typescript-esm
  */
 export class TypeScriptESMProject extends typescript.TypeScriptProject {
+  public eslintFlatConfig: boolean;
+  public prettierFlatConfig: boolean;
+  public precommitConfig: boolean;
+  public addVersionFile: boolean;
+  public commands: CommandParameters[];
+
   constructor(options: TypeScriptESMProjectOptions) {
     // let additionalDevDeps: string[] = ["tsx"];
 
@@ -75,6 +82,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
       ...options,
 
       eslint: options.eslintFlatConfig ? false : undefined, // if eslintFlatConfig, skip eslint synth
+      prettier: options.prettierFlatConfig ? false : undefined, // if prettierFlatConfig, skip pretter synth
 
       // The following setting/override was added to overcome a subtle
       // dependency by the projen tool on using yarn "classic".
@@ -117,6 +125,13 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
 
     // start project adjustments to enable ESM module usage
 
+    // capture options and set defaults
+    this.eslintFlatConfig = options.eslintFlatConfig ?? false;
+    this.prettierFlatConfig = options.prettierFlatConfig ?? false;
+    this.precommitConfig = options.precommitConfig ?? false;
+    this.addVersionFile = options.addVersionFile ?? false;
+    this.commands = options.commands ?? [];
+
     // set "type": "module" in package.json
     this.package.addField("type", "module");
     // project.package.file.addOverride('type', 'module');
@@ -141,7 +156,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     // start additional features
 
     // Optionally add a version.ts file
-    if (options.addVersionFile) {
+    if (this.addVersionFile) {
       // use this method to create a version.ts file which includes the version number from package.json
       // import of JSON files is still experimental (as of December 2023) so don't use it - and importing JSON
       // requires using ESM modules.  It is not possible in CommonJS.
@@ -165,8 +180,8 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     }
 
     // Optionally add additional commands to package.json and the install
-    if (options.commands) {
-      for (const command of options.commands) {
+    if (this.commands.length > 0) {
+      for (const command of this.commands) {
         // the program can be run by running 'yarn run <command.name>' or 'npm run <command.name>'
         this.addScripts({ [command.name]: `node ./lib/${command.file}` });
 
@@ -176,7 +191,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     }
 
     // Optionally switch from projen's default of using .eslintrc.json to using ESLint flat config
-    if (options.eslintFlatConfig) {
+    if (this.eslintFlatConfig) {
       // the following lines re-add BACK the 'eslint' task while NOT
       // relying on .eslintrc.json as the configuration file.
       //
@@ -250,13 +265,37 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
       // end of lines used to re-establish the 'eslint' task.
     }
 
+    // Similar to eslintFlatConfig, create a precommit.config.ts file
+    // instead of a .prettierrc.json file.
+    if (this.prettierFlatConfig) {
+      // adjust the project to enable running prettier
+      //  - add a package dev dependency
+      this.addDevDeps("prettier");
+
+      //  - create a prettier.config.ts file
+      const prettierConfigContents = readFileSync(
+        `${__dirname}/files/prettier.config.ts.sample`,
+        {
+          encoding: "utf8",
+        },
+      );
+      new SampleFile(this, "prettier.config.ts", {
+        contents: prettierConfigContents,
+      });
+
+      //  - update tsconfig.json
+      const tsconfigDev = this.tryFindObjectFile("tsconfig.dev.json");
+      tsconfigDev?.patch(JsonPatch.add("/include/-", "prettier.config.ts"));
+
+      //  - add the file to .npmignore
+      this.addPackageIgnore("prettier.config.ts");
+    }
+
     // Optionally add a pre-commit config file, set up for TYPESCRIPT
-    if (options.precommitConfig) {
+    if (this.precommitConfig) {
       new PreCommitConfigFile(this, {
         fileTypes: [PreCommitConfigFileTypes.TYPESCRIPT],
       });
-
-      // this.addPackageIgnore(".pre-commit-config.yaml");
     }
 
     // end additional features

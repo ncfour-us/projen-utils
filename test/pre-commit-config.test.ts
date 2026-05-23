@@ -23,6 +23,9 @@ test("pre-commit-config-instantiate", () => {
 
     // Remove implied dependency on/use of yarn package manager
     packageManager: NodePackageManager.NPM,
+
+    // enable prettier
+    prettier: true,
   });
 
   const preCommitConfig = new PreCommitConfigFile(project, {
