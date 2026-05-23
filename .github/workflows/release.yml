@@ -136,6 +136,7 @@ jobs:
           NPM_REGISTRY: registry.npmjs.org
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           PUBLIB_DRYRUN: ${{ inputs.dry_run }}
+          NPM_TRUSTED_PUBLISHER: ${{ vars.NPM_TRUSTED_PUBLISHER }}
         run: npx -p publib@latest publib-npm
   release_pypi:
     name: Publish to PyPI

@@ -1,4 +1,5 @@
-import { cdk } from "projen";
+import { cdk, JsonPatch } from "projen";
+
 // import { cdk, Task } from "projen";
 import { NodePackageManager } from "projen/lib/javascript";
 
@@ -72,5 +73,9 @@ project.compileTask.exec("cp src/files/* lib/files/.");
 //     mv $file $newfile;
 //   done'
 // `);
+
+const releaseFile = project.tryFindObjectFile('.github/workflows/release.yml');
+releaseFile?.patch(JsonPatch.add('/jobs/release_npm/steps/10/env/NPM_TRUSTED_PUBLISHER', '${{ vars.NPM_TRUSTED_PUBLISHER }}' ));
+console.log(`releaseFile: ${releaseFile?.path}`);
 
 project.synth();
