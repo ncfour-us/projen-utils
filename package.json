@@ -59,7 +59,7 @@
     "jsii-pacmak": "^1.132.0",
     "jsii-rosetta": "~5.9.41",
     "prettier": "^3.8.3",
-    "projen": "0.99.61",
+    "projen": "0.99.64",
     "ts-jest": "^29.4.11",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
