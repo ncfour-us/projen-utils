@@ -1245,6 +1245,11 @@ When given a project, this it the project itself.
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.eslint">eslint</a></code> | <code>projen.javascript.Eslint</code> | *No description.* |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.tsconfig">tsconfig</a></code> | <code>projen.javascript.TypescriptConfig</code> | *No description.* |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.tsconfigEslint">tsconfigEslint</a></code> | <code>projen.javascript.TypescriptConfig</code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.addVersionFile">addVersionFile</a></code> | <code>boolean</code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.commands">commands</a></code> | <code><a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]</code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.eslintFlatConfig">eslintFlatConfig</a></code> | <code>boolean</code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.precommitConfig">precommitConfig</a></code> | <code>boolean</code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.prettierFlatConfig">prettierFlatConfig</a></code> | <code>boolean</code> | *No description.* |
 
 ---
 
@@ -2008,6 +2013,56 @@ public readonly tsconfigEslint: TypescriptConfig;
 
 ---
 
+##### `addVersionFile`<sup>Required</sup> <a name="addVersionFile" id="@ncfour-us/projen-utils.TypeScriptESMProject.property.addVersionFile"></a>
+
+```typescript
+public readonly addVersionFile: boolean;
+```
+
+- *Type:* boolean
+
+---
+
+##### `commands`<sup>Required</sup> <a name="commands" id="@ncfour-us/projen-utils.TypeScriptESMProject.property.commands"></a>
+
+```typescript
+public readonly commands: CommandParameters[];
+```
+
+- *Type:* <a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]
+
+---
+
+##### `eslintFlatConfig`<sup>Required</sup> <a name="eslintFlatConfig" id="@ncfour-us/projen-utils.TypeScriptESMProject.property.eslintFlatConfig"></a>
+
+```typescript
+public readonly eslintFlatConfig: boolean;
+```
+
+- *Type:* boolean
+
+---
+
+##### `precommitConfig`<sup>Required</sup> <a name="precommitConfig" id="@ncfour-us/projen-utils.TypeScriptESMProject.property.precommitConfig"></a>
+
+```typescript
+public readonly precommitConfig: boolean;
+```
+
+- *Type:* boolean
+
+---
+
+##### `prettierFlatConfig`<sup>Required</sup> <a name="prettierFlatConfig" id="@ncfour-us/projen-utils.TypeScriptESMProject.property.prettierFlatConfig"></a>
+
+```typescript
+public readonly prettierFlatConfig: boolean;
+```
+
+- *Type:* boolean
+
+---
+
 #### Constants <a name="Constants" id="Constants"></a>
 
 | **Name** | **Type** | **Description** |
@@ -2288,6 +2343,7 @@ const typeScriptESMProjectOptions: TypeScriptESMProjectOptions = { ... }
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.commands">commands</a></code> | <code><a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]</code> | *No description.* |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.eslintFlatConfig">eslintFlatConfig</a></code> | <code>boolean</code> | *No description.* |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.precommitConfig">precommitConfig</a></code> | <code>boolean</code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.prettierFlatConfig">prettierFlatConfig</a></code> | <code>boolean</code> | *No description.* |
 
 ---
 
@@ -4623,6 +4679,16 @@ public readonly eslintFlatConfig: boolean;
 
 ```typescript
 public readonly precommitConfig: boolean;
+```
+
+- *Type:* boolean
+
+---
+
+##### `prettierFlatConfig`<sup>Optional</sup> <a name="prettierFlatConfig" id="@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.prettierFlatConfig"></a>
+
+```typescript
+public readonly prettierFlatConfig: boolean;
 ```
 
 - *Type:* boolean
