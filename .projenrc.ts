@@ -8,7 +8,7 @@ const project = new cdk.JsiiProject({
   authorAddress: "hahntj@gmail.com",
   defaultReleaseBranch: "main",
   jsiiVersion: "~5.9.41",
-  projenVersion: "^0.99.61",
+  projenVersion: "^0.99.64",
   name: "projen-utils",
   projenrcTs: true,
   packageManager: NodePackageManager.PNPM,
