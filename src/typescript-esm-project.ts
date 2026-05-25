@@ -295,6 +295,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     if (this.precommitConfig) {
       new PreCommitConfigFile(this, {
         fileTypes: [PreCommitConfigFileTypes.TYPESCRIPT],
+        packageManager: options.packageManager,
       });
     }
 

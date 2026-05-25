@@ -2,25 +2,115 @@
 
 import { IConstruct } from "constructs";
 import { YamlFile, Project, LogLevel } from "projen";
+import { NodePackageManager } from "projen/lib/javascript";
 import { TypeScriptProject } from "projen/lib/typescript";
 import { TypeScriptESMProject } from "./typescript-esm-project";
 
+/**
+ * Used to specify the file types used in the project.
+ */
 export enum PreCommitConfigFileTypes {
+  /**
+   * Add support for Terraform file checks (not yet implemented)
+   */
   TERRAFORM,
+
+  /**
+   * Add support for Python file checks (black, bandit)
+   */
   PYTHON,
+
+  /**
+   * Add support for CloudFormation file checks (not yet implemented)
+   */
   CLOUDFORMATION,
+
+  /**
+   * Add support for Java file checks (not yet implemented)
+   */
   JAVA,
+
+  /**
+   * Add support for JavaScript file checks (prettier, eslint)
+   */
   JAVASCRIPT,
+
+  /**
+   * Add support for JavaScript file checks (prettier, eslint)
+   */
   TYPESCRIPT,
+
+  /**
+   * Add support for shell script file checks (not yet implemented)
+   */
   SHELLSCRIPT,
 }
 
+/**
+ * Used to configure the PreCommitConfigFile construct
+ */
 export interface PreCommitConfigFileOptions {
-  readonly fileTypes: PreCommitConfigFileTypes[];
+  /**
+   * Array of file-types to configure the pre-commit file to handle.
+   */
+  readonly fileTypes?: PreCommitConfigFileTypes[];
+
+  /**
+   * For JavaScript and/or TypeScript support, the package manager
+   * defined for the project.
+   */
+  readonly packageManager?: NodePackageManager;
 }
 
+/**
+ * This construct sets up the project to include a `.pre-commit-config.yaml`
+ * file at the top of the project.
+ *
+ * The `.pre-commit-config.yaml` file will include checks for
+ * git-commit messages (Commitizen) and default large files, end-of-file,
+ * and check-yaml checks.
+ *
+ * To activate `pre-commit` for the project/repository, follow these steps:
+ * - install the pre-commit tool (see [pre-commit](https://pre-commit.com) for instructions)
+ * - run the tool explicitly (using the pre-commit command) OR
+ * - (preferred) install the pre-commit git hooks using command:
+ * pre-commit install --hook-type commit-msg --hook-type pre-commit
+ *
+ * Subsequent `git commit` commands issued after installing the git hooks
+ * will run the specified checks on any files included in the commit.
+ */
 export class PreCommitConfigFile extends YamlFile {
-  constructor(scope: IConstruct, options: PreCommitConfigFileOptions) {
+  /**
+   * Creates a `PreCommitConfigFile` construct and adds it to the project.
+   *
+   * @param scope the project that this construct belongs to
+   * @param options options to configure the file
+   */
+  constructor(scope: IConstruct, options?: PreCommitConfigFileOptions) {
+    // handle defaults
+    const packageManager: NodePackageManager =
+      options?.packageManager ?? NodePackageManager.NPM;
+    const fileTypes: PreCommitConfigFileTypes[] = options?.fileTypes ?? [];
+
+    let packageManagerRunCommand: string;
+    switch (packageManager) {
+      case NodePackageManager.NPM:
+        packageManagerRunCommand = "npm run";
+        break;
+      case NodePackageManager.BUN:
+        packageManagerRunCommand = "bun run";
+        break;
+      case NodePackageManager.PNPM:
+        packageManagerRunCommand = "pnpm";
+        break;
+      case NodePackageManager.YARN_BERRY:
+      case NodePackageManager.YARN_CLASSIC:
+        packageManagerRunCommand = "yarn";
+        break;
+      default:
+        packageManagerRunCommand = "npm run";
+    }
+
     super(scope, ".pre-commit-config.yaml", {
       committed: true,
       marker: true,
@@ -82,7 +172,7 @@ export class PreCommitConfigFile extends YamlFile {
     });
 
     // process the options list to add in additional clauses
-    for (const fileType of options.fileTypes) {
+    for (const fileType of fileTypes) {
       switch (fileType) {
         case PreCommitConfigFileTypes.PYTHON:
           this.addOverride(
@@ -144,7 +234,7 @@ export class PreCommitConfigFile extends YamlFile {
                   id: "prettier",
                   name: "prettier",
                   language: "node",
-                  entry: "pnpm prettier --write --ignore-unknown",
+                  entry: `${packageManagerRunCommand} prettier --write --ignore-unknown`,
                   files: "\\.[jt]sx?$", // *.js, *.jsx, *.ts and *.tsx
                   exclude: "^\\.yarn/.*",
                   types: ["file"],
@@ -164,7 +254,7 @@ export class PreCommitConfigFile extends YamlFile {
                   id: "eslint",
                   name: "eslint",
                   language: "node",
-                  entry: "pnpm eslint",
+                  entry: `${packageManagerRunCommand} eslint`,
                   files: "\\.[jt]sx?$", // *.js, *.jsx, *.ts and *.tsx
                   types: ["file"],
                   stages: ["pre-commit"],
