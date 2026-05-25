@@ -67,7 +67,7 @@
   },
   "peerDependencies": {
     "constructs": "^10.6.0",
-    "projen": "^0.99.64"
+    "projen": "^0.99.65"
   },
   "pnpm": {},
   "keywords": [

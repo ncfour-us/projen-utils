@@ -67,19 +67,19 @@ importers:
         version: 17.0.0
       jsii:
         specifier: ~5.9.41
-        version: 5.9.41
+        version: 5.9.42
       jsii-diff:
         specifier: ^1.132.0
         version: 1.132.0
       jsii-docgen:
         specifier: ^10.5.0
-        version: 10.11.20(jsii-rosetta@5.9.46)
+        version: 10.11.20(jsii-rosetta@5.9.47)
       jsii-pacmak:
         specifier: ^1.132.0
-        version: 1.132.0(jsii-rosetta@5.9.46)
+        version: 1.132.0(jsii-rosetta@5.9.47)
       jsii-rosetta:
         specifier: ~5.9.41
-        version: 5.9.46
+        version: 5.9.47
       prettier:
         specifier: ^3.8.3
         version: 3.8.3
@@ -447,16 +447,16 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
-  '@jsii/check-node@1.130.0':
-    resolution: {integrity: sha512-Mvye07EwEFv5ym200WAtaERE9YAkeWRjilMxvW1WT7u/LbERgE23lCefLFAgRaVwJeaDeS5BimyX4T7J67E6TA==}
+  '@jsii/check-node@1.131.0':
+    resolution: {integrity: sha512-dpW4sSyXd6OFE2ieUifM7ZXb+BlHjjjQo32GDs1N9cNAFS5jTbTv5N2W/jncQYjCLSGpg+2i86NXEo+xkyMttw==}
     engines: {node: '>= 14.17.0'}
 
   '@jsii/check-node@1.132.0':
     resolution: {integrity: sha512-B4DGA5wRiqSezR2ByHVG3eWrL18MfGTrPyZ1zaindbTSdrgnCbdKaGy9j8yrNjeO1eee4cAK4S48CPtK6/p0vA==}
     engines: {node: '>= 14.17.0'}
 
-  '@jsii/spec@1.130.0':
-    resolution: {integrity: sha512-gmvVCLpxgJ75Iq4P8CthHnmAyB9H1gmYveS37y/nFLENIJ85bfkRSDyW8zP4SFI4FLKxVj9MUsJw9d89LyEnBw==}
+  '@jsii/spec@1.131.0':
+    resolution: {integrity: sha512-qRqibPI7ndM8zX4w83dsIf3F2Edca2OImzQsJWKnKwgsfmC1z99d4lYEPKpfGB2ZadEg9RJUwc6duE2PXA3CAQ==}
     engines: {node: '>= 14.17.0'}
 
   '@jsii/spec@1.132.0':
@@ -2040,13 +2040,13 @@ packages:
     engines: {node: '>= 14.17.0'}
     hasBin: true
 
-  jsii-rosetta@5.9.46:
-    resolution: {integrity: sha512-OBPvRB+1CCDJOWAeXUVkVaiUefPsUQ/UFiFSVZZ/kfMiFuE3Ro3ovd2w3D9VSQxLDVgrYmBOJcBppk+eZ9kyaQ==}
+  jsii-rosetta@5.9.47:
+    resolution: {integrity: sha512-HklYLSLVU6HOMMZINC3Ww6S9JJOMydVF2TDaznHIH7rYuB3NEnq8YTgA8v4VqMKtz+nl2fQ32hXZS27bH8TyKQ==}
     engines: {node: '>= 20.16.0'}
     hasBin: true
 
-  jsii@5.9.41:
-    resolution: {integrity: sha512-HuK5zlI7no5oSH9YeMn3WSPzxUEm4t5CcsWfaLuqBm/Q5IGOyhTbhWpyhktsESVmg8+eCo/1y5xVvpvs4vuBqQ==}
+  jsii@5.9.42:
+    resolution: {integrity: sha512-MI2apIOmIoV/Da7ee687H5qn5xVD1BwW2tqM4cw6D2TAAmOg2ES/o8f1riXmDuCYsGUfJsk4UHxZ2mXhnrf7kA==}
     engines: {node: '>= 20.16.0'}
     hasBin: true
 
@@ -3531,7 +3531,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@jsii/check-node@1.130.0':
+  '@jsii/check-node@1.131.0':
     dependencies:
       chalk: 4.1.2
       semver: 7.8.1
@@ -3541,7 +3541,7 @@ snapshots:
       chalk: 4.1.2
       semver: 7.8.1
 
-  '@jsii/spec@1.130.0': {}
+  '@jsii/spec@1.131.0': {}
 
   '@jsii/spec@1.132.0': {}
 
@@ -5426,19 +5426,19 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  jsii-docgen@10.11.20(jsii-rosetta@5.9.46):
+  jsii-docgen@10.11.20(jsii-rosetta@5.9.47):
     dependencies:
       '@jsii/spec': 1.132.0
       case: 1.6.3
       fast-glob: 3.3.3
       fs-extra: 10.1.0
       jsii-reflect: 1.132.0
-      jsii-rosetta: 5.9.46
+      jsii-rosetta: 5.9.47
       json-stream-stringify: 3.1.6
       semver: 7.8.1
       yargs: 16.2.0
 
-  jsii-pacmak@1.132.0(jsii-rosetta@5.9.46):
+  jsii-pacmak@1.132.0(jsii-rosetta@5.9.47):
     dependencies:
       '@jsii/check-node': 1.132.0
       '@jsii/spec': 1.132.0
@@ -5448,7 +5448,7 @@ snapshots:
       escape-string-regexp: 4.0.0
       fs-extra: 10.1.0
       jsii-reflect: 1.132.0
-      jsii-rosetta: 5.9.46
+      jsii-rosetta: 5.9.47
       semver: 7.8.1
       spdx-license-list: 6.11.0
       xmlbuilder: 15.1.1
@@ -5463,7 +5463,7 @@ snapshots:
       oo-ascii-tree: 1.132.0
       yargs: 17.7.2
 
-  jsii-rosetta@5.9.46:
+  jsii-rosetta@5.9.47:
     dependencies:
       '@jsii/check-node': 1.132.0
       '@jsii/spec': 1.132.0
@@ -5471,7 +5471,7 @@ snapshots:
       chalk: 4.1.2
       commonmark: 0.31.2
       fast-glob: 3.3.3
-      jsii: 5.9.41
+      jsii: 5.9.42
       semver: 7.8.1
       semver-intersect: 1.5.0
       stream-json: 1.9.1
@@ -5481,10 +5481,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  jsii@5.9.41:
+  jsii@5.9.42:
     dependencies:
-      '@jsii/check-node': 1.130.0
-      '@jsii/spec': 1.130.0
+      '@jsii/check-node': 1.131.0
+      '@jsii/spec': 1.131.0
       case: 1.6.3
       chalk: 4.1.2
       fast-deep-equal: 3.1.3
