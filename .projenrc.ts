@@ -1,4 +1,4 @@
-import { cdk } from "projen";
+import { cdk, github } from "projen";
 
 // import { cdk, Task } from "projen";
 import { NodePackageManager } from "projen/lib/javascript";
@@ -7,8 +7,8 @@ const project = new cdk.JsiiProject({
   author: "Tim Hahn",
   authorAddress: "hahntj@gmail.com",
   defaultReleaseBranch: "main",
-  jsiiVersion: "~5.9.41",
-  projenVersion: "^0.99.64",
+  // jsiiVersion: "~5.9.41",
+  // projenVersion: "^0.99.64",
   name: "projen-utils",
   projenrcTs: true,
   packageManager: NodePackageManager.PNPM,
@@ -50,6 +50,16 @@ const project = new cdk.JsiiProject({
 
   // use "Trusted Publishing" to interact with NPMJS (better than using NPM_TOKENs)
   npmTrustedPublishing: true,
+
+  // use GitHub App credentials instead of a Personal Access Token
+  githubOptions: {
+    projenCredentials: github.GithubCredentials.fromApp({
+      permissions: {
+        pullRequests: github.workflows.AppPermission.WRITE,
+        contents: github.workflows.AppPermission.WRITE,
+      },
+    }),
+  },
 
   // Define additional targets beyond JavaScript
   // publishToPypi: {
