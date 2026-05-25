@@ -4,15 +4,18 @@ import { cdk, github } from "projen";
 import { NodePackageManager } from "projen/lib/javascript";
 
 const project = new cdk.JsiiProject({
+  // use this to turn on logging/tracing
+  // logging: {
+  //   level: LogLevel.DEBUG,
+  // },
+
   author: "Tim Hahn",
   authorAddress: "hahntj@gmail.com",
   defaultReleaseBranch: "main",
-  // jsiiVersion: "~5.9.41",
-  // projenVersion: "^0.99.64",
   name: "projen-utils",
   projenrcTs: true,
   packageManager: NodePackageManager.PNPM,
-  repositoryUrl: "git+https://github.com/ncfour-us/projen-utils.git",
+  repositoryUrl: "https://github.com/ncfour-us/projen-utils.git",
   keywords: ["awscdk", "projen", "pre-commit", "typescript", "ESM"],
 
   // set up the package name in package.json
@@ -49,7 +52,9 @@ const project = new cdk.JsiiProject({
   ],
 
   // use "Trusted Publishing" to interact with NPMJS (better than using NPM_TOKENs)
-  npmTrustedPublishing: true,
+  // see publisher settings below.
+  //
+  // npmTrustedPublishing: true,
 
   // use GitHub App credentials instead of a Personal Access Token
   githubOptions: {
@@ -62,10 +67,20 @@ const project = new cdk.JsiiProject({
   },
 
   // Define additional targets beyond JavaScript
-  // publishToPypi: {
-  //   module: "projen_utils",
-  //   distName: "projen-utils",
-  // },
+  publishToPypi: {
+    module: "ncfour_us_projen_utils",
+    distName: "ncfour-us-projen-utils",
+    trustedPublishing: true,
+  },
+});
+
+// use trusted publishing for both NPMJS and PyPI
+project.release?.publisher.publishToNpm({
+  trustedPublishing: true,
+});
+
+project.release?.publisher.publishToPyPi({
+  trustedPublishing: true,
 });
 
 // make sure the sample files used are added to the package contents (and thus available at synth time)

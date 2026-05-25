@@ -2,7 +2,7 @@
   "name": "@ncfour-us/projen-utils",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ncfour-us/projen-utils.git"
+    "url": "https://github.com/ncfour-us/projen-utils.git"
   },
   "scripts": {
     "build": "projen build",
@@ -17,6 +17,7 @@
     "package": "projen package",
     "package-all": "projen package-all",
     "package:js": "projen package:js",
+    "package:python": "projen package:python",
     "post-compile": "projen post-compile",
     "post-upgrade": "projen post-upgrade",
     "pre-compile": "projen pre-compile",
@@ -137,7 +138,12 @@
   "stability": "stable",
   "jsii": {
     "outdir": "dist",
-    "targets": {},
+    "targets": {
+      "python": {
+        "distName": "ncfour-us-projen-utils",
+        "module": "ncfour_us_projen_utils"
+      }
+    },
     "tsc": {
       "outDir": "lib",
       "rootDir": "src"
