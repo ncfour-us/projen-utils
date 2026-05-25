@@ -52,9 +52,7 @@ const project = new cdk.JsiiProject({
   ],
 
   // use "Trusted Publishing" to interact with NPMJS (better than using NPM_TOKENs)
-  // see publisher settings below.
-  //
-  // npmTrustedPublishing: true,
+  npmTrustedPublishing: true,
 
   // use GitHub App credentials instead of a Personal Access Token
   githubOptions: {
@@ -72,15 +70,6 @@ const project = new cdk.JsiiProject({
     distName: "ncfour-us-projen-utils",
     trustedPublishing: true,
   },
-});
-
-// use trusted publishing for both NPMJS and PyPI
-project.release?.publisher.publishToNpm({
-  trustedPublishing: true,
-});
-
-project.release?.publisher.publishToPyPi({
-  trustedPublishing: true,
 });
 
 // make sure the sample files used are added to the package contents (and thus available at synth time)
