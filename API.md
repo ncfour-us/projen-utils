@@ -4,18 +4,33 @@
 
 ### PreCommitConfigFile <a name="PreCommitConfigFile" id="@ncfour-us/projen-utils.PreCommitConfigFile"></a>
 
+This construct sets up the project to include a `.pre-commit-config.yaml` file at the top of the project.
+
+The `.pre-commit-config.yaml` file will include checks for
+git-commit messages (Commitizen) and default large files, end-of-file,
+and check-yaml checks.
+
+To activate `pre-commit` for the project/repository, follow these steps:
+- install the pre-commit tool (see [pre-commit](https://pre-commit.com) for instructions)
+- run the tool explicitly (using the pre-commit command) OR
+- (preferred) install the pre-commit git hooks using command:
+pre-commit install --hook-type commit-msg --hook-type pre-commit
+
+Subsequent `git commit` commands issued after installing the git hooks
+will run the specified checks on any files included in the commit.
+
 #### Initializers <a name="Initializers" id="@ncfour-us/projen-utils.PreCommitConfigFile.Initializer"></a>
 
 ```typescript
 import { PreCommitConfigFile } from '@ncfour-us/projen-utils'
 
-new PreCommitConfigFile(scope: IConstruct, options: PreCommitConfigFileOptions)
+new PreCommitConfigFile(scope: IConstruct, options?: PreCommitConfigFileOptions)
 ```
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFile.Initializer.parameter.scope">scope</a></code> | <code>constructs.IConstruct</code> | *No description.* |
-| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFile.Initializer.parameter.options">options</a></code> | <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileOptions">PreCommitConfigFileOptions</a></code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFile.Initializer.parameter.scope">scope</a></code> | <code>constructs.IConstruct</code> | the project that this construct belongs to. |
+| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFile.Initializer.parameter.options">options</a></code> | <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileOptions">PreCommitConfigFileOptions</a></code> | options to configure the file. |
 
 ---
 
@@ -23,11 +38,15 @@ new PreCommitConfigFile(scope: IConstruct, options: PreCommitConfigFileOptions)
 
 - *Type:* constructs.IConstruct
 
+the project that this construct belongs to.
+
 ---
 
-##### `options`<sup>Required</sup> <a name="options" id="@ncfour-us/projen-utils.PreCommitConfigFile.Initializer.parameter.options"></a>
+##### `options`<sup>Optional</sup> <a name="options" id="@ncfour-us/projen-utils.PreCommitConfigFile.Initializer.parameter.options"></a>
 
 - *Type:* <a href="#@ncfour-us/projen-utils.PreCommitConfigFileOptions">PreCommitConfigFileOptions</a>
+
+options to configure the file.
 
 ---
 
@@ -2140,6 +2159,8 @@ public readonly name: string;
 
 ### PreCommitConfigFileOptions <a name="PreCommitConfigFileOptions" id="@ncfour-us/projen-utils.PreCommitConfigFileOptions"></a>
 
+Used to configure the PreCommitConfigFile construct.
+
 #### Initializer <a name="Initializer" id="@ncfour-us/projen-utils.PreCommitConfigFileOptions.Initializer"></a>
 
 ```typescript
@@ -2152,17 +2173,32 @@ const preCommitConfigFileOptions: PreCommitConfigFileOptions = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileOptions.property.fileTypes">fileTypes</a></code> | <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileTypes">PreCommitConfigFileTypes</a>[]</code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileOptions.property.fileTypes">fileTypes</a></code> | <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileTypes">PreCommitConfigFileTypes</a>[]</code> | Array of file-types to configure the pre-commit file to handle. |
+| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileOptions.property.packageManager">packageManager</a></code> | <code>projen.javascript.NodePackageManager</code> | For JavaScript and/or TypeScript support, the package manager defined for the project. |
 
 ---
 
-##### `fileTypes`<sup>Required</sup> <a name="fileTypes" id="@ncfour-us/projen-utils.PreCommitConfigFileOptions.property.fileTypes"></a>
+##### `fileTypes`<sup>Optional</sup> <a name="fileTypes" id="@ncfour-us/projen-utils.PreCommitConfigFileOptions.property.fileTypes"></a>
 
 ```typescript
 public readonly fileTypes: PreCommitConfigFileTypes[];
 ```
 
 - *Type:* <a href="#@ncfour-us/projen-utils.PreCommitConfigFileTypes">PreCommitConfigFileTypes</a>[]
+
+Array of file-types to configure the pre-commit file to handle.
+
+---
+
+##### `packageManager`<sup>Optional</sup> <a name="packageManager" id="@ncfour-us/projen-utils.PreCommitConfigFileOptions.property.packageManager"></a>
+
+```typescript
+public readonly packageManager: NodePackageManager;
+```
+
+- *Type:* projen.javascript.NodePackageManager
+
+For JavaScript and/or TypeScript support, the package manager defined for the project.
 
 ---
 
@@ -4701,51 +4737,67 @@ public readonly prettierFlatConfig: boolean;
 
 ### PreCommitConfigFileTypes <a name="PreCommitConfigFileTypes" id="@ncfour-us/projen-utils.PreCommitConfigFileTypes"></a>
 
+Used to specify the file types used in the project.
+
 #### Members <a name="Members" id="Members"></a>
 
 | **Name** | **Description** |
 | --- | --- |
-| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileTypes.TERRAFORM">TERRAFORM</a></code> | *No description.* |
-| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileTypes.PYTHON">PYTHON</a></code> | *No description.* |
-| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileTypes.CLOUDFORMATION">CLOUDFORMATION</a></code> | *No description.* |
-| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileTypes.JAVA">JAVA</a></code> | *No description.* |
-| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileTypes.JAVASCRIPT">JAVASCRIPT</a></code> | *No description.* |
-| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileTypes.TYPESCRIPT">TYPESCRIPT</a></code> | *No description.* |
-| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileTypes.SHELLSCRIPT">SHELLSCRIPT</a></code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileTypes.TERRAFORM">TERRAFORM</a></code> | Add support for Terraform file checks (not yet implemented). |
+| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileTypes.PYTHON">PYTHON</a></code> | Add support for Python file checks (black, bandit). |
+| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileTypes.CLOUDFORMATION">CLOUDFORMATION</a></code> | Add support for CloudFormation file checks (not yet implemented). |
+| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileTypes.JAVA">JAVA</a></code> | Add support for Java file checks (not yet implemented). |
+| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileTypes.JAVASCRIPT">JAVASCRIPT</a></code> | Add support for JavaScript file checks (prettier, eslint). |
+| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileTypes.TYPESCRIPT">TYPESCRIPT</a></code> | Add support for JavaScript file checks (prettier, eslint). |
+| <code><a href="#@ncfour-us/projen-utils.PreCommitConfigFileTypes.SHELLSCRIPT">SHELLSCRIPT</a></code> | Add support for shell script file checks (not yet implemented). |
 
 ---
 
 ##### `TERRAFORM` <a name="TERRAFORM" id="@ncfour-us/projen-utils.PreCommitConfigFileTypes.TERRAFORM"></a>
+
+Add support for Terraform file checks (not yet implemented).
 
 ---
 
 
 ##### `PYTHON` <a name="PYTHON" id="@ncfour-us/projen-utils.PreCommitConfigFileTypes.PYTHON"></a>
 
+Add support for Python file checks (black, bandit).
+
 ---
 
 
 ##### `CLOUDFORMATION` <a name="CLOUDFORMATION" id="@ncfour-us/projen-utils.PreCommitConfigFileTypes.CLOUDFORMATION"></a>
+
+Add support for CloudFormation file checks (not yet implemented).
 
 ---
 
 
 ##### `JAVA` <a name="JAVA" id="@ncfour-us/projen-utils.PreCommitConfigFileTypes.JAVA"></a>
 
+Add support for Java file checks (not yet implemented).
+
 ---
 
 
 ##### `JAVASCRIPT` <a name="JAVASCRIPT" id="@ncfour-us/projen-utils.PreCommitConfigFileTypes.JAVASCRIPT"></a>
+
+Add support for JavaScript file checks (prettier, eslint).
 
 ---
 
 
 ##### `TYPESCRIPT` <a name="TYPESCRIPT" id="@ncfour-us/projen-utils.PreCommitConfigFileTypes.TYPESCRIPT"></a>
 
+Add support for JavaScript file checks (prettier, eslint).
+
 ---
 
 
 ##### `SHELLSCRIPT` <a name="SHELLSCRIPT" id="@ncfour-us/projen-utils.PreCommitConfigFileTypes.SHELLSCRIPT"></a>
+
+Add support for shell script file checks (not yet implemented).
 
 ---
 
