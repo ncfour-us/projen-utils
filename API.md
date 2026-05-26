@@ -4790,6 +4790,9 @@ public readonly localPackageArchiveDir: string;
 
 Location for local archive of released artifacts.
 
+Used only when `repoBuildPackageModel is set to
+`RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY`.
+
 ---
 
 ##### `precommitConfig`<sup>Optional</sup> <a name="precommitConfig" id="@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.precommitConfig"></a>
@@ -4828,6 +4831,9 @@ public readonly repoBuildPackageModel: RepoBuildPackageModel;
 - *Default:* RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY
 
 Type of repository, packaging, and release model to use.
+
+Use value `RepoBuildPackageModel.SKIP_SETUP` to skip
+any opinionated setup by the component.
 
 ---
 
@@ -4908,9 +4914,17 @@ Add support for shell script file checks (not yet implemented).
 
 | **Name** | **Description** |
 | --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.RepoBuildPackageModel.SKIP_SETUP">SKIP_SETUP</a></code> | Skip any build/release configuration that is offered by the TypeScriptESMProject component. |
 | <code><a href="#@ncfour-us/projen-utils.RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY">LOCAL_DEV_BUILD_REGISTRY</a></code> | completely local git repository, no remote repo, no GitHub actions, manual releases, no package registry (but copy to local archive "registry"). |
 
 ---
+
+##### `SKIP_SETUP` <a name="SKIP_SETUP" id="@ncfour-us/projen-utils.RepoBuildPackageModel.SKIP_SETUP"></a>
+
+Skip any build/release configuration that is offered by the TypeScriptESMProject component.
+
+---
+
 
 ##### `LOCAL_DEV_BUILD_REGISTRY` <a name="LOCAL_DEV_BUILD_REGISTRY" id="@ncfour-us/projen-utils.RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY"></a>
 

@@ -24,6 +24,12 @@ import {
 
 export enum RepoBuildPackageModel {
   /**
+   * Skip any build/release configuration that is
+   * offered by the TypeScriptESMProject component
+   */
+  SKIP_SETUP,
+
+  /**
    * completely local git repository, no remote repo,
    * no GitHub actions, manual releases, no package registry
    * (but copy to local archive "registry").
@@ -88,7 +94,9 @@ export interface TypeScriptESMProjectOptions
   readonly precommitConfig?: boolean;
 
   /**
-   * Type of repository, packaging, and release model to use
+   * Type of repository, packaging, and release model to use.
+   * Use value `RepoBuildPackageModel.SKIP_SETUP` to skip
+   * any opinionated setup by the component.
    *
    * @default RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY
    * @featured
@@ -96,7 +104,9 @@ export interface TypeScriptESMProjectOptions
   readonly repoBuildPackageModel?: RepoBuildPackageModel;
 
   /**
-   * Location for local archive of released artifacts
+   * Location for local archive of released artifacts.
+   * Used only when `repoBuildPackageModel is set to
+   * `RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY`.
    *
    * @default ~/.local-build-packages
    */
@@ -169,6 +179,12 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     let githubOptions: GitHubOptions | undefined = undefined;
 
     switch (repoBuildPackageModel) {
+      case RepoBuildPackageModel.SKIP_SETUP:
+        // pass-through any options that might be set up by the opinionated configuration
+        releaseTrigger = options.releaseTrigger ?? undefined;
+        publishTasks = options.publishTasks ?? undefined;
+        githubOptions = options.githubOptions ?? undefined;
+        break;
       case RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY:
         // release-related options
         releaseTrigger = ReleaseTrigger.manual({
