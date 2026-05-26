@@ -2438,7 +2438,7 @@ const typeScriptESMProjectOptions: TypeScriptESMProjectOptions = { ... }
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.localPackageArchiveDir">localPackageArchiveDir</a></code> | <code>string</code> | Location for local archive of released artifacts. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.precommitConfig">precommitConfig</a></code> | <code>boolean</code> | Add a `.pre-commit-config.yaml` file to support use of `pre-commit` tool. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.prettierFlatConfig">prettierFlatConfig</a></code> | <code>boolean</code> | Use `prettier.config.ts` instead of `.prettierrc.json` for eslint config. |
-| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.repoBuildPackagingModel">repoBuildPackagingModel</a></code> | <code><a href="#@ncfour-us/projen-utils.RepoBuildPackageModel">RepoBuildPackageModel</a></code> | Type of repository, packaging, and release model to use. |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.repoBuildPackageModel">repoBuildPackageModel</a></code> | <code><a href="#@ncfour-us/projen-utils.RepoBuildPackageModel">RepoBuildPackageModel</a></code> | Type of repository, packaging, and release model to use. |
 
 ---
 
@@ -4818,14 +4818,14 @@ Use `prettier.config.ts` instead of `.prettierrc.json` for eslint config.
 
 ---
 
-##### `repoBuildPackagingModel`<sup>Optional</sup> <a name="repoBuildPackagingModel" id="@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.repoBuildPackagingModel"></a>
+##### `repoBuildPackageModel`<sup>Optional</sup> <a name="repoBuildPackageModel" id="@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.repoBuildPackageModel"></a>
 
 ```typescript
-public readonly repoBuildPackagingModel: RepoBuildPackageModel;
+public readonly repoBuildPackageModel: RepoBuildPackageModel;
 ```
 
 - *Type:* <a href="#@ncfour-us/projen-utils.RepoBuildPackageModel">RepoBuildPackageModel</a>
-- *Default:* LOCAL_DEV_BUILD_REGISTRY
+- *Default:* RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY
 
 Type of repository, packaging, and release model to use.
 
