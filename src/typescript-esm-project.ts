@@ -420,7 +420,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
         this.tasks
           .tryFind("publish:git")
           ?.exec(
-            `cp dist/js*-$(cat dist/version.txt).tgz ${this.localPackageArchiveDir}/.`,
+            `cp dist/js/${this.package.packageName}-$(cat dist/version.txt).tgz ${this.localPackageArchiveDir}/.`,
           );
         break;
       default:
