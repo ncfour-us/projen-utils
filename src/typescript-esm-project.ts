@@ -90,9 +90,10 @@ export interface TypeScriptESMProjectOptions
   /**
    * Type of repository, packaging, and release model to use
    *
-   * @default LOCAL_DEV_BUILD_REGISTRY
+   * @default RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY
+   * @featured
    */
-  readonly repoBuildPackagingModel?: RepoBuildPackageModel;
+  readonly repoBuildPackageModel?: RepoBuildPackageModel;
 
   /**
    * Location for local archive of released artifacts
@@ -158,7 +159,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
 
   constructor(options: TypeScriptESMProjectOptions) {
     const repoBuildPackageModel: RepoBuildPackageModel =
-      options.repoBuildPackagingModel ??
+      options.repoBuildPackageModel ??
       RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY;
 
     // Handle settings related to build/release to be passed into super() constructor:
@@ -248,7 +249,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     this.addVersionFile = options.addVersionFile ?? false;
     this.commands = options.commands ?? [];
     this.repoBuildPackageModel =
-      options.repoBuildPackagingModel ??
+      options.repoBuildPackageModel ??
       RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY;
     this.localPackageArchiveDir =
       options.localPackageArchiveDir ?? "~/.local-build-packages";
