@@ -4,85 +4,194 @@ import { readFileSync } from "node:fs";
 // import { cwd } from "node:process";
 // import path from "path";
 
-import { javascript, typescript, JsonPatch, SampleFile } from "projen";
+import {
+  javascript,
+  typescript,
+  JsonPatch,
+  SampleFile,
+  LogLevel,
+} from "projen";
+import { NodePackageManager } from "projen/lib/javascript";
+import { ReleaseTrigger } from "projen/lib/release";
+import { GitHubOptions } from "projen/lib/github";
 // NodePackageManger is used later in the code to overcome
 // a subtle dependency by the projen tool on using yarn "classic".
-import { NodePackageManager } from "projen/lib/javascript";
 
 import {
   PreCommitConfigFile,
   PreCommitConfigFileTypes,
 } from "./pre-commit-config";
 
+export enum RepoBuildPackageModel {
+  /**
+   * completely local git repository, no remote repo,
+   * no GitHub actions, manual releases, no package registry
+   * (but copy to local archive "registry").
+   */
+  LOCAL_DEV_BUILD_REGISTRY,
+}
+
+/**
+ * commands which are provided by the project
+ */
 export interface CommandParameters {
+  /**
+   * name of the command
+   */
   readonly name: string;
+
+  /**
+   * JavaScript file which implements/provides the command
+   */
   readonly file: string;
 }
 
+/**
+ * Options for TypeScriptESMProject
+ */
 export interface TypeScriptESMProjectOptions
   extends typescript.TypeScriptProjectOptions {
+  /**
+   * Add a `version.ts` file which contains a LIB_VERSION global
+   * which is set based on the `version` field in `package.json`.
+   *
+   * @default false
+   */
   readonly addVersionFile?: boolean;
-  readonly commands?: CommandParameters[];
-  readonly eslintFlatConfig?: boolean;
-  readonly prettierFlatConfig?: boolean;
-  readonly precommitConfig?: boolean;
-}
 
-// const moduleDir = path.dirname(require.resolve("@ncfour/projen-utils"));
+  /**
+   * Additional commands to add to the `package.json` file.
+   *
+   * @default []
+   */
+  readonly commands?: CommandParameters[];
+
+  /**
+   * Use `eslint.config.ts` instead of `.eslintrc.json` for eslint config
+   *
+   * @default false
+   */
+  readonly eslintFlatConfig?: boolean;
+
+  /**
+   * Use `prettier.config.ts` instead of `.prettierrc.json` for eslint config
+   *
+   * @default false
+   */
+  readonly prettierFlatConfig?: boolean;
+
+  /**
+   * Add a `.pre-commit-config.yaml` file to support use of `pre-commit` tool
+   *
+   * @default false
+   */
+  readonly precommitConfig?: boolean;
+
+  /**
+   * Type of repository, packaging, and release model to use
+   *
+   * @default LOCAL_DEV_BUILD_REGISTRY
+   */
+  readonly repoBuildPackagingModel?: RepoBuildPackageModel;
+
+  /**
+   * Location for local archive of released artifacts
+   *
+   * @default ~/.local-build-packages
+   */
+  readonly localPackageArchiveDir?: string;
+}
 
 /**
  * TypeScript ESM project
+ *
+ * This Project type extends `TypeScriptProject` to set up the project
+ * as an ESM project rather than CommonJS.  This includes adjustments
+ * to building/running the `projen` synthesize operation, adjustments
+ * to `package.json`, and configuration for `jest` test running in ESM
+ * mode.
+ *
+ * Additional features available:
+ * - use ESLint flat config rather than JSON config
+ * - use Prettier flat config rather than JSON config
+ * - add a `verseion.ts` helper to ease the referencing of the package
+ *   version in package code.
+ * - enable the project for using the `pre-commit` tool
+ *
  * @pjid typescript-esm
  */
 export class TypeScriptESMProject extends typescript.TypeScriptProject {
-  public eslintFlatConfig: boolean;
-  public prettierFlatConfig: boolean;
-  public precommitConfig: boolean;
-  public addVersionFile: boolean;
-  public commands: CommandParameters[];
+  /**
+   * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+   */
+  public readonly eslintFlatConfig: boolean;
+
+  /**
+   * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+   */
+  public readonly prettierFlatConfig: boolean;
+
+  /**
+   * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+   */
+  public readonly precommitConfig: boolean;
+
+  /**
+   * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+   */
+  public readonly addVersionFile: boolean;
+
+  /**
+   * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+   */
+  public readonly commands: CommandParameters[];
+
+  /**
+   * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+   */
+  public readonly repoBuildPackageModel: RepoBuildPackageModel;
+
+  /**
+   * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+   */
+  public readonly localPackageArchiveDir: string;
 
   constructor(options: TypeScriptESMProjectOptions) {
-    // let additionalDevDeps: string[] = ["tsx"];
 
-    // if (options.eslintFlatConfig) {
-    //   additionalDevDeps = additionalDevDeps.concat(
-    //     ...[
-    //       // needed to support ESLint
-    //       "jiti",
-    //       "eslint",
-    //       "eslint-import-resolver-typescript",
-    //       "eslint-plugin-import",
-    //       "@eslint/compat",
-    //       "@eslint/js",
-    //       "@eslint/eslintrc",
-    //       "@typescript-eslint/eslint-plugin",
-    //       "@typescript-eslint/parser",
-    //       "@stylistic/eslint-plugin",
-    //       "globals",
-    //       // end needed to support ESLint
-    //     ],
-    //   );
-    // }
-    // if (options.precommitConfig) {
-    //   additionalDevDeps = additionalDevDeps.concat(
-    //     ...[
-    //       // needed to support prettier
-    //       "prettier",
-    //       // end needed to support prettier
-    //     ],
-    //   );
-    // }
-    // additionalDevDeps = additionalDevDeps.concat(
-    //   options.devDeps ? options.devDeps : [],
-    // );
+
+    const repoBuildPackageModel: RepoBuildPackageModel =
+      options.repoBuildPackagingModel ??
+      RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY;
+
+    // Handle settings related to build/release to be passed into super() constructor:
+    let releaseTrigger: ReleaseTrigger | undefined = undefined;
+    let publishTasks: boolean | undefined = undefined;
+    let deferredErrorMessage: string | undefined = undefined;
+    let githubOptions: GitHubOptions | undefined = undefined;
+
+    switch (repoBuildPackageModel) {
+      case RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY:
+        // release-related options
+        releaseTrigger = ReleaseTrigger.manual({
+          gitPushCommand: "",
+        });
+
+        publishTasks = true;
+        githubOptions = {
+          workflows: false,
+        };
+        break;
+      default:
+        deferredErrorMessage = `incorrect repoBuildPackageModel setting: ${repoBuildPackageModel} specified before constructor`;
+    }
 
     // create a new options instance, copying the input values
     // and over-riding those that need to be set for ESM
     const typeScriptProjectOptions: typescript.TypeScriptProjectOptions = {
       ...options,
 
-      eslint: options.eslintFlatConfig ? false : undefined, // if eslintFlatConfig, skip eslint synth
-      prettier: options.prettierFlatConfig ? false : undefined, // if prettierFlatConfig, skip pretter synth
+      eslint: options.eslintFlatConfig ? false : options.eslint, // if eslintFlatConfig, skip eslint synth
+      prettier: options.prettierFlatConfig ? false : options.prettier, // if prettierFlatConfig, skip pretter synth
 
       // The following setting/override was added to overcome a subtle
       // dependency by the projen tool on using yarn "classic".
@@ -91,9 +200,8 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
       packageManager: options.packageManager ?? NodePackageManager.PNPM,
 
       // start clauses added to enable ESM module usage
-      // devDeps: additionalDevDeps,
-      minNodeVersion: options.minNodeVersion ?? "18.0.0",
-      workflowNodeVersion: "18.x",
+      minNodeVersion: options.minNodeVersion ?? "24.0.0",
+      workflowNodeVersion: "24.x",
       tsconfig: {
         compilerOptions: {
           moduleResolution: javascript.TypeScriptModuleResolution.NODE_NEXT,
@@ -118,10 +226,20 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
         },
       },
       // end clauses added to enable ESM module usage
+
+      // start clauses to set up build/package/release model
+      releaseTrigger: releaseTrigger,
+      publishTasks: publishTasks,
+      githubOptions: githubOptions,
     };
 
     // construct the project instance (TypeScriptProject)
     super(typeScriptProjectOptions);
+
+    // Log any issues encountered before the constructor
+    if (deferredErrorMessage) {
+      this.logger?.log(LogLevel.ERROR, deferredErrorMessage);
+    }
 
     // start project adjustments to enable ESM module usage
 
@@ -131,17 +249,19 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     this.precommitConfig = options.precommitConfig ?? false;
     this.addVersionFile = options.addVersionFile ?? false;
     this.commands = options.commands ?? [];
+    this.repoBuildPackageModel =
+      options.repoBuildPackagingModel ??
+      RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY;
+    this.localPackageArchiveDir =
+      options.localPackageArchiveDir ?? "~/.local-build-packages";
 
     // set "type": "module" in package.json
     this.package.addField("type", "module");
-    // project.package.file.addOverride('type', 'module');
 
     // set NODE_OPTIONS environment variable when running jest during tests
     this.testTask.env("NODE_OPTIONS", "--experimental-vm-modules");
 
     // patch package.json to remove a transform inserted by the TypeScriptProject package
-    // const packageJson = this.tryFindObjectFile("package.json");
-    // packageJson?.patch(JsonPatch.remove("/jest/transform/^.+\\.[t]sx?$"));
     this.package.file.patch(JsonPatch.remove("/jest/transform/^.+\\.[t]sx?$"));
 
     // getting ts-node to work in ESM mode just wasn't working.  Switch to using tsx to run the projen generator
@@ -207,9 +327,6 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
       // NOTE: projen seems to have taken the stance of using @stylistic rather than
       // prettier for handling code formatting.  See: https://eslint.style/guide/why
       // for a discussion about this.
-
-      // console.log(`cwd: ${cwd()}, __dirname: ${__dirname}`);
-      // console.log(`cwd: ${cwd()}, moduleDir: ${moduleDir}`);
 
       this.addDevDeps(
         ...[
@@ -297,6 +414,22 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
         fileTypes: [PreCommitConfigFileTypes.TYPESCRIPT],
         packageManager: options.packageManager,
       });
+    }
+
+    // implement the specified repository build and packaging model
+    switch (this.repoBuildPackageModel) {
+      case RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY:
+        this.tasks
+          .tryFind("publish:git")
+          ?.exec(
+            `cp dist/js*-$(cat dist/version.txt).tgz ${this.localPackageArchiveDir}/.`,
+          );
+        break;
+      default:
+        this.logger?.log(
+          LogLevel.ERROR,
+          `incorrect repoBuildPackageModel ${this.repoBuildPackageModel} specified after constructor`,
+        );
     }
 
     // end additional features

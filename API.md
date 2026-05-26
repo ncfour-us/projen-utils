@@ -525,6 +525,19 @@ Maximum line width (set to 0 to disable folding).
 
 TypeScript ESM project.
 
+This Project type extends `TypeScriptProject` to set up the project
+as an ESM project rather than CommonJS.  This includes adjustments
+to building/running the `projen` synthesize operation, adjustments
+to `package.json`, and configuration for `jest` test running in ESM
+mode.
+
+Additional features available:
+- use ESLint flat config rather than JSON config
+- use Prettier flat config rather than JSON config
+- add a `verseion.ts` helper to ease the referencing of the package
+  version in package code.
+- enable the project for using the `pre-commit` tool
+
 #### Initializers <a name="Initializers" id="@ncfour-us/projen-utils.TypeScriptESMProject.Initializer"></a>
 
 ```typescript
@@ -1264,11 +1277,13 @@ When given a project, this it the project itself.
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.eslint">eslint</a></code> | <code>projen.javascript.Eslint</code> | *No description.* |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.tsconfig">tsconfig</a></code> | <code>projen.javascript.TypescriptConfig</code> | *No description.* |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.tsconfigEslint">tsconfigEslint</a></code> | <code>projen.javascript.TypescriptConfig</code> | *No description.* |
-| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.addVersionFile">addVersionFile</a></code> | <code>boolean</code> | *No description.* |
-| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.commands">commands</a></code> | <code><a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]</code> | *No description.* |
-| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.eslintFlatConfig">eslintFlatConfig</a></code> | <code>boolean</code> | *No description.* |
-| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.precommitConfig">precommitConfig</a></code> | <code>boolean</code> | *No description.* |
-| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.prettierFlatConfig">prettierFlatConfig</a></code> | <code>boolean</code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.addVersionFile">addVersionFile</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.commands">commands</a></code> | <code><a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.eslintFlatConfig">eslintFlatConfig</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.localPackageArchiveDir">localPackageArchiveDir</a></code> | <code>string</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.precommitConfig">precommitConfig</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.prettierFlatConfig">prettierFlatConfig</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.repoBuildPackageModel">repoBuildPackageModel</a></code> | <code><a href="#@ncfour-us/projen-utils.RepoBuildPackageModel">RepoBuildPackageModel</a></code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 
 ---
 
@@ -2040,6 +2055,8 @@ public readonly addVersionFile: boolean;
 
 - *Type:* boolean
 
+see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+
 ---
 
 ##### `commands`<sup>Required</sup> <a name="commands" id="@ncfour-us/projen-utils.TypeScriptESMProject.property.commands"></a>
@@ -2049,6 +2066,8 @@ public readonly commands: CommandParameters[];
 ```
 
 - *Type:* <a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]
+
+see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
 
 ---
 
@@ -2060,6 +2079,20 @@ public readonly eslintFlatConfig: boolean;
 
 - *Type:* boolean
 
+see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+
+---
+
+##### `localPackageArchiveDir`<sup>Required</sup> <a name="localPackageArchiveDir" id="@ncfour-us/projen-utils.TypeScriptESMProject.property.localPackageArchiveDir"></a>
+
+```typescript
+public readonly localPackageArchiveDir: string;
+```
+
+- *Type:* string
+
+see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+
 ---
 
 ##### `precommitConfig`<sup>Required</sup> <a name="precommitConfig" id="@ncfour-us/projen-utils.TypeScriptESMProject.property.precommitConfig"></a>
@@ -2070,6 +2103,8 @@ public readonly precommitConfig: boolean;
 
 - *Type:* boolean
 
+see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+
 ---
 
 ##### `prettierFlatConfig`<sup>Required</sup> <a name="prettierFlatConfig" id="@ncfour-us/projen-utils.TypeScriptESMProject.property.prettierFlatConfig"></a>
@@ -2079,6 +2114,20 @@ public readonly prettierFlatConfig: boolean;
 ```
 
 - *Type:* boolean
+
+see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+
+---
+
+##### `repoBuildPackageModel`<sup>Required</sup> <a name="repoBuildPackageModel" id="@ncfour-us/projen-utils.TypeScriptESMProject.property.repoBuildPackageModel"></a>
+
+```typescript
+public readonly repoBuildPackageModel: RepoBuildPackageModel;
+```
+
+- *Type:* <a href="#@ncfour-us/projen-utils.RepoBuildPackageModel">RepoBuildPackageModel</a>
+
+see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
 
 ---
 
@@ -2120,6 +2169,8 @@ public readonly DEFAULT_TS_JEST_TRANFORM_PATTERN: string;
 
 ### CommandParameters <a name="CommandParameters" id="@ncfour-us/projen-utils.CommandParameters"></a>
 
+commands which are provided by the project.
+
 #### Initializer <a name="Initializer" id="@ncfour-us/projen-utils.CommandParameters.Initializer"></a>
 
 ```typescript
@@ -2132,8 +2183,8 @@ const commandParameters: CommandParameters = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@ncfour-us/projen-utils.CommandParameters.property.file">file</a></code> | <code>string</code> | *No description.* |
-| <code><a href="#@ncfour-us/projen-utils.CommandParameters.property.name">name</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.CommandParameters.property.file">file</a></code> | <code>string</code> | JavaScript file which implements/provides the command. |
+| <code><a href="#@ncfour-us/projen-utils.CommandParameters.property.name">name</a></code> | <code>string</code> | name of the command. |
 
 ---
 
@@ -2145,6 +2196,8 @@ public readonly file: string;
 
 - *Type:* string
 
+JavaScript file which implements/provides the command.
+
 ---
 
 ##### `name`<sup>Required</sup> <a name="name" id="@ncfour-us/projen-utils.CommandParameters.property.name"></a>
@@ -2154,6 +2207,8 @@ public readonly name: string;
 ```
 
 - *Type:* string
+
+name of the command.
 
 ---
 
@@ -2203,6 +2258,8 @@ For JavaScript and/or TypeScript support, the package manager defined for the pr
 ---
 
 ### TypeScriptESMProjectOptions <a name="TypeScriptESMProjectOptions" id="@ncfour-us/projen-utils.TypeScriptESMProjectOptions"></a>
+
+Options for TypeScriptESMProject.
 
 #### Initializer <a name="Initializer" id="@ncfour-us/projen-utils.TypeScriptESMProjectOptions.Initializer"></a>
 
@@ -2375,11 +2432,13 @@ const typeScriptESMProjectOptions: TypeScriptESMProjectOptions = { ... }
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.tsconfigDevFile">tsconfigDevFile</a></code> | <code>string</code> | The name of the development tsconfig.json file. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.tsJestOptions">tsJestOptions</a></code> | <code>projen.typescript.TsJestOptions</code> | Options for ts-jest. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.typescriptVersion">typescriptVersion</a></code> | <code>string</code> | TypeScript version to use. |
-| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.addVersionFile">addVersionFile</a></code> | <code>boolean</code> | *No description.* |
-| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.commands">commands</a></code> | <code><a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]</code> | *No description.* |
-| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.eslintFlatConfig">eslintFlatConfig</a></code> | <code>boolean</code> | *No description.* |
-| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.precommitConfig">precommitConfig</a></code> | <code>boolean</code> | *No description.* |
-| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.prettierFlatConfig">prettierFlatConfig</a></code> | <code>boolean</code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.addVersionFile">addVersionFile</a></code> | <code>boolean</code> | Add a `version.ts` file which contains a LIB_VERSION global which is set based on the `version` field in `package.json`. |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.commands">commands</a></code> | <code><a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]</code> | Additional commands to add to the `package.json` file. |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.eslintFlatConfig">eslintFlatConfig</a></code> | <code>boolean</code> | Use `eslint.config.ts` instead of `.eslintrc.json` for eslint config. |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.localPackageArchiveDir">localPackageArchiveDir</a></code> | <code>string</code> | Location for local archive of released artifacts. |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.precommitConfig">precommitConfig</a></code> | <code>boolean</code> | Add a `.pre-commit-config.yaml` file to support use of `pre-commit` tool. |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.prettierFlatConfig">prettierFlatConfig</a></code> | <code>boolean</code> | Use `prettier.config.ts` instead of `.prettierrc.json` for eslint config. |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.repoBuildPackagingModel">repoBuildPackagingModel</a></code> | <code><a href="#@ncfour-us/projen-utils.RepoBuildPackageModel">RepoBuildPackageModel</a></code> | Type of repository, packaging, and release model to use. |
 
 ---
 
@@ -4688,6 +4747,9 @@ public readonly addVersionFile: boolean;
 ```
 
 - *Type:* boolean
+- *Default:* false
+
+Add a `version.ts` file which contains a LIB_VERSION global which is set based on the `version` field in `package.json`.
 
 ---
 
@@ -4698,6 +4760,9 @@ public readonly commands: CommandParameters[];
 ```
 
 - *Type:* <a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]
+- *Default:* []
+
+Additional commands to add to the `package.json` file.
 
 ---
 
@@ -4708,6 +4773,22 @@ public readonly eslintFlatConfig: boolean;
 ```
 
 - *Type:* boolean
+- *Default:* false
+
+Use `eslint.config.ts` instead of `.eslintrc.json` for eslint config.
+
+---
+
+##### `localPackageArchiveDir`<sup>Optional</sup> <a name="localPackageArchiveDir" id="@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.localPackageArchiveDir"></a>
+
+```typescript
+public readonly localPackageArchiveDir: string;
+```
+
+- *Type:* string
+- *Default:* ~/.local-build-packages
+
+Location for local archive of released artifacts.
 
 ---
 
@@ -4718,6 +4799,9 @@ public readonly precommitConfig: boolean;
 ```
 
 - *Type:* boolean
+- *Default:* false
+
+Add a `.pre-commit-config.yaml` file to support use of `pre-commit` tool.
 
 ---
 
@@ -4728,6 +4812,22 @@ public readonly prettierFlatConfig: boolean;
 ```
 
 - *Type:* boolean
+- *Default:* false
+
+Use `prettier.config.ts` instead of `.prettierrc.json` for eslint config.
+
+---
+
+##### `repoBuildPackagingModel`<sup>Optional</sup> <a name="repoBuildPackagingModel" id="@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.repoBuildPackagingModel"></a>
+
+```typescript
+public readonly repoBuildPackagingModel: RepoBuildPackageModel;
+```
+
+- *Type:* <a href="#@ncfour-us/projen-utils.RepoBuildPackageModel">RepoBuildPackageModel</a>
+- *Default:* LOCAL_DEV_BUILD_REGISTRY
+
+Type of repository, packaging, and release model to use.
 
 ---
 
@@ -4798,6 +4898,23 @@ Add support for JavaScript file checks (prettier, eslint).
 ##### `SHELLSCRIPT` <a name="SHELLSCRIPT" id="@ncfour-us/projen-utils.PreCommitConfigFileTypes.SHELLSCRIPT"></a>
 
 Add support for shell script file checks (not yet implemented).
+
+---
+
+
+### RepoBuildPackageModel <a name="RepoBuildPackageModel" id="@ncfour-us/projen-utils.RepoBuildPackageModel"></a>
+
+#### Members <a name="Members" id="Members"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY">LOCAL_DEV_BUILD_REGISTRY</a></code> | completely local git repository, no remote repo, no GitHub actions, manual releases, no package registry (but copy to local archive "registry"). |
+
+---
+
+##### `LOCAL_DEV_BUILD_REGISTRY` <a name="LOCAL_DEV_BUILD_REGISTRY" id="@ncfour-us/projen-utils.RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY"></a>
+
+completely local git repository, no remote repo, no GitHub actions, manual releases, no package registry (but copy to local archive "registry").
 
 ---
 

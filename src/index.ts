@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Tim Hahn
 
 export {
+  RepoBuildPackageModel,
   TypeScriptESMProject,
   TypeScriptESMProjectOptions,
   CommandParameters,
