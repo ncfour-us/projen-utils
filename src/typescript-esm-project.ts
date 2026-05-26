@@ -11,9 +11,9 @@ import {
   SampleFile,
   LogLevel,
 } from "projen";
+import { GitHubOptions } from "projen/lib/github";
 import { NodePackageManager } from "projen/lib/javascript";
 import { ReleaseTrigger } from "projen/lib/release";
-import { GitHubOptions } from "projen/lib/github";
 // NodePackageManger is used later in the code to overcome
 // a subtle dependency by the projen tool on using yarn "classic".
 
@@ -157,8 +157,6 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
   public readonly localPackageArchiveDir: string;
 
   constructor(options: TypeScriptESMProjectOptions) {
-
-
     const repoBuildPackageModel: RepoBuildPackageModel =
       options.repoBuildPackagingModel ??
       RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY;
