@@ -434,11 +434,27 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     // implement the specified repository build and packaging model
     switch (this.repoBuildPackageModel) {
       case RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY:
-        this.tasks
-          .tryFind("publish:git")
-          ?.exec(
-            `cp dist/js/${this.package.packageName}-$(cat dist/version.txt).tgz ${this.localPackageArchiveDir}/.`,
+        const publishTask = this.tasks.tryFind("publish:git");
+        if (publishTask) {
+          publishTask.exec(
+            `mkdir dist/js/tmp;
+            cd dist/js/tmp;
+            tar -xzvf ../${this.package.packageName}-$(cat ../../version.txt).tgz;
+            cp ../../../CHANGELOG.md package/.;
+            tar -czvf ../${this.package.packageName}-$(cat ../../version.txt).tgz package
+            cd -;
+            rm -rf dist/js/tmp`,
+            {
+              name: "update CHANGELOG.md in package",
+            },
           );
+          publishTask.exec(
+            `cp dist/js/${this.package.packageName}-$(cat dist/version.txt).tgz ${this.localPackageArchiveDir}/.`,
+            {
+              name: "copy package to ${this.localPackageArchiveDir} folder",
+            },
+          );
+        }
         break;
       default:
         this.logger?.log(
