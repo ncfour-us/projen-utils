@@ -437,10 +437,13 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
         this.addPackageIgnore("CHANGELOG.md");
         const publishTask = this.tasks.tryFind("publish:git");
         if (publishTask) {
+          const packageFileNameSlug = this.package.packageName
+            .replace("@", "")
+            .replace("/", "-");
           publishTask.exec(
-            `cp dist/js/${this.package.packageName}-$(cat dist/version.txt).tgz ${this.localPackageArchiveDir}/.`,
+            `cp dist/js/${packageFileNameSlug}-$(cat dist/version.txt).tgz ${this.localPackageArchiveDir}/.`,
             {
-              name: "copy package to ${this.localPackageArchiveDir} folder",
+              name: `copy package to ${this.localPackageArchiveDir} folder`,
             },
           );
         }
