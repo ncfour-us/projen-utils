@@ -4959,3 +4959,4 @@ Skip any build/release configuration that is offered by the TypeScriptESMProject
 completely local git repository, no remote repo, no GitHub actions, manual releases, no package registry (but copy to local archive "registry").
 
 ---
+
