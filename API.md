@@ -2438,6 +2438,8 @@ const typeScriptESMProjectOptions: TypeScriptESMProjectOptions = { ... }
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.localPackageArchiveDir">localPackageArchiveDir</a></code> | <code>string</code> | Location for local archive of released artifacts. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.precommitConfig">precommitConfig</a></code> | <code>boolean</code> | Add a `.pre-commit-config.yaml` file to support use of `pre-commit` tool. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.prettierFlatConfig">prettierFlatConfig</a></code> | <code>boolean</code> | Use `prettier.config.ts` instead of `.prettierrc.json` for eslint config. |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.releaseToGithub">releaseToGithub</a></code> | <code>boolean</code> | Release to Github when running release tasks. |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.releaseToLocal">releaseToLocal</a></code> | <code>boolean</code> | Release to Local archive folder when running release tasks. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.repoBuildPackageModel">repoBuildPackageModel</a></code> | <code><a href="#@ncfour-us/projen-utils.RepoBuildPackageModel">RepoBuildPackageModel</a></code> | Type of repository, packaging, and release model to use. |
 
 ---
@@ -4821,6 +4823,32 @@ Use `prettier.config.ts` instead of `.prettierrc.json` for eslint config.
 
 ---
 
+##### `releaseToGithub`<sup>Optional</sup> <a name="releaseToGithub" id="@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.releaseToGithub"></a>
+
+```typescript
+public readonly releaseToGithub: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Release to Github when running release tasks.
+
+---
+
+##### `releaseToLocal`<sup>Optional</sup> <a name="releaseToLocal" id="@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.releaseToLocal"></a>
+
+```typescript
+public readonly releaseToLocal: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Release to Local archive folder when running release tasks.
+
+---
+
 ##### `repoBuildPackageModel`<sup>Optional</sup> <a name="repoBuildPackageModel" id="@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.repoBuildPackageModel"></a>
 
 ```typescript
@@ -4931,4 +4959,3 @@ Skip any build/release configuration that is offered by the TypeScriptESMProject
 completely local git repository, no remote repo, no GitHub actions, manual releases, no package registry (but copy to local archive "registry").
 
 ---
-

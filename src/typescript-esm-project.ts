@@ -111,6 +111,20 @@ export interface TypeScriptESMProjectOptions
    * @default ~/.local-build-packages
    */
   readonly localPackageArchiveDir?: string;
+
+  /**
+   * Release to Local archive folder when running release tasks
+   *
+   * @default true
+   */
+  readonly releaseToLocal?: boolean;
+
+  /**
+   * Release to Github when running release tasks
+   *
+   * @default false
+   */
+  readonly releaseToGithub?: boolean;
 }
 
 /**
@@ -187,9 +201,15 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
         break;
       case RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY:
         // release-related options
-        releaseTrigger = ReleaseTrigger.manual({
-          gitPushCommand: "",
-        });
+        if (options.repository) {
+          // if there is a remote repository, then enable a git push to the repository
+          releaseTrigger = ReleaseTrigger.manual();
+        } else {
+          // if no repository, then disable the git push to the repository
+          releaseTrigger = ReleaseTrigger.manual({
+            gitPushCommand: "",
+          });
+        }
 
         publishTasks = true;
         githubOptions = {
@@ -438,33 +458,25 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
         break;
       case RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY:
         this.addPackageIgnore("CHANGELOG.md");
-        const packageFileNameSlug = this.package.packageName
-          .replace("@", "")
-          .replace("/", "-");
-
-        // create another task to handle copying to a local package archive folder
-        this.addTask("publish:local", {
-          condition: 'test "$(git branch --show-current)" = "main"',
-          steps: [
-            {
-              name: `copy package to ${this.localPackageArchiveDir} folder`,
-              exec: `cp dist/js/${packageFileNameSlug}-$(cat dist/version.txt).tgz ${this.localPackageArchiveDir}/.`,
-            },
-          ],
-        });
-
-        // add the publish:local task to the release task
-        const publishLocalTask = this.tasks.tryFind("publish:local");
-        const publishTask = this.tasks.tryFind("release");
-        if (publishTask && publishLocalTask) {
-          publishTask.spawn(publishLocalTask);
-        }
 
         // add a condition to the publish:git task so that it only runs if the current branch is "main"
-        const publishGitTask = this.tasks.tryFind("publish:git");
-        if (publishGitTask) {
-          publishGitTask.addCondition(
-            'test "$(git branch --show-current)" = "main"',
+        this.adjustPublishGitTask();
+
+        // if publishing local, create another task to handle copying to a local package archive folder
+        if (options.releaseToLocal) {
+          this.createPublishLocalTask(options.publishDryRun ?? false);
+        }
+
+        // if publishing to NPM should be done, add the task
+        if (options.releaseToNpm) {
+          this.createPublishNpmTask(options.publishDryRun ?? false);
+        }
+
+        // if publishing to Github, add the task
+        if (options.releaseToGithub) {
+          this.createPublishGithubTask(
+            options.repository,
+            options.publishDryRun ?? false,
           );
         }
         break;
@@ -476,5 +488,98 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     }
 
     // end additional features
+  }
+
+  private createPublishLocalTask(publishDryRun: boolean) {
+    const packageFileNameSlug = this.package.packageName
+      .replace("@", "")
+      .replace("/", "-");
+    this.addTask("publish:local", {
+      condition: 'test "$(git branch --show-current)" = "main"',
+      steps: [
+        {
+          name: `copy package to ${this.localPackageArchiveDir} folder (dryrun: ${publishDryRun})`,
+          exec: `${publishDryRun && "echo "}cp dist/js/${packageFileNameSlug}-$(cat dist/version.txt).tgz ${this.localPackageArchiveDir}/.`,
+        },
+      ],
+    });
+
+    // add the publish:local task to the release task
+    const publishLocalTask = this.tasks.tryFind("publish:local");
+    const publishTask = this.tasks.tryFind("release");
+    if (publishTask && publishLocalTask) {
+      publishTask.spawn(publishLocalTask);
+    }
+  }
+
+  private adjustPublishGitTask() {
+    const publishGitTask = this.tasks.tryFind("publish:git");
+    if (publishGitTask) {
+      publishGitTask.addCondition(
+        'test "$(git branch --show-current)" = "main"',
+      );
+    }
+  }
+
+  private createPublishNpmTask(publishDryRun: boolean) {
+    const packageFileNameSlug = this.package.packageName
+      .replace("@", "")
+      .replace("/", "-");
+    this.addTask("publish:npm", {
+      description: "Publish this package to npm",
+      env: {
+        NPM_DIST_TAG: "latest",
+        NPM_REGISTRY: "registry.npmjs.org",
+        NPM_CONFIG_PROVENANCE: "true",
+      },
+      condition: 'test "$(git branch --show-current)" = "main"',
+      steps: [
+        {
+          exec: `npm publish ${publishDryRun && "--dry-run"} dist/js/${packageFileNameSlug}-$(cat dist/version.txt).tgz`,
+        },
+      ],
+    });
+
+    // add the publish:local task to the release task
+    const publishNpmTask = this.tasks.tryFind("publish:npm");
+    const publishTask = this.tasks.tryFind("release");
+    if (publishTask && publishNpmTask) {
+      publishTask.spawn(publishNpmTask);
+    }
+  }
+
+  private createPublishGithubTask(
+    repository: string | undefined,
+    publishDryRun: boolean,
+  ) {
+    let command: string;
+    if (!repository) {
+      this.logger?.error(
+        `TypeScriptESMProject.createPublishGithubTask: repository MUST be specified (value: ${repository})`,
+      );
+    }
+
+    if (publishDryRun) {
+      command = `would run gh release to -R ${repository} `;
+    } else {
+      command = `github_sha=$(git -1 --oneline | cut -f1 -d" "); errout=$(mktemp); gh release create $(cat dist/releasetag.txt) -R ${repository} -F dist/changelog.md -t $(cat dist/releasetag.txt) --target $github_sha 2> $errout && true; exitcode=$?; if [ $exitcode -ne 0 ] && ! grep -q \"Release.tag_name already exists\" $errout; then cat $errout; exit $exitcode; fi`;
+    }
+    this.addTask("publish:github", {
+      description: "Publish this package to GitHub Releases",
+      requiredEnv: ["GITHUB_TOKEN"],
+      condition: 'test "$(git branch --show-current)" = "main"',
+      steps: [
+        {
+          exec: command,
+        },
+      ],
+    });
+
+    // add the publish:local task to the release task
+    const publishGithubTask = this.tasks.tryFind("publish:github");
+    const publishTask = this.tasks.tryFind("release");
+    if (publishTask && publishGithubTask) {
+      publishTask.spawn(publishGithubTask);
+    }
   }
 }
