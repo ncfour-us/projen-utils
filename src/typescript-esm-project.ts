@@ -438,16 +438,33 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
         break;
       case RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY:
         this.addPackageIgnore("CHANGELOG.md");
-        const publishTask = this.tasks.tryFind("publish:git");
-        if (publishTask) {
-          const packageFileNameSlug = this.package.packageName
-            .replace("@", "")
-            .replace("/", "-");
-          publishTask.exec(
-            `cp dist/js/${packageFileNameSlug}-$(cat dist/version.txt).tgz ${this.localPackageArchiveDir}/.`,
+        const packageFileNameSlug = this.package.packageName
+          .replace("@", "")
+          .replace("/", "-");
+
+        // create another task to handle copying to a local package archive folder
+        this.addTask("publish:local", {
+          condition: 'test "$(git branch --show-current)" = "main"',
+          steps: [
             {
               name: `copy package to ${this.localPackageArchiveDir} folder`,
+              exec: `cp dist/js/${packageFileNameSlug}-$(cat dist/version.txt).tgz ${this.localPackageArchiveDir}/.`,
             },
+          ],
+        });
+
+        // add the publish:local task to the release task
+        const publishLocalTask = this.tasks.tryFind("publish:local");
+        const publishTask = this.tasks.tryFind("release");
+        if (publishTask && publishLocalTask) {
+          publishTask.spawn(publishLocalTask);
+        }
+
+        // add a condition to the publish:git task so that it only runs if the current branch is "main"
+        const publishGitTask = this.tasks.tryFind("publish:git");
+        if (publishGitTask) {
+          publishGitTask.addCondition(
+            'test "$(git branch --show-current)" = "main"',
           );
         }
         break;
