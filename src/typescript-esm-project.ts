@@ -122,7 +122,7 @@ export interface TypeScriptESMProjectOptions
   /**
    * Release to Github when running release tasks
    *
-   * @default false
+   * @default true if `repository` is set, `false` otherwise
    */
   readonly releaseToGithub?: boolean;
 }
@@ -463,7 +463,8 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
         this.adjustPublishGitTask();
 
         // if publishing local, create another task to handle copying to a local package archive folder
-        if (options.releaseToLocal) {
+        const releaseToLocal: boolean = options.releaseToLocal ?? true;
+        if (releaseToLocal) {
           this.createPublishLocalTask(options.publishDryRun ?? false);
         }
 
@@ -501,7 +502,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
       steps: [
         {
           name: `copy package to ${this.localPackageArchiveDir} folder (dryrun: ${publishDryRun})`,
-          exec: `${publishDryRun && "echo "}cp dist/js/${packageFileNameSlug}-$(cat dist/version.txt).tgz ${this.localPackageArchiveDir}/.`,
+          exec: `${publishDryRun ? "echo " : ""}cp dist/js/${packageFileNameSlug}-$(cat dist/version.txt).tgz ${this.localPackageArchiveDir}/.`,
         },
       ],
     });
