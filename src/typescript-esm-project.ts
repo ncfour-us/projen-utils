@@ -433,6 +433,9 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
 
     // implement the specified repository build and packaging model
     switch (this.repoBuildPackageModel) {
+      case RepoBuildPackageModel.SKIP_SETUP:
+        // no additional actions needed here
+        break;
       case RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY:
         this.addPackageIgnore("CHANGELOG.md");
         const publishTask = this.tasks.tryFind("publish:git");
