@@ -4830,7 +4830,7 @@ public readonly releaseToGithub: boolean;
 ```
 
 - *Type:* boolean
-- *Default:* false
+- *Default:* true if `repository` is set, `false` otherwise
 
 Release to Github when running release tasks.
 
@@ -4959,4 +4959,3 @@ Skip any build/release configuration that is offered by the TypeScriptESMProject
 completely local git repository, no remote repo, no GitHub actions, manual releases, no package registry (but copy to local archive "registry").
 
 ---
-
