@@ -473,7 +473,9 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
         }
 
         // if publishing to Github, add the task
-        if (options.releaseToGithub) {
+        const releaseToGithub: boolean =
+          options.releaseToGithub ?? (options.repository ? true : false);
+        if (releaseToGithub) {
           this.createPublishGithubTask(
             options.repository,
             options.publishDryRun ?? false,
