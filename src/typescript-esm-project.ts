@@ -563,14 +563,13 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
       );
     }
 
+    command =
+      "gh release create $(cat dist/releasetag.txt) --notes-file dist/changelog.md --title $(cat dist/releasetag.txt) --verify-tag";
     if (publishDryRun) {
-      command = `would run gh release to -R ${repository} `;
-    } else {
-      command = `github_sha=$(git -1 --oneline | cut -f1 -d" "); errout=$(mktemp); gh release create $(cat dist/releasetag.txt) -R ${repository} -F dist/changelog.md -t $(cat dist/releasetag.txt) --target $github_sha 2> $errout && true; exitcode=$?; if [ $exitcode -ne 0 ] && ! grep -q \"Release.tag_name already exists\" $errout; then cat $errout; exit $exitcode; fi`;
+      command = `echo ${command}`;
     }
     this.addTask("publish:github", {
       description: "Publish this package to GitHub Releases",
-      requiredEnv: ["GITHUB_TOKEN"],
       condition:
         'test -f "dist/version.txt" && test "$(git branch --show-current)" = "main"',
       steps: [
