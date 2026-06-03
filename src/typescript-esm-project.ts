@@ -540,7 +540,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
         'test -f "dist/version.txt" && test "$(git branch --show-current)" = "main"',
       steps: [
         {
-          exec: `npm publish ${publishDryRun && "--dry-run"} dist/js/${packageFileNameSlug}-$(cat dist/version.txt).tgz`,
+          exec: `npm publish${publishDryRun ? " --dry-run" : ""} dist/js/${packageFileNameSlug}-$(cat dist/version.txt).tgz`,
         },
       ],
     });
