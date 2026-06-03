@@ -4830,7 +4830,7 @@ public readonly releaseToGithub: boolean;
 ```
 
 - *Type:* boolean
-- *Default:* false
+- *Default:* true if `repository` is set, `false` otherwise
 
 Release to Github when running release tasks.
 
