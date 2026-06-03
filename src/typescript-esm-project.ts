@@ -534,7 +534,6 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
       env: {
         NPM_DIST_TAG: "latest",
         NPM_REGISTRY: "registry.npmjs.org",
-        NPM_CONFIG_PROVENANCE: "true",
       },
       condition:
         'test -f "dist/version.txt" && test "$(git branch --show-current)" = "main"',
