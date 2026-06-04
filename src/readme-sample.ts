@@ -71,8 +71,6 @@ export class ReadmeSampleFile extends SampleFile {
   ): Component | undefined {
     const candidate = ReadmeSampleFile.tryFindSampleReadme(project, filePath);
 
-    console.log(`candidate: ${candidate?.node.id}`);
-
     if (candidate) {
       candidate.node.scope?.node.tryRemoveChild(candidate.node.id);
       return candidate;

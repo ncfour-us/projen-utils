@@ -10,7 +10,10 @@ import { TypeScriptProject } from "projen/lib/typescript";
 
 import { sampleReadmeProps, ReadmeSampleFile } from "../src/readme-sample";
 
-test("readme all options specified, getSampleReadmeProps() method", () => {
+test("readme all options specified, sampleReadmeProps() function", () => {
+  // Arrange - Given
+
+  // Act - When
   const project = new TypeScriptProject({
     name: "test-project",
     description: "test-project description",
@@ -34,12 +37,11 @@ test("readme all options specified, getSampleReadmeProps() method", () => {
     }),
   });
 
+  // Assert - Then
   const snapshot = Testing.synth(project);
 
   // get information from synthed project
   const synthedReadme = snapshot["README.md"];
-
-  console.log(synthedReadme);
 
   const authorExists = synthedReadme.search(/someone/);
   const organizationExists = synthedReadme.search(/test-organization/);
@@ -50,6 +52,7 @@ test("readme all options specified, getSampleReadmeProps() method", () => {
 });
 
 test("readme all options specified, ReadmeSampleFile() construct", () => {
+  // Arrange - Given
   const project = new TypeScriptProject({
     name: "test-project",
     description: "test-project description",
@@ -66,6 +69,7 @@ test("readme all options specified, ReadmeSampleFile() construct", () => {
     // will DEFAULT to creating a "README.md" file.
   });
 
+  // Act - When
   new ReadmeSampleFile(project, {
     author: "authorName",
     license: "MIT",
@@ -78,6 +82,7 @@ test("readme all options specified, ReadmeSampleFile() construct", () => {
 
   const snapshot = Testing.synth(project);
 
+  // Assert - Then
   // get information from synthed project
   const synthedReadme = snapshot["README.md"];
 
