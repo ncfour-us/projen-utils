@@ -11,3 +11,8 @@ export {
   PreCommitConfigFileOptions,
   PreCommitConfigFileTypes,
 } from "./pre-commit-config";
+export {
+  ReadmeSampleFile,
+  ReadmeSampleFileOptions,
+  sampleReadmeProps,
+} from "./readme-sample";
