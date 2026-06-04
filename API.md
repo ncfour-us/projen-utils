@@ -2,6 +2,514 @@
 
 ## Constructs <a name="Constructs" id="Constructs"></a>
 
+### PnpmWorkspace <a name="PnpmWorkspace" id="@ncfour-us/projen-utils.PnpmWorkspace"></a>
+
+This construct defines a README.md sample file for the project.
+
+By creating this file, the `README.md` file at the top of the
+project will contain a set of sections which are typical
+for TypeScript projects.
+
+#### Initializers <a name="Initializers" id="@ncfour-us/projen-utils.PnpmWorkspace.Initializer"></a>
+
+```typescript
+import { PnpmWorkspace } from '@ncfour-us/projen-utils'
+
+new PnpmWorkspace(project: Project, options?: PnpmWorkspaceOptions)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.Initializer.parameter.project">project</a></code> | <code>projen.Project</code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.Initializer.parameter.options">options</a></code> | <code><a href="#@ncfour-us/projen-utils.PnpmWorkspaceOptions">PnpmWorkspaceOptions</a></code> | options to set various settings in pnpm-workspace.yaml. |
+
+---
+
+##### `project`<sup>Required</sup> <a name="project" id="@ncfour-us/projen-utils.PnpmWorkspace.Initializer.parameter.project"></a>
+
+- *Type:* projen.Project
+
+---
+
+##### `options`<sup>Optional</sup> <a name="options" id="@ncfour-us/projen-utils.PnpmWorkspace.Initializer.parameter.options"></a>
+
+- *Type:* <a href="#@ncfour-us/projen-utils.PnpmWorkspaceOptions">PnpmWorkspaceOptions</a>
+
+options to set various settings in pnpm-workspace.yaml.
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.with">with</a></code> | Applies one or more mixins to this construct. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.postSynthesize">postSynthesize</a></code> | Called after synthesis. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.preSynthesize">preSynthesize</a></code> | Called before synthesis. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.synthesize">synthesize</a></code> | Writes the file to the project's output directory. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.diff">diff</a></code> | Returns a unified diff of the old and new file contents with context lines and hunk headers. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.addDeletionOverride">addDeletionOverride</a></code> | Syntactic sugar for `addOverride(path, undefined)`. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.addOverride">addOverride</a></code> | Adds an override to the synthesized object file. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.addToArray">addToArray</a></code> | Adds to an array in the synthesized object file. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.patch">patch</a></code> | Applies an RFC 6902 JSON-patch to the synthesized object file. See https://datatracker.ietf.org/doc/html/rfc6902 for more information. |
+
+---
+
+##### `toString` <a name="toString" id="@ncfour-us/projen-utils.PnpmWorkspace.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@ncfour-us/projen-utils.PnpmWorkspace.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@ncfour-us/projen-utils.PnpmWorkspace.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+The mixins to apply.
+
+---
+
+##### `postSynthesize` <a name="postSynthesize" id="@ncfour-us/projen-utils.PnpmWorkspace.postSynthesize"></a>
+
+```typescript
+public postSynthesize(): void
+```
+
+Called after synthesis.
+
+Order is *not* guaranteed.
+
+##### `preSynthesize` <a name="preSynthesize" id="@ncfour-us/projen-utils.PnpmWorkspace.preSynthesize"></a>
+
+```typescript
+public preSynthesize(): void
+```
+
+Called before synthesis.
+
+##### `synthesize` <a name="synthesize" id="@ncfour-us/projen-utils.PnpmWorkspace.synthesize"></a>
+
+```typescript
+public synthesize(): void
+```
+
+Writes the file to the project's output directory.
+
+##### `diff` <a name="diff" id="@ncfour-us/projen-utils.PnpmWorkspace.diff"></a>
+
+```typescript
+public diff(colorize?: boolean, contextLines?: number): string[]
+```
+
+Returns a unified diff of the old and new file contents with context lines and hunk headers.
+
+Only available after synthesis.
+
+This is an expensive operation and should only be used on non time-critical
+code paths, like debug output.
+
+###### `colorize`<sup>Optional</sup> <a name="colorize" id="@ncfour-us/projen-utils.PnpmWorkspace.diff.parameter.colorize"></a>
+
+- *Type:* boolean
+
+Whether to colorize the diff output.
+
+---
+
+###### `contextLines`<sup>Optional</sup> <a name="contextLines" id="@ncfour-us/projen-utils.PnpmWorkspace.diff.parameter.contextLines"></a>
+
+- *Type:* number
+
+Number of context lines around changes.
+
+---
+
+##### `addDeletionOverride` <a name="addDeletionOverride" id="@ncfour-us/projen-utils.PnpmWorkspace.addDeletionOverride"></a>
+
+```typescript
+public addDeletionOverride(path: string): void
+```
+
+Syntactic sugar for `addOverride(path, undefined)`.
+
+###### `path`<sup>Required</sup> <a name="path" id="@ncfour-us/projen-utils.PnpmWorkspace.addDeletionOverride.parameter.path"></a>
+
+- *Type:* string
+
+The path of the value to delete.
+
+---
+
+##### `addOverride` <a name="addOverride" id="@ncfour-us/projen-utils.PnpmWorkspace.addOverride"></a>
+
+```typescript
+public addOverride(path: string, value: any): void
+```
+
+Adds an override to the synthesized object file.
+
+If the override is nested, separate each nested level using a dot (.) in the path parameter.
+If there is an array as part of the nesting, specify the index in the path.
+
+To include a literal `.` in the property name, prefix with a `\`. In most
+programming languages you will need to write this as `"\\."` because the
+`\` itself will need to be escaped.
+
+For example,
+```typescript
+project.tsconfig.file.addOverride('compilerOptions.alwaysStrict', true);
+project.tsconfig.file.addOverride('compilerOptions.lib', ['dom', 'dom.iterable', 'esnext']);
+```
+would add the overrides
+```json
+"compilerOptions": {
+  "alwaysStrict": true,
+  "lib": [
+    "dom",
+    "dom.iterable",
+    "esnext"
+  ]
+  ...
+}
+...
+```
+
+###### `path`<sup>Required</sup> <a name="path" id="@ncfour-us/projen-utils.PnpmWorkspace.addOverride.parameter.path"></a>
+
+- *Type:* string
+
+The path of the property, you can use dot notation to override values in complex types.
+
+Any intermediate keys
+will be created as needed.
+
+---
+
+###### `value`<sup>Required</sup> <a name="value" id="@ncfour-us/projen-utils.PnpmWorkspace.addOverride.parameter.value"></a>
+
+- *Type:* any
+
+The value.
+
+Could be primitive or complex.
+
+---
+
+##### `addToArray` <a name="addToArray" id="@ncfour-us/projen-utils.PnpmWorkspace.addToArray"></a>
+
+```typescript
+public addToArray(path: string, values: ...any[]): void
+```
+
+Adds to an array in the synthesized object file.
+
+If the array is nested, separate each nested level using a dot (.) in the path parameter.
+If there is an array as part of the nesting, specify the index in the path.
+
+To include a literal `.` in the property name, prefix with a `\`. In most
+programming languages you will need to write this as `"\\."` because the
+`\` itself will need to be escaped.
+
+For example, with the following object file
+```json
+"compilerOptions": {
+  "exclude": ["node_modules"],
+  "lib": ["es2020"]
+  ...
+}
+...
+```
+
+```typescript
+project.tsconfig.file.addToArray('compilerOptions.exclude', 'coverage');
+project.tsconfig.file.addToArray('compilerOptions.lib', 'dom', 'dom.iterable', 'esnext');
+```
+would result in the following object file
+```json
+"compilerOptions": {
+  "exclude": ["node_modules", "coverage"],
+  "lib": ["es2020", "dom", "dom.iterable", "esnext"]
+  ...
+}
+...
+```
+
+###### `path`<sup>Required</sup> <a name="path" id="@ncfour-us/projen-utils.PnpmWorkspace.addToArray.parameter.path"></a>
+
+- *Type:* string
+
+The path of the property, you can use dot notation to att to arrays in complex types.
+
+Any intermediate keys
+will be created as needed.
+
+---
+
+###### `values`<sup>Required</sup> <a name="values" id="@ncfour-us/projen-utils.PnpmWorkspace.addToArray.parameter.values"></a>
+
+- *Type:* ...any[]
+
+The values to add.
+
+Could be primitive or complex.
+
+---
+
+##### `patch` <a name="patch" id="@ncfour-us/projen-utils.PnpmWorkspace.patch"></a>
+
+```typescript
+public patch(patches: ...JsonPatch[]): void
+```
+
+Applies an RFC 6902 JSON-patch to the synthesized object file. See https://datatracker.ietf.org/doc/html/rfc6902 for more information.
+
+For example, with the following object file
+```json
+"compilerOptions": {
+  "exclude": ["node_modules"],
+  "lib": ["es2020"]
+  ...
+}
+...
+```
+
+```typescript
+project.tsconfig.file.patch(JsonPatch.add("/compilerOptions/exclude/-", "coverage"));
+project.tsconfig.file.patch(JsonPatch.replace("/compilerOptions/lib", ["dom", "dom.iterable", "esnext"]));
+```
+would result in the following object file
+```json
+"compilerOptions": {
+  "exclude": ["node_modules", "coverage"],
+  "lib": ["dom", "dom.iterable", "esnext"]
+  ...
+}
+...
+```
+
+###### `patches`<sup>Required</sup> <a name="patches" id="@ncfour-us/projen-utils.PnpmWorkspace.patch.parameter.patches"></a>
+
+- *Type:* ...projen.JsonPatch[]
+
+The patch operations to apply.
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.isComponent">isComponent</a></code> | Test whether the given construct is a component. |
+
+---
+
+##### `isConstruct` <a name="isConstruct" id="@ncfour-us/projen-utils.PnpmWorkspace.isConstruct"></a>
+
+```typescript
+import { PnpmWorkspace } from '@ncfour-us/projen-utils'
+
+PnpmWorkspace.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+###### `x`<sup>Required</sup> <a name="x" id="@ncfour-us/projen-utils.PnpmWorkspace.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isComponent` <a name="isComponent" id="@ncfour-us/projen-utils.PnpmWorkspace.isComponent"></a>
+
+```typescript
+import { PnpmWorkspace } from '@ncfour-us/projen-utils'
+
+PnpmWorkspace.isComponent(x: any)
+```
+
+Test whether the given construct is a component.
+
+###### `x`<sup>Required</sup> <a name="x" id="@ncfour-us/projen-utils.PnpmWorkspace.isComponent.parameter.x"></a>
+
+- *Type:* any
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.property.project">project</a></code> | <code>projen.Project</code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.property.absolutePath">absolutePath</a></code> | <code>string</code> | The absolute path of this file. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.property.path">path</a></code> | <code>string</code> | The file path, relative to the project's outdir. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.property.changed">changed</a></code> | <code>boolean</code> | Indicates if the file has been changed during synthesis. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.property.marker">marker</a></code> | <code>string</code> | The projen marker, used to identify files as projen-generated. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.property.executable">executable</a></code> | <code>boolean</code> | Indicates if the file should be marked as executable. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.property.readonly">readonly</a></code> | <code>boolean</code> | Indicates if the file should be read-only or read-write. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.property.omitEmpty">omitEmpty</a></code> | <code>boolean</code> | Indicates if empty objects and arrays are omitted from the output object. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspace.property.lineWidth">lineWidth</a></code> | <code>number</code> | Maximum line width (set to 0 to disable folding). |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="@ncfour-us/projen-utils.PnpmWorkspace.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `project`<sup>Required</sup> <a name="project" id="@ncfour-us/projen-utils.PnpmWorkspace.property.project"></a>
+
+```typescript
+public readonly project: Project;
+```
+
+- *Type:* projen.Project
+
+---
+
+##### `absolutePath`<sup>Required</sup> <a name="absolutePath" id="@ncfour-us/projen-utils.PnpmWorkspace.property.absolutePath"></a>
+
+```typescript
+public readonly absolutePath: string;
+```
+
+- *Type:* string
+
+The absolute path of this file.
+
+---
+
+##### `path`<sup>Required</sup> <a name="path" id="@ncfour-us/projen-utils.PnpmWorkspace.property.path"></a>
+
+```typescript
+public readonly path: string;
+```
+
+- *Type:* string
+
+The file path, relative to the project's outdir.
+
+---
+
+##### `changed`<sup>Optional</sup> <a name="changed" id="@ncfour-us/projen-utils.PnpmWorkspace.property.changed"></a>
+
+```typescript
+public readonly changed: boolean;
+```
+
+- *Type:* boolean
+
+Indicates if the file has been changed during synthesis.
+
+This property is
+only available in `postSynthesize()` hooks. If this is `undefined`, the
+file has not been synthesized yet.
+
+---
+
+##### `marker`<sup>Optional</sup> <a name="marker" id="@ncfour-us/projen-utils.PnpmWorkspace.property.marker"></a>
+
+```typescript
+public readonly marker: string;
+```
+
+- *Type:* string
+
+The projen marker, used to identify files as projen-generated.
+
+Value is undefined if the project is being ejected.
+
+---
+
+##### `executable`<sup>Required</sup> <a name="executable" id="@ncfour-us/projen-utils.PnpmWorkspace.property.executable"></a>
+
+```typescript
+public readonly executable: boolean;
+```
+
+- *Type:* boolean
+
+Indicates if the file should be marked as executable.
+
+---
+
+##### `readonly`<sup>Required</sup> <a name="readonly" id="@ncfour-us/projen-utils.PnpmWorkspace.property.readonly"></a>
+
+```typescript
+public readonly readonly: boolean;
+```
+
+- *Type:* boolean
+
+Indicates if the file should be read-only or read-write.
+
+---
+
+##### `omitEmpty`<sup>Required</sup> <a name="omitEmpty" id="@ncfour-us/projen-utils.PnpmWorkspace.property.omitEmpty"></a>
+
+```typescript
+public readonly omitEmpty: boolean;
+```
+
+- *Type:* boolean
+
+Indicates if empty objects and arrays are omitted from the output object.
+
+---
+
+##### `lineWidth`<sup>Required</sup> <a name="lineWidth" id="@ncfour-us/projen-utils.PnpmWorkspace.property.lineWidth"></a>
+
+```typescript
+public readonly lineWidth: number;
+```
+
+- *Type:* number
+
+Maximum line width (set to 0 to disable folding).
+
+---
+
+
 ### PreCommitConfigFile <a name="PreCommitConfigFile" id="@ncfour-us/projen-utils.PreCommitConfigFile"></a>
 
 This construct sets up the project to include a `.pre-commit-config.yaml` file at the top of the project.
@@ -2415,6 +2923,96 @@ public readonly name: string;
 - *Type:* string
 
 name of the command.
+
+---
+
+### PnpmWorkspaceOptions <a name="PnpmWorkspaceOptions" id="@ncfour-us/projen-utils.PnpmWorkspaceOptions"></a>
+
+Used to configure the PreCommitConfigFile construct.
+
+If any values are NOT set, then the associated markers
+in the sample file will NOT be replaced.  This allows
+an author to easily find and replace those values
+when updating the file after the project has been
+synthesized.
+
+#### Initializer <a name="Initializer" id="@ncfour-us/projen-utils.PnpmWorkspaceOptions.Initializer"></a>
+
+```typescript
+import { PnpmWorkspaceOptions } from '@ncfour-us/projen-utils'
+
+const pnpmWorkspaceOptions: PnpmWorkspaceOptions = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspaceOptions.property.allowBuilds">allowBuilds</a></code> | <code>{[ key: string ]: boolean}</code> | pnpm.allowBuilds value for pnpm-workspace.yaml. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspaceOptions.property.blockExoticSubdeps">blockExoticSubdeps</a></code> | <code>number</code> | pnpm.blockExoticSubdeps value for pnpm-workspace.yaml. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspaceOptions.property.minimumReleaseAge">minimumReleaseAge</a></code> | <code>number</code> | pnpm.minimumReleaseAge value for pnpm-workspace.yaml. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspaceOptions.property.packages">packages</a></code> | <code>string[]</code> | package folders for the monorepo workspace. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspaceOptions.property.trustPolicy">trustPolicy</a></code> | <code>string</code> | pnpm.trustPolicy value for pnpm-workspace.yaml. |
+
+---
+
+##### `allowBuilds`<sup>Optional</sup> <a name="allowBuilds" id="@ncfour-us/projen-utils.PnpmWorkspaceOptions.property.allowBuilds"></a>
+
+```typescript
+public readonly allowBuilds: {[ key: string ]: boolean};
+```
+
+- *Type:* {[ key: string ]: boolean}
+
+pnpm.allowBuilds value for pnpm-workspace.yaml.
+
+---
+
+##### `blockExoticSubdeps`<sup>Optional</sup> <a name="blockExoticSubdeps" id="@ncfour-us/projen-utils.PnpmWorkspaceOptions.property.blockExoticSubdeps"></a>
+
+```typescript
+public readonly blockExoticSubdeps: number;
+```
+
+- *Type:* number
+
+pnpm.blockExoticSubdeps value for pnpm-workspace.yaml.
+
+---
+
+##### `minimumReleaseAge`<sup>Optional</sup> <a name="minimumReleaseAge" id="@ncfour-us/projen-utils.PnpmWorkspaceOptions.property.minimumReleaseAge"></a>
+
+```typescript
+public readonly minimumReleaseAge: number;
+```
+
+- *Type:* number
+
+pnpm.minimumReleaseAge value for pnpm-workspace.yaml.
+
+---
+
+##### `packages`<sup>Optional</sup> <a name="packages" id="@ncfour-us/projen-utils.PnpmWorkspaceOptions.property.packages"></a>
+
+```typescript
+public readonly packages: string[];
+```
+
+- *Type:* string[]
+
+package folders for the monorepo workspace.
+
+---
+
+##### `trustPolicy`<sup>Optional</sup> <a name="trustPolicy" id="@ncfour-us/projen-utils.PnpmWorkspaceOptions.property.trustPolicy"></a>
+
+```typescript
+public readonly trustPolicy: string;
+```
+
+- *Type:* string
+
+pnpm.trustPolicy value for pnpm-workspace.yaml.
 
 ---
 
