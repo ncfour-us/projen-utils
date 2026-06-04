@@ -521,6 +521,212 @@ Maximum line width (set to 0 to disable folding).
 ---
 
 
+### ReadmeSampleFile <a name="ReadmeSampleFile" id="@ncfour-us/projen-utils.ReadmeSampleFile"></a>
+
+This construct defines a README.md sample file for the project.
+
+By creating this file, the `README.md` file at the top of the
+project will contain a set of sections which are typical
+for TypeScript projects.
+
+#### Initializers <a name="Initializers" id="@ncfour-us/projen-utils.ReadmeSampleFile.Initializer"></a>
+
+```typescript
+import { ReadmeSampleFile } from '@ncfour-us/projen-utils'
+
+new ReadmeSampleFile(project: Project, options?: ReadmeSampleFileOptions)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFile.Initializer.parameter.project">project</a></code> | <code>projen.Project</code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFile.Initializer.parameter.options">options</a></code> | <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFileOptions">ReadmeSampleFileOptions</a></code> | options to replace place-holders in the file. |
+
+---
+
+##### `project`<sup>Required</sup> <a name="project" id="@ncfour-us/projen-utils.ReadmeSampleFile.Initializer.parameter.project"></a>
+
+- *Type:* projen.Project
+
+---
+
+##### `options`<sup>Optional</sup> <a name="options" id="@ncfour-us/projen-utils.ReadmeSampleFile.Initializer.parameter.options"></a>
+
+- *Type:* <a href="#@ncfour-us/projen-utils.ReadmeSampleFileOptions">ReadmeSampleFileOptions</a>
+
+options to replace place-holders in the file.
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFile.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFile.with">with</a></code> | Applies one or more mixins to this construct. |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFile.postSynthesize">postSynthesize</a></code> | Called after synthesis. |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFile.preSynthesize">preSynthesize</a></code> | Called before synthesis. |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFile.synthesize">synthesize</a></code> | Synthesizes files to the project output directory. |
+
+---
+
+##### `toString` <a name="toString" id="@ncfour-us/projen-utils.ReadmeSampleFile.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@ncfour-us/projen-utils.ReadmeSampleFile.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@ncfour-us/projen-utils.ReadmeSampleFile.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+The mixins to apply.
+
+---
+
+##### `postSynthesize` <a name="postSynthesize" id="@ncfour-us/projen-utils.ReadmeSampleFile.postSynthesize"></a>
+
+```typescript
+public postSynthesize(): void
+```
+
+Called after synthesis.
+
+Order is *not* guaranteed.
+
+##### `preSynthesize` <a name="preSynthesize" id="@ncfour-us/projen-utils.ReadmeSampleFile.preSynthesize"></a>
+
+```typescript
+public preSynthesize(): void
+```
+
+Called before synthesis.
+
+##### `synthesize` <a name="synthesize" id="@ncfour-us/projen-utils.ReadmeSampleFile.synthesize"></a>
+
+```typescript
+public synthesize(): void
+```
+
+Synthesizes files to the project output directory.
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFile.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFile.isComponent">isComponent</a></code> | Test whether the given construct is a component. |
+
+---
+
+##### `isConstruct` <a name="isConstruct" id="@ncfour-us/projen-utils.ReadmeSampleFile.isConstruct"></a>
+
+```typescript
+import { ReadmeSampleFile } from '@ncfour-us/projen-utils'
+
+ReadmeSampleFile.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+###### `x`<sup>Required</sup> <a name="x" id="@ncfour-us/projen-utils.ReadmeSampleFile.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isComponent` <a name="isComponent" id="@ncfour-us/projen-utils.ReadmeSampleFile.isComponent"></a>
+
+```typescript
+import { ReadmeSampleFile } from '@ncfour-us/projen-utils'
+
+ReadmeSampleFile.isComponent(x: any)
+```
+
+Test whether the given construct is a component.
+
+###### `x`<sup>Required</sup> <a name="x" id="@ncfour-us/projen-utils.ReadmeSampleFile.isComponent.parameter.x"></a>
+
+- *Type:* any
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFile.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFile.property.project">project</a></code> | <code>projen.Project</code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFile.property.sampleReadmeProps">sampleReadmeProps</a></code> | <code>projen.SampleReadmeProps</code> | This getter could be used to pass the result of creating this Construct to another project's constructor. |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="@ncfour-us/projen-utils.ReadmeSampleFile.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `project`<sup>Required</sup> <a name="project" id="@ncfour-us/projen-utils.ReadmeSampleFile.property.project"></a>
+
+```typescript
+public readonly project: Project;
+```
+
+- *Type:* projen.Project
+
+---
+
+##### `sampleReadmeProps`<sup>Required</sup> <a name="sampleReadmeProps" id="@ncfour-us/projen-utils.ReadmeSampleFile.property.sampleReadmeProps"></a>
+
+```typescript
+public readonly sampleReadmeProps: SampleReadmeProps;
+```
+
+- *Type:* projen.SampleReadmeProps
+
+This getter could be used to pass the result of creating this Construct to another project's constructor.
+
+---
+
+
 ### TypeScriptESMProject <a name="TypeScriptESMProject" id="@ncfour-us/projen-utils.TypeScriptESMProject"></a>
 
 TypeScript ESM project.
@@ -2254,6 +2460,135 @@ public readonly packageManager: NodePackageManager;
 - *Type:* projen.javascript.NodePackageManager
 
 For JavaScript and/or TypeScript support, the package manager defined for the project.
+
+---
+
+### ReadmeSampleFileOptions <a name="ReadmeSampleFileOptions" id="@ncfour-us/projen-utils.ReadmeSampleFileOptions"></a>
+
+Used to configure the PreCommitConfigFile construct.
+
+If any values are NOT set, then the associated markers
+in the sample file will NOT be replaced.  This allows
+an author to easily find and replace those values
+when updating the file after the project has been
+synthesized.
+
+#### Initializer <a name="Initializer" id="@ncfour-us/projen-utils.ReadmeSampleFileOptions.Initializer"></a>
+
+```typescript
+import { ReadmeSampleFileOptions } from '@ncfour-us/projen-utils'
+
+const readmeSampleFileOptions: ReadmeSampleFileOptions = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.author">author</a></code> | <code>string</code> | Author of the project. |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.authorEmail">authorEmail</a></code> | <code>string</code> | Author e-mail for the project. |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.authorGithubUser">authorGithubUser</a></code> | <code>string</code> | Author github user for the project. |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.filename">filename</a></code> | <code>string</code> | filename of the Readme sample file. |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.license">license</a></code> | <code>string</code> | Designated license for the project. |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.namespace">namespace</a></code> | <code>string</code> | Namespace/organization/user associated with the Git repository. |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.organization">organization</a></code> | <code>string</code> | Namespace/organization/user associated with the Git repository. |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.project">project</a></code> | <code>string</code> | Name of the Git repository. |
+
+---
+
+##### `author`<sup>Optional</sup> <a name="author" id="@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.author"></a>
+
+```typescript
+public readonly author: string;
+```
+
+- *Type:* string
+
+Author of the project.
+
+---
+
+##### `authorEmail`<sup>Optional</sup> <a name="authorEmail" id="@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.authorEmail"></a>
+
+```typescript
+public readonly authorEmail: string;
+```
+
+- *Type:* string
+
+Author e-mail for the project.
+
+---
+
+##### `authorGithubUser`<sup>Optional</sup> <a name="authorGithubUser" id="@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.authorGithubUser"></a>
+
+```typescript
+public readonly authorGithubUser: string;
+```
+
+- *Type:* string
+
+Author github user for the project.
+
+---
+
+##### `filename`<sup>Optional</sup> <a name="filename" id="@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.filename"></a>
+
+```typescript
+public readonly filename: string;
+```
+
+- *Type:* string
+
+filename of the Readme sample file.
+
+---
+
+##### `license`<sup>Optional</sup> <a name="license" id="@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.license"></a>
+
+```typescript
+public readonly license: string;
+```
+
+- *Type:* string
+
+Designated license for the project.
+
+---
+
+##### `namespace`<sup>Optional</sup> <a name="namespace" id="@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.namespace"></a>
+
+```typescript
+public readonly namespace: string;
+```
+
+- *Type:* string
+
+Namespace/organization/user associated with the Git repository.
+
+---
+
+##### `organization`<sup>Optional</sup> <a name="organization" id="@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.organization"></a>
+
+```typescript
+public readonly organization: string;
+```
+
+- *Type:* string
+
+Namespace/organization/user associated with the Git repository.
+
+---
+
+##### `project`<sup>Optional</sup> <a name="project" id="@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.project"></a>
+
+```typescript
+public readonly project: string;
+```
+
+- *Type:* string
+
+Name of the Git repository.
 
 ---
 

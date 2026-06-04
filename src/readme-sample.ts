@@ -2,10 +2,17 @@
 
 import { readFileSync } from "node:fs";
 
-import { SampleFile, Project, SampleReadmeProps } from "projen";
+import { IConstruct } from "constructs";
+import { SampleFile, Project, SampleReadmeProps, Component } from "projen";
 
 /**
  * Used to configure the PreCommitConfigFile construct
+ *
+ * If any values are NOT set, then the associated markers
+ * in the sample file will NOT be replaced.  This allows
+ * an author to easily find and replace those values
+ * when updating the file after the project has been
+ * synthesized.
  */
 export interface ReadmeSampleFileOptions {
   /**
@@ -28,12 +35,24 @@ export interface ReadmeSampleFileOptions {
    */
   readonly organization?: string;
 
+  /**
+   * Author of the project.
+   */
   readonly author?: string;
 
+  /**
+   * Author e-mail for the project.
+   */
   readonly authorEmail?: string;
 
+  /**
+   * Author github user for the project.
+   */
   readonly authorGithubUser?: string;
 
+  /**
+   * Designated license for the project.
+   */
   readonly license?: string;
 }
 
@@ -45,6 +64,53 @@ export interface ReadmeSampleFileOptions {
  * for TypeScript projects.
  */
 export class ReadmeSampleFile extends SampleFile {
+  // static methods for walking the Component tree to find the SampleReadme
+  private static tryRemoveSampleReadme(
+    project: Project,
+    filePath: string,
+  ): Component | undefined {
+    const candidate = ReadmeSampleFile.tryFindSampleReadme(project, filePath);
+
+    console.log(`candidate: ${candidate?.node.id}`);
+
+    if (candidate) {
+      candidate.node.scope?.node.tryRemoveChild(candidate.node.id);
+      return candidate;
+    }
+
+    return undefined;
+  }
+
+  private static tryFindSampleReadme(
+    project: Project,
+    filePath: string,
+  ): Component | undefined {
+    // use the components getter to get all the components in the project
+    // go through the components, looking for a SampleReadme object
+    // with filePath attribute which matches the supplied filePath
+    const candidate: Component = project.components.find((c: IConstruct) => {
+      // determine if the item is a SampleReadme
+      let foundFilePath: [string, any] | undefined;
+      if (isComponent(c) && c.node.id.toString().startsWith("SampleReadme")) {
+        // we have a possible candidate, now check if the filePath matches
+        const objEntries = Object.entries(c);
+        foundFilePath = objEntries.find((entry) => {
+          return entry[0] === "filePath" && entry[1] === filePath;
+        });
+      }
+
+      // the construct meets both criteria, return true
+      if (foundFilePath) {
+        return true;
+      }
+
+      return false;
+    }) as Component;
+
+    return candidate;
+  }
+
+  // private members
   private readonly filename: string;
   private readonly fileContents: string;
 
@@ -59,6 +125,12 @@ export class ReadmeSampleFile extends SampleFile {
 
     const fileContents: string = generateFileContents(options);
 
+    // if there is already a SampleReadme construct, with the specified filename
+    // try to remove it before calling the SampleFile constructor
+    // Since a SampleFile is a Component, NOT a FileBase, tryRemoveFile()
+    // will not find the SampleReadme construct.
+    ReadmeSampleFile.tryRemoveSampleReadme(project, filename);
+
     super(project, filename, {
       contents: fileContents,
     });
@@ -67,7 +139,14 @@ export class ReadmeSampleFile extends SampleFile {
     this.fileContents = fileContents;
   }
 
-  getSampleReadmeProps(): SampleReadmeProps {
+  /**
+   *
+   * This getter could be used to pass the result of creating this Construct
+   * to another project's constructor.
+   *
+   * @returns SampleReadmeProps to be passed to the `readme` property on Project constructors
+   */
+  public get sampleReadmeProps(): SampleReadmeProps {
     return {
       filename: this.filename,
       contents: this.fileContents,
@@ -75,7 +154,15 @@ export class ReadmeSampleFile extends SampleFile {
   }
 }
 
-export function getSampleReadmeProps(
+/**
+ *
+ * This function is used to pass the result of creating this Construct
+ * to another project's constructor.
+ *
+ * @param options ReadmeSampleFileOptions to be used in adjusting the README file
+ * @returns SampleFileReadmeProps to be used in a Project constructor
+ */
+export function sampleReadmeProps(
   options?: ReadmeSampleFileOptions,
 ): SampleReadmeProps {
   return {
@@ -125,3 +212,13 @@ function replaceAll(
 
   return source.replace(regExp, replacement);
 }
+
+// This code was copied from the projen project as a way
+// of determining if a given node in a Construct tree
+// is a projen component.
+const COMPONENT_SYMBOL = Symbol.for("projen.Component");
+
+function isComponent(x: unknown): x is Component {
+  return x !== null && typeof x === "object" && COMPONENT_SYMBOL in x;
+}
+// End copied code

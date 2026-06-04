@@ -8,9 +8,9 @@ import { Testing } from "projen/lib/testing";
 
 import { TypeScriptProject } from "projen/lib/typescript";
 
-import { getSampleReadmeProps } from "../src/readme-sample";
+import { sampleReadmeProps, ReadmeSampleFile } from "../src/readme-sample";
 
-test("readme all options specified", () => {
+test("readme all options specified, getSampleReadmeProps() method", () => {
   const project = new TypeScriptProject({
     name: "test-project",
     description: "test-project description",
@@ -23,34 +23,16 @@ test("readme all options specified", () => {
     // enable prettier
     prettier: true,
 
-    readme: getSampleReadmeProps({
-      author: "tim",
+    readme: sampleReadmeProps({
+      author: "someone",
       license: "MIT",
       project: "test-project",
       namespace: "@test-namespace",
       organization: "test-organization",
-      authorEmail: "tim@ncfour.us",
-      authorGithubUser: "timgh",
+      authorEmail: "someone@example.com",
+      authorGithubUser: "someGithubUser",
     }),
   });
-
-  // project.tryRemoveFile("./README.md");
-
-  // const readme2File = new ReadmeSampleFile(project, {
-  //   author: "tim",
-  //   license: "MIT",
-  //   project: "test-project",
-  //   namespace: "@test-namespace",
-  //   organization: "test-organization",
-  //   authorEmail: "tim@ncfour.us",
-  //   authorGithubUser: "timgh",
-  // });
-
-  // const path = project.tryRemoveFile("./README.md");
-  // console.log(`return from tryRemoveFile: ${path?.toString()}`);
-  // tryRemoveFile(project, "README.md");
-
-  // console.log(`added readme: ${readme2File.toString()}`);
 
   const snapshot = Testing.synth(project);
 
@@ -59,48 +41,50 @@ test("readme all options specified", () => {
 
   console.log(synthedReadme);
 
+  const authorExists = synthedReadme.search(/someone/);
+  const organizationExists = synthedReadme.search(/test-organization/);
+
   expect(synthedReadme.length).toBeGreaterThan(0);
+  expect(authorExists).toBeGreaterThanOrEqual(0);
+  expect(organizationExists).toBeGreaterThanOrEqual(0);
 });
 
-// function tryFindGenericFile(
-//   project: Project,
-//   filePath: string,
-// ): Component | undefined {
-//   // const absolute = filePath;
-//   console.log(`finding: ${filePath}`);
+test("readme all options specified, ReadmeSampleFile() construct", () => {
+  const project = new TypeScriptProject({
+    name: "test-project",
+    description: "test-project description",
+    packageName: "test-package-name",
+    defaultReleaseBranch: "main",
 
-//   const candidate = project.node.findAll().find((c): c is Component => {
-//     const id = c.node.id.toString();
-//     const matchSample = id.startsWith("SampleReadme");
-//     console.log(`node: ${c.node.id.toString()}, match: ${matchSample}`);
-//     return isComponent(c) && c.node.id.toString().startsWith("SampleReadme");
-//   });
+    // Remove implied dependency on/use of yarn package manager
+    packageManager: NodePackageManager.NPM,
 
-//   return candidate;
-// }
+    // enable prettier
+    prettier: true,
 
-// function tryRemoveFile(
-//   project: Project,
-//   filePath: string,
-// ): Component | undefined {
-//   const candidate = tryFindGenericFile(project, filePath);
+    // NOTE: by not setting the "readme" option, the project
+    // will DEFAULT to creating a "README.md" file.
+  });
 
-//   console.log(`candidate: ${candidate?.node.id}`);
+  new ReadmeSampleFile(project, {
+    author: "authorName",
+    license: "MIT",
+    project: "test-project",
+    namespace: "@test-namespace",
+    organization: "test-organization",
+    authorEmail: "emailid@example.com",
+    authorGithubUser: "githubUserId",
+  });
 
-//   if (candidate) {
-//     candidate.node.scope?.node.tryRemoveChild(candidate.node.id);
-//     return candidate;
-//   }
+  const snapshot = Testing.synth(project);
 
-//   return undefined;
-// }
+  // get information from synthed project
+  const synthedReadme = snapshot["README.md"];
 
-// // function isFile(c: Component): c is FileBase {
-// //   return c instanceof FileBase;
-// // }
+  const authorExists = synthedReadme.search(/authorName/);
+  const organizationExists = synthedReadme.search(/test-organization/);
 
-// const COMPONENT_SYMBOL = Symbol.for("projen.Component");
-
-// function isComponent(x: unknown): x is Component {
-//   return x !== null && typeof x === "object" && COMPONENT_SYMBOL in x;
-// }
+  expect(synthedReadme.length).toBeGreaterThan(0);
+  expect(authorExists).toBeGreaterThanOrEqual(0);
+  expect(organizationExists).toBeGreaterThanOrEqual(0);
+});
