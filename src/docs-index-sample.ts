@@ -5,7 +5,7 @@ import { readFileSync } from "node:fs";
 import { SampleFile, Project } from "projen";
 
 /**
- * This construct defines a docs/index.md sample file for the project.
+ * This construct defines a `docs/index.md` sample file for the project.
  *
  */
 export class DocsIndexSampleFile extends SampleFile {

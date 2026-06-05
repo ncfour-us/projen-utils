@@ -2,13 +2,195 @@
 
 ## Constructs <a name="Constructs" id="Constructs"></a>
 
+### DocsIndexSampleFile <a name="DocsIndexSampleFile" id="@ncfour-us/projen-utils.DocsIndexSampleFile"></a>
+
+This construct defines a `docs/index.md` sample file for the project.
+
+#### Initializers <a name="Initializers" id="@ncfour-us/projen-utils.DocsIndexSampleFile.Initializer"></a>
+
+```typescript
+import { DocsIndexSampleFile } from '@ncfour-us/projen-utils'
+
+new DocsIndexSampleFile(project: Project)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.DocsIndexSampleFile.Initializer.parameter.project">project</a></code> | <code>projen.Project</code> | the project that this construct belongs to. |
+
+---
+
+##### `project`<sup>Required</sup> <a name="project" id="@ncfour-us/projen-utils.DocsIndexSampleFile.Initializer.parameter.project"></a>
+
+- *Type:* projen.Project
+
+the project that this construct belongs to.
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.DocsIndexSampleFile.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@ncfour-us/projen-utils.DocsIndexSampleFile.with">with</a></code> | Applies one or more mixins to this construct. |
+| <code><a href="#@ncfour-us/projen-utils.DocsIndexSampleFile.postSynthesize">postSynthesize</a></code> | Called after synthesis. |
+| <code><a href="#@ncfour-us/projen-utils.DocsIndexSampleFile.preSynthesize">preSynthesize</a></code> | Called before synthesis. |
+| <code><a href="#@ncfour-us/projen-utils.DocsIndexSampleFile.synthesize">synthesize</a></code> | Synthesizes files to the project output directory. |
+
+---
+
+##### `toString` <a name="toString" id="@ncfour-us/projen-utils.DocsIndexSampleFile.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@ncfour-us/projen-utils.DocsIndexSampleFile.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@ncfour-us/projen-utils.DocsIndexSampleFile.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+The mixins to apply.
+
+---
+
+##### `postSynthesize` <a name="postSynthesize" id="@ncfour-us/projen-utils.DocsIndexSampleFile.postSynthesize"></a>
+
+```typescript
+public postSynthesize(): void
+```
+
+Called after synthesis.
+
+Order is *not* guaranteed.
+
+##### `preSynthesize` <a name="preSynthesize" id="@ncfour-us/projen-utils.DocsIndexSampleFile.preSynthesize"></a>
+
+```typescript
+public preSynthesize(): void
+```
+
+Called before synthesis.
+
+##### `synthesize` <a name="synthesize" id="@ncfour-us/projen-utils.DocsIndexSampleFile.synthesize"></a>
+
+```typescript
+public synthesize(): void
+```
+
+Synthesizes files to the project output directory.
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.DocsIndexSampleFile.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#@ncfour-us/projen-utils.DocsIndexSampleFile.isComponent">isComponent</a></code> | Test whether the given construct is a component. |
+
+---
+
+##### `isConstruct` <a name="isConstruct" id="@ncfour-us/projen-utils.DocsIndexSampleFile.isConstruct"></a>
+
+```typescript
+import { DocsIndexSampleFile } from '@ncfour-us/projen-utils'
+
+DocsIndexSampleFile.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+###### `x`<sup>Required</sup> <a name="x" id="@ncfour-us/projen-utils.DocsIndexSampleFile.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isComponent` <a name="isComponent" id="@ncfour-us/projen-utils.DocsIndexSampleFile.isComponent"></a>
+
+```typescript
+import { DocsIndexSampleFile } from '@ncfour-us/projen-utils'
+
+DocsIndexSampleFile.isComponent(x: any)
+```
+
+Test whether the given construct is a component.
+
+###### `x`<sup>Required</sup> <a name="x" id="@ncfour-us/projen-utils.DocsIndexSampleFile.isComponent.parameter.x"></a>
+
+- *Type:* any
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.DocsIndexSampleFile.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#@ncfour-us/projen-utils.DocsIndexSampleFile.property.project">project</a></code> | <code>projen.Project</code> | *No description.* |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="@ncfour-us/projen-utils.DocsIndexSampleFile.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `project`<sup>Required</sup> <a name="project" id="@ncfour-us/projen-utils.DocsIndexSampleFile.property.project"></a>
+
+```typescript
+public readonly project: Project;
+```
+
+- *Type:* projen.Project
+
+---
+
+
 ### PnpmWorkspace <a name="PnpmWorkspace" id="@ncfour-us/projen-utils.PnpmWorkspace"></a>
 
-This construct defines a README.md sample file for the project.
+This construct defines a pnpm-workspace.yaml file for the project.
 
-By creating this file, the `README.md` file at the top of the
-project will contain a set of sections which are typical
-for TypeScript projects.
+Only a subset of options for the pnpm-workspace.yaml file are
+supported.  Opinionated default values for the supported options
+are configured when not specified in the constructdor.
 
 #### Initializers <a name="Initializers" id="@ncfour-us/projen-utils.PnpmWorkspace.Initializer"></a>
 
@@ -527,6 +709,21 @@ pre-commit install --hook-type commit-msg --hook-type pre-commit
 Subsequent `git commit` commands issued after installing the git hooks
 will run the specified checks on any files included in the commit.
 
+The versions of pre-commit hooks configured into the `.pre-commit-config.yaml`
+file can be updated by using `construct.addOverride()` calls to change
+values in the generated file.
+
+For example, to override the repository version for the Commitizen
+pre-commit hook (usually the first hook in the configuraiton file)
+place the following in your `.projenrc.ts` file:
+
+```typescript
+const precommitConfig = project.tryFindObjectFile('.pre-commit-config.yaml');
+precommitConfig?.addOverride('repos.0.rev', 'v4.16.3');
+```
+The revision in `.pre-commit-config.yaml` for that repository will
+be replaced with the value specified.
+
 #### Initializers <a name="Initializers" id="@ncfour-us/projen-utils.PreCommitConfigFile.Initializer"></a>
 
 ```typescript
@@ -1037,6 +1234,22 @@ By creating this file, the `README.md` file at the top of the
 project will contain a set of sections which are typical
 for TypeScript projects.
 
+In many cases, this construct will not be provided on the
+initial creation of the project.  This results in the default
+`README.md` file being created (as a sample file which is
+only created if the file does not already exist).
+
+To replace the default file with the `README.md` file (sample)
+provided by this construct, perform the following steps:
+1) remove the current `README.md` file (use `rm` or `git rm`)
+1) add this construct to your `.projenrc.ts` file
+1) re-run `pnpm projen` to update configuration files
+
+At this point, the `README.md` file at the top of the project
+should contain the text provided by this construct.
+
+Complete the change by committing the updates with `git commit`.
+
 #### Initializers <a name="Initializers" id="@ncfour-us/projen-utils.ReadmeSampleFile.Initializer"></a>
 
 ```typescript
@@ -1047,7 +1260,7 @@ new ReadmeSampleFile(project: Project, options?: ReadmeSampleFileOptions)
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFile.Initializer.parameter.project">project</a></code> | <code>projen.Project</code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFile.Initializer.parameter.project">project</a></code> | <code>projen.Project</code> | the project that this construct belongs to. |
 | <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFile.Initializer.parameter.options">options</a></code> | <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFileOptions">ReadmeSampleFileOptions</a></code> | options to replace place-holders in the file. |
 
 ---
@@ -1055,6 +1268,8 @@ new ReadmeSampleFile(project: Project, options?: ReadmeSampleFileOptions)
 ##### `project`<sup>Required</sup> <a name="project" id="@ncfour-us/projen-utils.ReadmeSampleFile.Initializer.parameter.project"></a>
 
 - *Type:* projen.Project
+
+the project that this construct belongs to.
 
 ---
 
@@ -1235,6 +1450,508 @@ This getter could be used to pass the result of creating this Construct to anoth
 ---
 
 
+### TypedocJson <a name="TypedocJson" id="@ncfour-us/projen-utils.TypedocJson"></a>
+
+This construct defines a `typedoc.json` file for the project which is used by the `typedoc` tool when generating API documentation for the project.
+
+#### Initializers <a name="Initializers" id="@ncfour-us/projen-utils.TypedocJson.Initializer"></a>
+
+```typescript
+import { TypedocJson } from '@ncfour-us/projen-utils'
+
+new TypedocJson(project: Project, options: TypedocJsonOptions)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.Initializer.parameter.project">project</a></code> | <code>projen.Project</code> | the project that this construct belongs to. |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.Initializer.parameter.options">options</a></code> | <code><a href="#@ncfour-us/projen-utils.TypedocJsonOptions">TypedocJsonOptions</a></code> | *No description.* |
+
+---
+
+##### `project`<sup>Required</sup> <a name="project" id="@ncfour-us/projen-utils.TypedocJson.Initializer.parameter.project"></a>
+
+- *Type:* projen.Project
+
+the project that this construct belongs to.
+
+---
+
+##### `options`<sup>Required</sup> <a name="options" id="@ncfour-us/projen-utils.TypedocJson.Initializer.parameter.options"></a>
+
+- *Type:* <a href="#@ncfour-us/projen-utils.TypedocJsonOptions">TypedocJsonOptions</a>
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.with">with</a></code> | Applies one or more mixins to this construct. |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.postSynthesize">postSynthesize</a></code> | Called after synthesis. |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.preSynthesize">preSynthesize</a></code> | Called before synthesis. |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.synthesize">synthesize</a></code> | Writes the file to the project's output directory. |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.diff">diff</a></code> | Returns a unified diff of the old and new file contents with context lines and hunk headers. |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.addDeletionOverride">addDeletionOverride</a></code> | Syntactic sugar for `addOverride(path, undefined)`. |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.addOverride">addOverride</a></code> | Adds an override to the synthesized object file. |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.addToArray">addToArray</a></code> | Adds to an array in the synthesized object file. |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.patch">patch</a></code> | Applies an RFC 6902 JSON-patch to the synthesized object file. See https://datatracker.ietf.org/doc/html/rfc6902 for more information. |
+
+---
+
+##### `toString` <a name="toString" id="@ncfour-us/projen-utils.TypedocJson.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@ncfour-us/projen-utils.TypedocJson.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@ncfour-us/projen-utils.TypedocJson.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+The mixins to apply.
+
+---
+
+##### `postSynthesize` <a name="postSynthesize" id="@ncfour-us/projen-utils.TypedocJson.postSynthesize"></a>
+
+```typescript
+public postSynthesize(): void
+```
+
+Called after synthesis.
+
+Order is *not* guaranteed.
+
+##### `preSynthesize` <a name="preSynthesize" id="@ncfour-us/projen-utils.TypedocJson.preSynthesize"></a>
+
+```typescript
+public preSynthesize(): void
+```
+
+Called before synthesis.
+
+##### `synthesize` <a name="synthesize" id="@ncfour-us/projen-utils.TypedocJson.synthesize"></a>
+
+```typescript
+public synthesize(): void
+```
+
+Writes the file to the project's output directory.
+
+##### `diff` <a name="diff" id="@ncfour-us/projen-utils.TypedocJson.diff"></a>
+
+```typescript
+public diff(colorize?: boolean, contextLines?: number): string[]
+```
+
+Returns a unified diff of the old and new file contents with context lines and hunk headers.
+
+Only available after synthesis.
+
+This is an expensive operation and should only be used on non time-critical
+code paths, like debug output.
+
+###### `colorize`<sup>Optional</sup> <a name="colorize" id="@ncfour-us/projen-utils.TypedocJson.diff.parameter.colorize"></a>
+
+- *Type:* boolean
+
+Whether to colorize the diff output.
+
+---
+
+###### `contextLines`<sup>Optional</sup> <a name="contextLines" id="@ncfour-us/projen-utils.TypedocJson.diff.parameter.contextLines"></a>
+
+- *Type:* number
+
+Number of context lines around changes.
+
+---
+
+##### `addDeletionOverride` <a name="addDeletionOverride" id="@ncfour-us/projen-utils.TypedocJson.addDeletionOverride"></a>
+
+```typescript
+public addDeletionOverride(path: string): void
+```
+
+Syntactic sugar for `addOverride(path, undefined)`.
+
+###### `path`<sup>Required</sup> <a name="path" id="@ncfour-us/projen-utils.TypedocJson.addDeletionOverride.parameter.path"></a>
+
+- *Type:* string
+
+The path of the value to delete.
+
+---
+
+##### `addOverride` <a name="addOverride" id="@ncfour-us/projen-utils.TypedocJson.addOverride"></a>
+
+```typescript
+public addOverride(path: string, value: any): void
+```
+
+Adds an override to the synthesized object file.
+
+If the override is nested, separate each nested level using a dot (.) in the path parameter.
+If there is an array as part of the nesting, specify the index in the path.
+
+To include a literal `.` in the property name, prefix with a `\`. In most
+programming languages you will need to write this as `"\\."` because the
+`\` itself will need to be escaped.
+
+For example,
+```typescript
+project.tsconfig.file.addOverride('compilerOptions.alwaysStrict', true);
+project.tsconfig.file.addOverride('compilerOptions.lib', ['dom', 'dom.iterable', 'esnext']);
+```
+would add the overrides
+```json
+"compilerOptions": {
+  "alwaysStrict": true,
+  "lib": [
+    "dom",
+    "dom.iterable",
+    "esnext"
+  ]
+  ...
+}
+...
+```
+
+###### `path`<sup>Required</sup> <a name="path" id="@ncfour-us/projen-utils.TypedocJson.addOverride.parameter.path"></a>
+
+- *Type:* string
+
+The path of the property, you can use dot notation to override values in complex types.
+
+Any intermediate keys
+will be created as needed.
+
+---
+
+###### `value`<sup>Required</sup> <a name="value" id="@ncfour-us/projen-utils.TypedocJson.addOverride.parameter.value"></a>
+
+- *Type:* any
+
+The value.
+
+Could be primitive or complex.
+
+---
+
+##### `addToArray` <a name="addToArray" id="@ncfour-us/projen-utils.TypedocJson.addToArray"></a>
+
+```typescript
+public addToArray(path: string, values: ...any[]): void
+```
+
+Adds to an array in the synthesized object file.
+
+If the array is nested, separate each nested level using a dot (.) in the path parameter.
+If there is an array as part of the nesting, specify the index in the path.
+
+To include a literal `.` in the property name, prefix with a `\`. In most
+programming languages you will need to write this as `"\\."` because the
+`\` itself will need to be escaped.
+
+For example, with the following object file
+```json
+"compilerOptions": {
+  "exclude": ["node_modules"],
+  "lib": ["es2020"]
+  ...
+}
+...
+```
+
+```typescript
+project.tsconfig.file.addToArray('compilerOptions.exclude', 'coverage');
+project.tsconfig.file.addToArray('compilerOptions.lib', 'dom', 'dom.iterable', 'esnext');
+```
+would result in the following object file
+```json
+"compilerOptions": {
+  "exclude": ["node_modules", "coverage"],
+  "lib": ["es2020", "dom", "dom.iterable", "esnext"]
+  ...
+}
+...
+```
+
+###### `path`<sup>Required</sup> <a name="path" id="@ncfour-us/projen-utils.TypedocJson.addToArray.parameter.path"></a>
+
+- *Type:* string
+
+The path of the property, you can use dot notation to att to arrays in complex types.
+
+Any intermediate keys
+will be created as needed.
+
+---
+
+###### `values`<sup>Required</sup> <a name="values" id="@ncfour-us/projen-utils.TypedocJson.addToArray.parameter.values"></a>
+
+- *Type:* ...any[]
+
+The values to add.
+
+Could be primitive or complex.
+
+---
+
+##### `patch` <a name="patch" id="@ncfour-us/projen-utils.TypedocJson.patch"></a>
+
+```typescript
+public patch(patches: ...JsonPatch[]): void
+```
+
+Applies an RFC 6902 JSON-patch to the synthesized object file. See https://datatracker.ietf.org/doc/html/rfc6902 for more information.
+
+For example, with the following object file
+```json
+"compilerOptions": {
+  "exclude": ["node_modules"],
+  "lib": ["es2020"]
+  ...
+}
+...
+```
+
+```typescript
+project.tsconfig.file.patch(JsonPatch.add("/compilerOptions/exclude/-", "coverage"));
+project.tsconfig.file.patch(JsonPatch.replace("/compilerOptions/lib", ["dom", "dom.iterable", "esnext"]));
+```
+would result in the following object file
+```json
+"compilerOptions": {
+  "exclude": ["node_modules", "coverage"],
+  "lib": ["dom", "dom.iterable", "esnext"]
+  ...
+}
+...
+```
+
+###### `patches`<sup>Required</sup> <a name="patches" id="@ncfour-us/projen-utils.TypedocJson.patch.parameter.patches"></a>
+
+- *Type:* ...projen.JsonPatch[]
+
+The patch operations to apply.
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.isComponent">isComponent</a></code> | Test whether the given construct is a component. |
+
+---
+
+##### `isConstruct` <a name="isConstruct" id="@ncfour-us/projen-utils.TypedocJson.isConstruct"></a>
+
+```typescript
+import { TypedocJson } from '@ncfour-us/projen-utils'
+
+TypedocJson.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+###### `x`<sup>Required</sup> <a name="x" id="@ncfour-us/projen-utils.TypedocJson.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isComponent` <a name="isComponent" id="@ncfour-us/projen-utils.TypedocJson.isComponent"></a>
+
+```typescript
+import { TypedocJson } from '@ncfour-us/projen-utils'
+
+TypedocJson.isComponent(x: any)
+```
+
+Test whether the given construct is a component.
+
+###### `x`<sup>Required</sup> <a name="x" id="@ncfour-us/projen-utils.TypedocJson.isComponent.parameter.x"></a>
+
+- *Type:* any
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.property.project">project</a></code> | <code>projen.Project</code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.property.absolutePath">absolutePath</a></code> | <code>string</code> | The absolute path of this file. |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.property.path">path</a></code> | <code>string</code> | The file path, relative to the project's outdir. |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.property.changed">changed</a></code> | <code>boolean</code> | Indicates if the file has been changed during synthesis. |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.property.marker">marker</a></code> | <code>string</code> | The projen marker, used to identify files as projen-generated. |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.property.executable">executable</a></code> | <code>boolean</code> | Indicates if the file should be marked as executable. |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.property.readonly">readonly</a></code> | <code>boolean</code> | Indicates if the file should be read-only or read-write. |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.property.omitEmpty">omitEmpty</a></code> | <code>boolean</code> | Indicates if empty objects and arrays are omitted from the output object. |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJson.property.supportsComments">supportsComments</a></code> | <code>boolean</code> | *No description.* |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="@ncfour-us/projen-utils.TypedocJson.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `project`<sup>Required</sup> <a name="project" id="@ncfour-us/projen-utils.TypedocJson.property.project"></a>
+
+```typescript
+public readonly project: Project;
+```
+
+- *Type:* projen.Project
+
+---
+
+##### `absolutePath`<sup>Required</sup> <a name="absolutePath" id="@ncfour-us/projen-utils.TypedocJson.property.absolutePath"></a>
+
+```typescript
+public readonly absolutePath: string;
+```
+
+- *Type:* string
+
+The absolute path of this file.
+
+---
+
+##### `path`<sup>Required</sup> <a name="path" id="@ncfour-us/projen-utils.TypedocJson.property.path"></a>
+
+```typescript
+public readonly path: string;
+```
+
+- *Type:* string
+
+The file path, relative to the project's outdir.
+
+---
+
+##### `changed`<sup>Optional</sup> <a name="changed" id="@ncfour-us/projen-utils.TypedocJson.property.changed"></a>
+
+```typescript
+public readonly changed: boolean;
+```
+
+- *Type:* boolean
+
+Indicates if the file has been changed during synthesis.
+
+This property is
+only available in `postSynthesize()` hooks. If this is `undefined`, the
+file has not been synthesized yet.
+
+---
+
+##### `marker`<sup>Optional</sup> <a name="marker" id="@ncfour-us/projen-utils.TypedocJson.property.marker"></a>
+
+```typescript
+public readonly marker: string;
+```
+
+- *Type:* string
+
+The projen marker, used to identify files as projen-generated.
+
+Value is undefined if the project is being ejected.
+
+---
+
+##### `executable`<sup>Required</sup> <a name="executable" id="@ncfour-us/projen-utils.TypedocJson.property.executable"></a>
+
+```typescript
+public readonly executable: boolean;
+```
+
+- *Type:* boolean
+
+Indicates if the file should be marked as executable.
+
+---
+
+##### `readonly`<sup>Required</sup> <a name="readonly" id="@ncfour-us/projen-utils.TypedocJson.property.readonly"></a>
+
+```typescript
+public readonly readonly: boolean;
+```
+
+- *Type:* boolean
+
+Indicates if the file should be read-only or read-write.
+
+---
+
+##### `omitEmpty`<sup>Required</sup> <a name="omitEmpty" id="@ncfour-us/projen-utils.TypedocJson.property.omitEmpty"></a>
+
+```typescript
+public readonly omitEmpty: boolean;
+```
+
+- *Type:* boolean
+
+Indicates if empty objects and arrays are omitted from the output object.
+
+---
+
+##### `supportsComments`<sup>Required</sup> <a name="supportsComments" id="@ncfour-us/projen-utils.TypedocJson.property.supportsComments"></a>
+
+```typescript
+public readonly supportsComments: boolean;
+```
+
+- *Type:* boolean
+
+---
+
+
 ### TypeScriptESMProject <a name="TypeScriptESMProject" id="@ncfour-us/projen-utils.TypeScriptESMProject"></a>
 
 TypeScript ESM project.
@@ -1248,9 +1965,14 @@ mode.
 Additional features available:
 - use ESLint flat config rather than JSON config
 - use Prettier flat config rather than JSON config
-- add a `verseion.ts` helper to ease the referencing of the package
+- add a `version.ts` helper to ease the referencing of the package
   version in package code.
 - enable the project for using the `pre-commit` tool
+- activate a local/github build/packaging mode for the project
+- activate API documentation generation during builds (uses `typedoc`)
+- create a sample `index.md` file in the `docs` folder (for usage guide,
+  examples, and more detailed information than what is found in the `README.md`)
+- create a more detailed sample `README.md` file
 
 #### Initializers <a name="Initializers" id="@ncfour-us/projen-utils.TypeScriptESMProject.Initializer"></a>
 
@@ -1262,13 +1984,17 @@ new TypeScriptESMProject(options: TypeScriptESMProjectOptions)
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.Initializer.parameter.options">options</a></code> | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions">TypeScriptESMProjectOptions</a></code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.Initializer.parameter.options">options</a></code> | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions">TypeScriptESMProjectOptions</a></code> | options for configuring the project. |
 
 ---
 
 ##### `options`<sup>Required</sup> <a name="options" id="@ncfour-us/projen-utils.TypeScriptESMProject.Initializer.parameter.options"></a>
 
 - *Type:* <a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions">TypeScriptESMProjectOptions</a>
+
+options for configuring the project.
+
+Extends `TypeScriptProjectOptions`.
 
 ---
 
@@ -2922,7 +3648,7 @@ public readonly DEFAULT_TS_JEST_TRANFORM_PATTERN: string;
 
 ### CommandParameters <a name="CommandParameters" id="@ncfour-us/projen-utils.CommandParameters"></a>
 
-commands which are provided by the project.
+additional commands to configure into the project (`scripts` in `package.json`).
 
 #### Initializer <a name="Initializer" id="@ncfour-us/projen-utils.CommandParameters.Initializer"></a>
 
@@ -3102,7 +3828,7 @@ For JavaScript and/or TypeScript support, the package manager defined for the pr
 
 ### ReadmeSampleFileOptions <a name="ReadmeSampleFileOptions" id="@ncfour-us/projen-utils.ReadmeSampleFileOptions"></a>
 
-Used to configure the PreCommitConfigFile construct.
+Used to configure the ReadmeSampleFile construct.
 
 If any values are NOT set, then the associated markers
 in the sample file will NOT be replaced.  This allows
@@ -3226,6 +3952,40 @@ public readonly project: string;
 - *Type:* string
 
 Name of the Git repository.
+
+---
+
+### TypedocJsonOptions <a name="TypedocJsonOptions" id="@ncfour-us/projen-utils.TypedocJsonOptions"></a>
+
+Used to configure the TypedocJson construct.
+
+#### Initializer <a name="Initializer" id="@ncfour-us/projen-utils.TypedocJsonOptions.Initializer"></a>
+
+```typescript
+import { TypedocJsonOptions } from '@ncfour-us/projen-utils'
+
+const typedocJsonOptions: TypedocJsonOptions = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.TypedocJsonOptions.property.entryPoints">entryPoints</a></code> | <code>string[]</code> | source file entry point(s) which define the API. |
+
+---
+
+##### `entryPoints`<sup>Optional</sup> <a name="entryPoints" id="@ncfour-us/projen-utils.TypedocJsonOptions.property.entryPoints"></a>
+
+```typescript
+public readonly entryPoints: string[];
+```
+
+- *Type:* string[]
+
+source file entry point(s) which define the API.
+
+If not specified, Typedoc will use information from `package.json`
 
 ---
 
@@ -3404,10 +4164,10 @@ const typeScriptESMProjectOptions: TypeScriptESMProjectOptions = { ... }
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.tsconfigDevFile">tsconfigDevFile</a></code> | <code>string</code> | The name of the development tsconfig.json file. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.tsJestOptions">tsJestOptions</a></code> | <code>projen.typescript.TsJestOptions</code> | Options for ts-jest. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.typescriptVersion">typescriptVersion</a></code> | <code>string</code> | TypeScript version to use. |
-| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.addVersionFile">addVersionFile</a></code> | <code>boolean</code> | Add a `version.ts` file which contains a LIB_VERSION global which is set based on the `version` field in `package.json`. |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.addVersionFile">addVersionFile</a></code> | <code>boolean</code> | Add a `version.ts` file which contains a `LIB_VERSION` global. The `LIB_VERSION` value is set based on the `version` field in `package.json`. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.apiDocumentation">apiDocumentation</a></code> | <code>boolean</code> | Add API documentation to `docs/api` using `typedoc`. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.apiEntryPoints">apiEntryPoints</a></code> | <code>string[]</code> | API entry points for `typedoc` to use. |
-| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.commands">commands</a></code> | <code><a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]</code> | Additional commands to add to the `package.json` file. |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.commands">commands</a></code> | <code><a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]</code> | Additional commands (scripts) to add to the `package.json` file. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.docsIndex">docsIndex</a></code> | <code>boolean</code> | Add a `docs/index.md` file to the project as a sample file. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.eslintFlatConfig">eslintFlatConfig</a></code> | <code>boolean</code> | Use `eslint.config.ts` instead of `.eslintrc.json` for eslint config. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.localPackageArchiveDir">localPackageArchiveDir</a></code> | <code>string</code> | Location for local archive of released artifacts. |
@@ -5726,7 +6486,7 @@ public readonly addVersionFile: boolean;
 - *Type:* boolean
 - *Default:* false
 
-Add a `version.ts` file which contains a LIB_VERSION global which is set based on the `version` field in `package.json`.
+Add a `version.ts` file which contains a `LIB_VERSION` global. The `LIB_VERSION` value is set based on the `version` field in `package.json`.
 
 ---
 
@@ -5750,6 +6510,7 @@ public readonly apiEntryPoints: string[];
 ```
 
 - *Type:* string[]
+- *Default:* undefined if not specified, then information in `package.json` will be used by `typedoc` to determine what entry points to include in the documentation.
 
 API entry points for `typedoc` to use.
 
@@ -5764,7 +6525,7 @@ public readonly commands: CommandParameters[];
 - *Type:* <a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]
 - *Default:* []
 
-Additional commands to add to the `package.json` file.
+Additional commands (scripts) to add to the `package.json` file.
 
 ---
 
@@ -5951,12 +6712,29 @@ Add support for shell script file checks (not yet implemented).
 
 ### RepoBuildPackageModel <a name="RepoBuildPackageModel" id="@ncfour-us/projen-utils.RepoBuildPackageModel"></a>
 
+The build/packaging model to use for the `TypeScriptESMProject`.
+
+There are generally two models supported, along with an "escape hatch"
+to allow individual customization without using the **opinionated**
+support provided with this project type.
+
+The two models:
+- local build/packaging - this model presumes that most work
+  on the project is performed locally, including build, packaging,
+  and distribution/publishing to remote registries/repositories
+- github build/packaging - (not yet implemented) this model
+  presumes that Github workflows are used to build/package/distribute/publish
+  the project.
+
+In all cases, "trunk-based" development is presumed as the Git
+branching/merging strategy.
+
 #### Members <a name="Members" id="Members"></a>
 
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#@ncfour-us/projen-utils.RepoBuildPackageModel.SKIP_SETUP">SKIP_SETUP</a></code> | Skip any build/release configuration that is offered by the TypeScriptESMProject component. |
-| <code><a href="#@ncfour-us/projen-utils.RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY">LOCAL_DEV_BUILD_REGISTRY</a></code> | completely local git repository, no remote repo, no GitHub actions, manual releases, no package registry (but copy to local archive "registry"). |
+| <code><a href="#@ncfour-us/projen-utils.RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY">LOCAL_DEV_BUILD_REGISTRY</a></code> | All development/build/packaging/distribution/publishing is driven from a local workstation or cloned repository. |
 
 ---
 
@@ -5964,12 +6742,36 @@ Add support for shell script file checks (not yet implemented).
 
 Skip any build/release configuration that is offered by the TypeScriptESMProject component.
 
+This is an "escape hatch" to allow the project
+to define it's own customizations/configuration
+for build/packaging and distribution/publishing
+
 ---
 
 
 ##### `LOCAL_DEV_BUILD_REGISTRY` <a name="LOCAL_DEV_BUILD_REGISTRY" id="@ncfour-us/projen-utils.RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY"></a>
 
-completely local git repository, no remote repo, no GitHub actions, manual releases, no package registry (but copy to local archive "registry").
+All development/build/packaging/distribution/publishing is driven from a local workstation or cloned repository.
+
+A "local" repository/registry (just a folder on the local
+system) is the default location to distribute/publish.
+Use the `releaseToLocal` (default: `true`) option to configure.
+Use the [localPackageArchiveDir](#localpackagearchivedir) option to specify
+the folder location.
+
+A remote git repository can be configured/used and becomes
+a distribution/publishing "target" for "release" operations.
+Use the `releaseToGithub` (default: `false`) option to configure.
+
+The NPM registry (npmjs.com) can be configured as an additional
+distribution/publishing "target".
+Use the `releaseToNpm` (default: `true` if
+`repository` is set, `false` otherwise) option to configure.
+
+When using this mode, the user **MUST** have active
+credentials in the local environment
+for the remote distribution locations
+when "release" tasks are invoked.
 
 ---
 

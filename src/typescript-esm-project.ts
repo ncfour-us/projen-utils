@@ -60,6 +60,8 @@ export enum RepoBuildPackageModel {
    * A "local" repository/registry (just a folder on the local
    * system) is the default location to distribute/publish.
    * Use the `releaseToLocal` (default: `true`) option to configure.
+   * Use the [localPackageArchiveDir](#typescriptesmprojectoptions) option to specify
+   * the folder location.
    *
    * A remote git repository can be configured/used and becomes
    * a distribution/publishing "target" for "release" operations.
@@ -71,8 +73,9 @@ export enum RepoBuildPackageModel {
    * `repository` is set, `false` otherwise) option to configure.
    *
    * When using this mode, the user **MUST** have active
-   * credentials in the local environment when "release"
-   * tasks are invoked.
+   * credentials in the local environment
+   * for the remote distribution locations
+   * when "release" tasks are invoked.
    */
   LOCAL_DEV_BUILD_REGISTRY,
 }
@@ -243,17 +246,17 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
   public readonly commands: CommandParameters[];
 
   /**
-   * @see {@link TypeScriptESMProjectOptions}
+   * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
    */
   public readonly docsIndex: boolean;
 
   /**
-   * @see {@link TypeScriptESMProjectOptions}
+   * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
    */
   public readonly apiDocumentation: boolean;
 
   /**
-   * @see {@link TypeScriptESMProjectOptions}
+   * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
    */
   public readonly apiEntryPoints?: string[];
 
