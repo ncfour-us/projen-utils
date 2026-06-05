@@ -205,3 +205,37 @@ test("typescript-esm-project-instantiate prettierFlatConfig, precommitConfig", (
   );
   expect(prettierFile.length).toBeGreaterThan(0);
 });
+
+test("typescript-esm-project-instantiate addDocIndex, apiDocumentation", () => {
+  // Arrange - Given
+  const esmProject = new TypeScriptESMProject({
+    name: "test-esm-project",
+    description: "test-esm-project description",
+    packageName: "test-esm-package-name",
+    defaultReleaseBranch: "main",
+
+    // Remove implied dependency on/use of yarn package manager
+    packageManager: NodePackageManager.PNPM,
+
+    docsIndex: true,
+    apiDocumentation: true,
+    apiEntryPoints: ["src/file1.ts", "src/file2.ts"],
+  });
+
+  // Act - When
+  // create the project
+  const snapshot = Testing.synth(esmProject);
+
+  // Assert - Then
+  // read the file
+  const synthedTypedoc = snapshot["typedoc.json"];
+
+  // read the prettier.config.ts file
+  const docsIndexFile = snapshot["docs/index.md"];
+
+  expect(docsIndexFile.length).toBeGreaterThan(0);
+  expect(docsIndexFile.startsWith("# Introduction")).toBe(true);
+  expect(synthedTypedoc.entryPoints[0]).toBe("src/file1.ts");
+  expect(synthedTypedoc.out).toBe("docs/api");
+  expect(synthedTypedoc.disableSources).toBe(true);
+});

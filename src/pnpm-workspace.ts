@@ -73,6 +73,8 @@ export class PnpmWorkspace extends YamlFile {
       obj: contents,
     });
 
+    (project as NodeProject).addPackageIgnore("pnpm-workspace.yaml");
+
     if (
       (project as NodeProject).package.packageManager !==
       NodePackageManager.PNPM

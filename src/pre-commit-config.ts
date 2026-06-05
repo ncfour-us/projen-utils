@@ -153,7 +153,8 @@ export class PreCommitConfigFile extends YamlFile {
                   "tsconfig\.dev\.json|" +
                   "\.npmignore|" +
                   "API.md|" +
-                  "CHANGELOG.md" +
+                  "CHANGELOG.md|" +
+                  "typedoc.json|" +
                   ")$",
                 stages: ["pre-commit"],
               },
@@ -193,6 +194,7 @@ export class PreCommitConfigFile extends YamlFile {
               "\.npmignore|" +
               "API.md|" +
               "CHANGELOG.md|" +
+              "typedoc.json|" +
               "setup\\.py|" +
               "requirements\\.txt|" +
               "requirements-dev\\.txt" +
