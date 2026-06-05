@@ -12,7 +12,7 @@ export class DocsIndexSampleFile extends SampleFile {
   /**
    * Creates a `DocsIndexSampleFile` construct and adds it to the project.
    *
-   * @param scope the project that this construct belongs to
+   * @param project the project that this construct belongs to
    */
   constructor(project: Project) {
     const fileContents: string = readFileSync(

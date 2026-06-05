@@ -6,7 +6,7 @@ import { IConstruct } from "constructs";
 import { SampleFile, Project, SampleReadmeProps, Component } from "projen";
 
 /**
- * Used to configure the PreCommitConfigFile construct
+ * Used to configure the ReadmeSampleFile construct
  *
  * If any values are NOT set, then the associated markers
  * in the sample file will NOT be replaced.  This allows
@@ -62,6 +62,22 @@ export interface ReadmeSampleFileOptions {
  * By creating this file, the `README.md` file at the top of the
  * project will contain a set of sections which are typical
  * for TypeScript projects.
+ *
+ * In many cases, this construct will not be provided on the
+ * initial creation of the project.  This results in the default
+ * `README.md` file being created (as a sample file which is
+ * only created if the file does not already exist).
+ *
+ * To replace the default file with the `README.md` file (sample)
+ * provided by this construct, perform the following steps:
+ * 1) remove the current `README.md` file (use `rm` or `git rm`)
+ * 1) add this construct to your `.projenrc.ts` file
+ * 1) re-run `pnpm projen` to update configuration files
+ *
+ * At this point, the `README.md` file at the top of the project
+ * should contain the text provided by this construct.
+ *
+ * Complete the change by committing the updates with `git commit`.
  */
 export class ReadmeSampleFile extends SampleFile {
   // static methods for walking the Component tree to find the SampleReadme
@@ -115,7 +131,7 @@ export class ReadmeSampleFile extends SampleFile {
   /**
    * Creates a `ReadmeSampleFile` construct and adds it to the project.
    *
-   * @param scope the project that this construct belongs to
+   * @param project the project that this construct belongs to
    * @param options options to replace place-holders in the file
    */
   constructor(project: Project, options?: ReadmeSampleFileOptions) {
@@ -157,8 +173,16 @@ export class ReadmeSampleFile extends SampleFile {
  * This function is used to pass the result of creating this Construct
  * to another project's constructor.
  *
+ * For projects which have a `readme` option in their constructor, use
+ * this function as follows:
+ * ```typescript
+ *   ...
+ *   readme: sampleReadmeProps(...),
+ *   ...
+ * ```
+ *
  * @param options ReadmeSampleFileOptions to be used in adjusting the README file
- * @returns SampleFileReadmeProps to be used in a Project constructor
+ * @returns SampleReadmeProps to be used in a Project constructor
  */
 export function sampleReadmeProps(
   options?: ReadmeSampleFileOptions,
