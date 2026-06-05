@@ -172,6 +172,7 @@ export class PreCommitConfigFile extends YamlFile {
                   "API.md|" +
                   "CHANGELOG.md|" +
                   "typedoc.json|" +
+                  "pnpm-workspace.yaml" +
                   ")$",
                 stages: ["pre-commit"],
               },
@@ -212,6 +213,7 @@ export class PreCommitConfigFile extends YamlFile {
               "API.md|" +
               "CHANGELOG.md|" +
               "typedoc.json|" +
+              "pnpm-workspace.yaml|" +
               "setup\\.py|" +
               "requirements\\.txt|" +
               "requirements-dev\\.txt" +

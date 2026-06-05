@@ -2718,15 +2718,15 @@ When given a project, this it the project itself.
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.tsconfig">tsconfig</a></code> | <code>projen.javascript.TypescriptConfig</code> | *No description.* |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.tsconfigEslint">tsconfigEslint</a></code> | <code>projen.javascript.TypescriptConfig</code> | *No description.* |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.addVersionFile">addVersionFile</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
-| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.apiDocumentation">apiDocumentation</a></code> | <code>boolean</code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.apiDocumentation">apiDocumentation</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.commands">commands</a></code> | <code><a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
-| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.docsIndex">docsIndex</a></code> | <code>boolean</code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.docsIndex">docsIndex</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.eslintFlatConfig">eslintFlatConfig</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.localPackageArchiveDir">localPackageArchiveDir</a></code> | <code>string</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.precommitConfig">precommitConfig</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.prettierFlatConfig">prettierFlatConfig</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.repoBuildPackageModel">repoBuildPackageModel</a></code> | <code><a href="#@ncfour-us/projen-utils.RepoBuildPackageModel">RepoBuildPackageModel</a></code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
-| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.apiEntryPoints">apiEntryPoints</a></code> | <code>string[]</code> | *No description.* |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.apiEntryPoints">apiEntryPoints</a></code> | <code>string[]</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 
 ---
 
@@ -3510,7 +3510,7 @@ public readonly apiDocumentation: boolean;
 
 - *Type:* boolean
 
-> [{@link TypeScriptESMProjectOptions }]({@link TypeScriptESMProjectOptions })
+see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
 
 ---
 
@@ -3534,7 +3534,7 @@ public readonly docsIndex: boolean;
 
 - *Type:* boolean
 
-> [{@link TypeScriptESMProjectOptions }]({@link TypeScriptESMProjectOptions })
+see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
 
 ---
 
@@ -3606,7 +3606,7 @@ public readonly apiEntryPoints: string[];
 
 - *Type:* string[]
 
-> [{@link TypeScriptESMProjectOptions }]({@link TypeScriptESMProjectOptions })
+see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
 
 ---
 
@@ -6756,7 +6756,7 @@ All development/build/packaging/distribution/publishing is driven from a local w
 A "local" repository/registry (just a folder on the local
 system) is the default location to distribute/publish.
 Use the `releaseToLocal` (default: `true`) option to configure.
-Use the [localPackageArchiveDir](#localpackagearchivedir) option to specify
+Use the [localPackageArchiveDir](#typescriptesmprojectoptions) option to specify
 the folder location.
 
 A remote git repository can be configured/used and becomes
