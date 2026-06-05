@@ -17,10 +17,12 @@ import { ReleaseTrigger } from "projen/lib/release";
 // NodePackageManger is used later in the code to overcome
 // a subtle dependency by the projen tool on using yarn "classic".
 
+import { DocsIndexSampleFile } from "./docs-index-sample";
 import {
   PreCommitConfigFile,
   PreCommitConfigFileTypes,
 } from "./pre-commit-config";
+import { TypedocJson } from "./typedoc-json";
 
 export enum RepoBuildPackageModel {
   /**
@@ -92,6 +94,26 @@ export interface TypeScriptESMProjectOptions
    * @default false
    */
   readonly precommitConfig?: boolean;
+
+  /**
+   * Add a `docs/index.md` file to the project as a sample file
+   *
+   * @default false
+   */
+  readonly docsIndex?: boolean;
+
+  /**
+   * Add API documentation to `docs/api` using `typedoc`
+   *
+   * @default false
+   */
+  readonly apiDocumentation?: boolean;
+
+  /**
+   * API entry points for `typedoc` to use
+   *
+   */
+  readonly apiEntryPoints?: string[];
 
   /**
    * Type of repository, packaging, and release model to use.
@@ -170,6 +192,21 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
    * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
    */
   public readonly commands: CommandParameters[];
+
+  /**
+   * @see {@link TypeScriptESMProjectOptions}
+   */
+  public readonly docsIndex: boolean;
+
+  /**
+   * @see {@link TypeScriptESMProjectOptions}
+   */
+  public readonly apiDocumentation: boolean;
+
+  /**
+   * @see {@link TypeScriptESMProjectOptions}
+   */
+  public readonly apiEntryPoints?: string[];
 
   /**
    * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
@@ -283,6 +320,9 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     this.prettierFlatConfig = options.prettierFlatConfig ?? false;
     this.precommitConfig = options.precommitConfig ?? false;
     this.addVersionFile = options.addVersionFile ?? false;
+    this.docsIndex = options.docsIndex ?? false;
+    this.apiDocumentation = options.apiDocumentation ?? false;
+    this.apiEntryPoints = options.apiEntryPoints;
     this.commands = options.commands ?? [];
     this.repoBuildPackageModel =
       options.repoBuildPackageModel ??
@@ -449,6 +489,58 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
         fileTypes: [PreCommitConfigFileTypes.TYPESCRIPT],
         packageManager: options.packageManager,
       });
+    }
+
+    if (this.docsIndex) {
+      new DocsIndexSampleFile(this);
+
+      if (this.apiDocumentation) {
+        let packageManagerRunCommand: string;
+        switch (options.packageManager) {
+          case NodePackageManager.NPM:
+            packageManagerRunCommand = "npm run";
+            break;
+          case NodePackageManager.BUN:
+            packageManagerRunCommand = "bun run";
+            break;
+          case NodePackageManager.PNPM:
+            packageManagerRunCommand = "pnpm";
+            break;
+          case NodePackageManager.YARN_BERRY:
+          case NodePackageManager.YARN_CLASSIC:
+            packageManagerRunCommand = "yarn";
+            break;
+          default:
+            packageManagerRunCommand = "npm run";
+        }
+
+        // install typedoc and markdown plugin
+        this.addDevDeps("typedoc", "typedoc-plugin-markdown");
+
+        // create the typedoc.json configuration file for typedoc
+        new TypedocJson(this, {
+          entryPoints: this.apiEntryPoints,
+        });
+
+        // add scripts to run API documentation generation
+        this.addScripts({
+          "build:docs": `${packageManagerRunCommand} typedoc`,
+        });
+
+        this.addPackageIgnore("docs");
+
+        // add API generation to the post-compile processing
+        this.postCompileTask.addSteps({
+          name: "Generate Typedoc documentation",
+          exec: `${packageManagerRunCommand} build:docs`,
+        });
+      }
+    } else {
+      if (this.apiDocumentation) {
+        this.logger.error(
+          `docsIndex MUST be enabled for apiDocumentation to be enabled`,
+        );
+      }
     }
 
     // implement the specified repository build and packaging model

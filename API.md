@@ -1992,12 +1992,15 @@ When given a project, this it the project itself.
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.tsconfig">tsconfig</a></code> | <code>projen.javascript.TypescriptConfig</code> | *No description.* |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.tsconfigEslint">tsconfigEslint</a></code> | <code>projen.javascript.TypescriptConfig</code> | *No description.* |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.addVersionFile">addVersionFile</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.apiDocumentation">apiDocumentation</a></code> | <code>boolean</code> | *No description.* |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.commands">commands</a></code> | <code><a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.docsIndex">docsIndex</a></code> | <code>boolean</code> | *No description.* |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.eslintFlatConfig">eslintFlatConfig</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.localPackageArchiveDir">localPackageArchiveDir</a></code> | <code>string</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.precommitConfig">precommitConfig</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.prettierFlatConfig">prettierFlatConfig</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.repoBuildPackageModel">repoBuildPackageModel</a></code> | <code><a href="#@ncfour-us/projen-utils.RepoBuildPackageModel">RepoBuildPackageModel</a></code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.apiEntryPoints">apiEntryPoints</a></code> | <code>string[]</code> | *No description.* |
 
 ---
 
@@ -2773,6 +2776,18 @@ see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
 
 ---
 
+##### `apiDocumentation`<sup>Required</sup> <a name="apiDocumentation" id="@ncfour-us/projen-utils.TypeScriptESMProject.property.apiDocumentation"></a>
+
+```typescript
+public readonly apiDocumentation: boolean;
+```
+
+- *Type:* boolean
+
+> [{@link TypeScriptESMProjectOptions }]({@link TypeScriptESMProjectOptions })
+
+---
+
 ##### `commands`<sup>Required</sup> <a name="commands" id="@ncfour-us/projen-utils.TypeScriptESMProject.property.commands"></a>
 
 ```typescript
@@ -2782,6 +2797,18 @@ public readonly commands: CommandParameters[];
 - *Type:* <a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]
 
 see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+
+---
+
+##### `docsIndex`<sup>Required</sup> <a name="docsIndex" id="@ncfour-us/projen-utils.TypeScriptESMProject.property.docsIndex"></a>
+
+```typescript
+public readonly docsIndex: boolean;
+```
+
+- *Type:* boolean
+
+> [{@link TypeScriptESMProjectOptions }]({@link TypeScriptESMProjectOptions })
 
 ---
 
@@ -2842,6 +2869,18 @@ public readonly repoBuildPackageModel: RepoBuildPackageModel;
 - *Type:* <a href="#@ncfour-us/projen-utils.RepoBuildPackageModel">RepoBuildPackageModel</a>
 
 see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+
+---
+
+##### `apiEntryPoints`<sup>Optional</sup> <a name="apiEntryPoints" id="@ncfour-us/projen-utils.TypeScriptESMProject.property.apiEntryPoints"></a>
+
+```typescript
+public readonly apiEntryPoints: string[];
+```
+
+- *Type:* string[]
+
+> [{@link TypeScriptESMProjectOptions }]({@link TypeScriptESMProjectOptions })
 
 ---
 
@@ -3366,7 +3405,10 @@ const typeScriptESMProjectOptions: TypeScriptESMProjectOptions = { ... }
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.tsJestOptions">tsJestOptions</a></code> | <code>projen.typescript.TsJestOptions</code> | Options for ts-jest. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.typescriptVersion">typescriptVersion</a></code> | <code>string</code> | TypeScript version to use. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.addVersionFile">addVersionFile</a></code> | <code>boolean</code> | Add a `version.ts` file which contains a LIB_VERSION global which is set based on the `version` field in `package.json`. |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.apiDocumentation">apiDocumentation</a></code> | <code>boolean</code> | Add API documentation to `docs/api` using `typedoc`. |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.apiEntryPoints">apiEntryPoints</a></code> | <code>string[]</code> | API entry points for `typedoc` to use. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.commands">commands</a></code> | <code><a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]</code> | Additional commands to add to the `package.json` file. |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.docsIndex">docsIndex</a></code> | <code>boolean</code> | Add a `docs/index.md` file to the project as a sample file. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.eslintFlatConfig">eslintFlatConfig</a></code> | <code>boolean</code> | Use `eslint.config.ts` instead of `.eslintrc.json` for eslint config. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.localPackageArchiveDir">localPackageArchiveDir</a></code> | <code>string</code> | Location for local archive of released artifacts. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.precommitConfig">precommitConfig</a></code> | <code>boolean</code> | Add a `.pre-commit-config.yaml` file to support use of `pre-commit` tool. |
@@ -5688,6 +5730,31 @@ Add a `version.ts` file which contains a LIB_VERSION global which is set based o
 
 ---
 
+##### `apiDocumentation`<sup>Optional</sup> <a name="apiDocumentation" id="@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.apiDocumentation"></a>
+
+```typescript
+public readonly apiDocumentation: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Add API documentation to `docs/api` using `typedoc`.
+
+---
+
+##### `apiEntryPoints`<sup>Optional</sup> <a name="apiEntryPoints" id="@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.apiEntryPoints"></a>
+
+```typescript
+public readonly apiEntryPoints: string[];
+```
+
+- *Type:* string[]
+
+API entry points for `typedoc` to use.
+
+---
+
 ##### `commands`<sup>Optional</sup> <a name="commands" id="@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.commands"></a>
 
 ```typescript
@@ -5698,6 +5765,19 @@ public readonly commands: CommandParameters[];
 - *Default:* []
 
 Additional commands to add to the `package.json` file.
+
+---
+
+##### `docsIndex`<sup>Optional</sup> <a name="docsIndex" id="@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.docsIndex"></a>
+
+```typescript
+public readonly docsIndex: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Add a `docs/index.md` file to the project as a sample file.
 
 ---
 
