@@ -16,14 +16,18 @@ export interface TypedocJsonOptions {
 }
 
 /**
- * This construct defines a docs/index.md sample file for the project.
+ * This construct defines a `typedoc.json` file for the project
+ * which is used by the `typedoc` tool when generating API documentation
+ * for the project.
  *
  */
 export class TypedocJson extends JsonFile {
   /**
-   * Creates a `DocsIndexSampleFile` construct and adds it to the project.
+   * Creates a `TypedocJson` construct and adds it to the project.
    *
-   * @param scope the project that this construct belongs to
+   * The `typedoc.json` file is also added to the package ignore list.
+   *
+   * @param project the project that this construct belongs to
    */
   constructor(project: Project, options: TypedocJsonOptions) {
     super(project, "typedoc.json", {

@@ -78,10 +78,27 @@ export interface PreCommitConfigFileOptions {
  *
  * Subsequent `git commit` commands issued after installing the git hooks
  * will run the specified checks on any files included in the commit.
+ *
+ * The versions of pre-commit hooks configured into the `.pre-commit-config.yaml`
+ * file can be updated by using `construct.addOverride()` calls to change
+ * values in the generated file.
+ *
+ * For example, to override the repository version for the Commitizen
+ * pre-commit hook (usually the first hook in the configuraiton file)
+ * place the following in your `.projenrc.ts` file:
+ *
+ * ```typescript
+ * const precommitConfig = project.tryFindObjectFile('.pre-commit-config.yaml');
+ * precommitConfig?.addOverride('repos.0.rev', 'v4.16.3');
+ * ```
+ * The revision in `.pre-commit-config.yaml` for that repository will
+ * be replaced with the value specified.
  */
 export class PreCommitConfigFile extends YamlFile {
   /**
    * Creates a `PreCommitConfigFile` construct and adds it to the project.
+   *
+   * The `.pre-commit-config.yaml` file is also added to the package ignore list.
    *
    * @param scope the project that this construct belongs to
    * @param options options to configure the file
@@ -155,6 +172,7 @@ export class PreCommitConfigFile extends YamlFile {
                   "API.md|" +
                   "CHANGELOG.md|" +
                   "typedoc.json|" +
+                  "pnpm-workspace.yaml" +
                   ")$",
                 stages: ["pre-commit"],
               },
@@ -195,6 +213,7 @@ export class PreCommitConfigFile extends YamlFile {
               "API.md|" +
               "CHANGELOG.md|" +
               "typedoc.json|" +
+              "pnpm-workspace.yaml|" +
               "setup\\.py|" +
               "requirements\\.txt|" +
               "requirements-dev\\.txt" +

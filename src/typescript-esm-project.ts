@@ -24,23 +24,65 @@ import {
 } from "./pre-commit-config";
 import { TypedocJson } from "./typedoc-json";
 
+/**
+ * The build/packaging model to use for the `TypeScriptESMProject`.
+ *
+ * There are generally two models supported, along with an "escape hatch"
+ * to allow individual customization without using the **opinionated**
+ * support provided with this project type.
+ *
+ * The two models:
+ * - local build/packaging - this model presumes that most work
+ *   on the project is performed locally, including build, packaging,
+ *   and distribution/publishing to remote registries/repositories
+ * - github build/packaging - (not yet implemented) this model
+ *   presumes that Github workflows are used to build/package/distribute/publish
+ *   the project.
+ *
+ * In all cases, "trunk-based" development is presumed as the Git
+ * branching/merging strategy.
+ */
 export enum RepoBuildPackageModel {
   /**
    * Skip any build/release configuration that is
    * offered by the TypeScriptESMProject component
+   *
+   * This is an "escape hatch" to allow the project
+   * to define it's own customizations/configuration
+   * for build/packaging and distribution/publishing
    */
   SKIP_SETUP,
 
   /**
-   * completely local git repository, no remote repo,
-   * no GitHub actions, manual releases, no package registry
-   * (but copy to local archive "registry").
+   * All development/build/packaging/distribution/publishing
+   * is driven from a local workstation or cloned repository.
+   *
+   * A "local" repository/registry (just a folder on the local
+   * system) is the default location to distribute/publish.
+   * Use the `releaseToLocal` (default: `true`) option to configure.
+   * Use the [localPackageArchiveDir](#typescriptesmprojectoptions) option to specify
+   * the folder location.
+   *
+   * A remote git repository can be configured/used and becomes
+   * a distribution/publishing "target" for "release" operations.
+   * Use the `releaseToGithub` (default: `false`) option to configure.
+   *
+   * The NPM registry (npmjs.com) can be configured as an additional
+   * distribution/publishing "target".
+   * Use the `releaseToNpm` (default: `true` if
+   * `repository` is set, `false` otherwise) option to configure.
+   *
+   * When using this mode, the user **MUST** have active
+   * credentials in the local environment
+   * for the remote distribution locations
+   * when "release" tasks are invoked.
    */
   LOCAL_DEV_BUILD_REGISTRY,
 }
 
 /**
- * commands which are provided by the project
+ * additional commands to configure into the project
+ * (`scripts` in `package.json`).
  */
 export interface CommandParameters {
   /**
@@ -60,15 +102,15 @@ export interface CommandParameters {
 export interface TypeScriptESMProjectOptions
   extends typescript.TypeScriptProjectOptions {
   /**
-   * Add a `version.ts` file which contains a LIB_VERSION global
-   * which is set based on the `version` field in `package.json`.
+   * Add a `version.ts` file which contains a `LIB_VERSION` global.
+   * The `LIB_VERSION` value is set based on the `version` field in `package.json`.
    *
    * @default false
    */
   readonly addVersionFile?: boolean;
 
   /**
-   * Additional commands to add to the `package.json` file.
+   * Additional commands (scripts) to add to the `package.json` file.
    *
    * @default []
    */
@@ -112,6 +154,10 @@ export interface TypeScriptESMProjectOptions
   /**
    * API entry points for `typedoc` to use
    *
+   * @default undefined if not specified, then information in `package.json`
+   *  will be used by `typedoc` to determine what entry points to include
+   *  in the documentation.
+   *
    */
   readonly apiEntryPoints?: string[];
 
@@ -131,6 +177,7 @@ export interface TypeScriptESMProjectOptions
    * `RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY`.
    *
    * @default ~/.local-build-packages
+   * @featured
    */
   readonly localPackageArchiveDir?: string;
 
@@ -161,9 +208,14 @@ export interface TypeScriptESMProjectOptions
  * Additional features available:
  * - use ESLint flat config rather than JSON config
  * - use Prettier flat config rather than JSON config
- * - add a `verseion.ts` helper to ease the referencing of the package
+ * - add a `version.ts` helper to ease the referencing of the package
  *   version in package code.
  * - enable the project for using the `pre-commit` tool
+ * - activate a local/github build/packaging mode for the project
+ * - activate API documentation generation during builds (uses `typedoc`)
+ * - create a sample `index.md` file in the `docs` folder (for usage guide,
+ *   examples, and more detailed information than what is found in the `README.md`)
+ * - create a more detailed sample `README.md` file
  *
  * @pjid typescript-esm
  */
@@ -194,17 +246,17 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
   public readonly commands: CommandParameters[];
 
   /**
-   * @see {@link TypeScriptESMProjectOptions}
+   * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
    */
   public readonly docsIndex: boolean;
 
   /**
-   * @see {@link TypeScriptESMProjectOptions}
+   * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
    */
   public readonly apiDocumentation: boolean;
 
   /**
-   * @see {@link TypeScriptESMProjectOptions}
+   * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
    */
   public readonly apiEntryPoints?: string[];
 
@@ -218,6 +270,11 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
    */
   public readonly localPackageArchiveDir: string;
 
+  /**
+   * Create a TypeScriptESMProject construct for the project.
+   *
+   * @param options options for configuring the project.  Extends `TypeScriptProjectOptions`.
+   */
   constructor(options: TypeScriptESMProjectOptions) {
     const repoBuildPackageModel: RepoBuildPackageModel =
       options.repoBuildPackageModel ??

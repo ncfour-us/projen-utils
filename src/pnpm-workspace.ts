@@ -40,15 +40,17 @@ export interface PnpmWorkspaceOptions {
 }
 
 /**
- * This construct defines a README.md sample file for the project.
+ * This construct defines a pnpm-workspace.yaml file for the project.
  *
- * By creating this file, the `README.md` file at the top of the
- * project will contain a set of sections which are typical
- * for TypeScript projects.
+ * Only a subset of options for the pnpm-workspace.yaml file are
+ * supported.  Opinionated default values for the supported options
+ * are configured when not specified in the constructdor.
  */
 export class PnpmWorkspace extends YamlFile {
   /**
    * Creates a `PnpmWorksapce` construct and adds it to the project.
+   *
+   * The `pnpm-workspace.yaml` file is also added to the package ignore list.
    *
    * @param scope the project that this construct belongs to
    * @param options options to set various settings in pnpm-workspace.yaml
