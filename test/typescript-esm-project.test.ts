@@ -298,7 +298,7 @@ test("typescript-esm-project-instantiate packageManger NPM, buildTagTask, addVer
   );
   expect(tasksJson.tasks["build:tag"].steps[0].name).toBe("set environment");
   expect(tasksJson.tasks["setpkg:version"].steps[0].exec).toStrictEqual(
-    "npm version --no-git-tag-version from-git",
+    "npm version --no-git-tag-version from-git --allow-same-version",
   );
   expect(tasksJson.tasks["build:tag:env"].steps[1].spawn).toStrictEqual(
     "stash:push",
@@ -341,7 +341,7 @@ test("typescript-esm-project-instantiate packageManger PNPM, buildTagTask, addVe
   );
   expect(tasksJson.tasks["build:tag"].steps[0].name).toBe("set environment");
   expect(tasksJson.tasks["setpkg:version"].steps[0].exec).toStrictEqual(
-    "pnpm version --no-git-tag-version from-git",
+    "pnpm version --no-git-tag-version from-git --allow-same-version",
   );
   expect(tasksJson.tasks["build:tag:env"].steps[1].spawn).toStrictEqual(
     "stash:push",
