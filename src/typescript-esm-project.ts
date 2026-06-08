@@ -810,7 +810,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
       receiveArgs: false,
       steps: [
         {
-          exec: `${packageManagerCommand} version --no-git-tag-version from-git`,
+          exec: `${packageManagerCommand} version --no-git-tag-version from-git --allow-same-version`,
           receiveArgs: false,
         },
       ],
