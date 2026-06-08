@@ -2719,6 +2719,7 @@ When given a project, this it the project itself.
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.tsconfigEslint">tsconfigEslint</a></code> | <code>projen.javascript.TypescriptConfig</code> | *No description.* |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.addVersionFile">addVersionFile</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.apiDocumentation">apiDocumentation</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.buildTagTask">buildTagTask</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.commands">commands</a></code> | <code><a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.docsIndex">docsIndex</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.eslintFlatConfig">eslintFlatConfig</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
@@ -3514,6 +3515,18 @@ see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
 
 ---
 
+##### `buildTagTask`<sup>Required</sup> <a name="buildTagTask" id="@ncfour-us/projen-utils.TypeScriptESMProject.property.buildTagTask"></a>
+
+```typescript
+public readonly buildTagTask: boolean;
+```
+
+- *Type:* boolean
+
+see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+
+---
+
 ##### `commands`<sup>Required</sup> <a name="commands" id="@ncfour-us/projen-utils.TypeScriptESMProject.property.commands"></a>
 
 ```typescript
@@ -4167,6 +4180,7 @@ const typeScriptESMProjectOptions: TypeScriptESMProjectOptions = { ... }
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.addVersionFile">addVersionFile</a></code> | <code>boolean</code> | Add a `version.ts` file which contains a `LIB_VERSION` global. The `LIB_VERSION` value is set based on the `version` field in `package.json`. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.apiDocumentation">apiDocumentation</a></code> | <code>boolean</code> | Add API documentation to `docs/api` using `typedoc`. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.apiEntryPoints">apiEntryPoints</a></code> | <code>string[]</code> | API entry points for `typedoc` to use. |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.buildTagTask">buildTagTask</a></code> | <code>boolean</code> | Add a `build:tag` task to the set of tasks for the project. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.commands">commands</a></code> | <code><a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]</code> | Additional commands (scripts) to add to the `package.json` file. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.docsIndex">docsIndex</a></code> | <code>boolean</code> | Add a `docs/index.md` file to the project as a sample file. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.eslintFlatConfig">eslintFlatConfig</a></code> | <code>boolean</code> | Use `eslint.config.ts` instead of `.eslintrc.json` for eslint config. |
@@ -6513,6 +6527,30 @@ public readonly apiEntryPoints: string[];
 - *Default:* undefined if not specified, then information in `package.json` will be used by `typedoc` to determine what entry points to include in the documentation.
 
 API entry points for `typedoc` to use.
+
+---
+
+##### `buildTagTask`<sup>Optional</sup> <a name="buildTagTask" id="@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.buildTagTask"></a>
+
+```typescript
+public readonly buildTagTask: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Add a `build:tag` task to the set of tasks for the project.
+
+The `build:tag` task requires a single argument which **MUST**
+match an existing tag (released version) in the git repository.
+
+This task runs only in "local" (non-CI) environments.
+
+Example for running the task (assumes tag/release `v0.0.4` exists):
+
+```bash
+pnpm build:tag v0.0.4
+```
 
 ---
 

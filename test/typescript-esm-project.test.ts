@@ -16,6 +16,9 @@ import {
 import { TypeScriptESMProject } from "../src/typescript-esm-project";
 
 test("typescript-esm-project-version-file", () => {
+  // Arrange - Given
+
+  // Act - When
   const esmProject = new TypeScriptESMProject({
     name: "test-esm-project",
     description: "test-esm-project description",
@@ -28,6 +31,7 @@ test("typescript-esm-project-version-file", () => {
     packageManager: NodePackageManager.PNPM,
   });
 
+  // Assert - Then
   // create the project
   const snapshot = Testing.synth(esmProject);
 
@@ -52,6 +56,9 @@ test("typescript-esm-project-version-file", () => {
 });
 
 test("typescript-esm-project-commands", () => {
+  // Arrange - Given
+
+  // Act - When
   const esmProject = new TypeScriptESMProject({
     name: "test-esm-project",
     description: "test-esm-project description",
@@ -73,6 +80,7 @@ test("typescript-esm-project-commands", () => {
     packageManager: NodePackageManager.PNPM,
   });
 
+  // Assert - Then
   // create the project
   const snapshot = Testing.synth(esmProject);
 
@@ -89,6 +97,9 @@ test("typescript-esm-project-commands", () => {
 });
 
 test("typescript-esm-project-instantiate", () => {
+  // Arrange - Given
+
+  // Act - When
   const esmProject = new TypeScriptESMProject({
     name: "test-esm-project",
     description: "test-esm-project description",
@@ -106,6 +117,7 @@ test("typescript-esm-project-instantiate", () => {
     ],
   });
 
+  // Assert - Then
   // create the project
   const snapshot = Testing.synth(esmProject);
 
@@ -122,6 +134,9 @@ test("typescript-esm-project-instantiate", () => {
 });
 
 test("typescript-esm-project-instantiate esLintFlatConfig", () => {
+  // Arrange - Given
+
+  // Act - When
   const esmProject = new TypeScriptESMProject({
     name: "test-esm-project",
     description: "test-esm-project description",
@@ -134,6 +149,7 @@ test("typescript-esm-project-instantiate esLintFlatConfig", () => {
     eslintFlatConfig: true,
   });
 
+  // Assert - Then
   // create the project
   const snapshot = Testing.synth(esmProject);
 
@@ -142,6 +158,9 @@ test("typescript-esm-project-instantiate esLintFlatConfig", () => {
 });
 
 test("typescript-esm-project-instantiate precommitConfig", () => {
+  // Arrange - Given
+
+  // Act - When
   const esmProject = new TypeScriptESMProject({
     name: "test-esm-project",
     description: "test-esm-project description",
@@ -154,6 +173,7 @@ test("typescript-esm-project-instantiate precommitConfig", () => {
     precommitConfig: true,
   });
 
+  // Assert - Then
   // create the project
   const snapshot = Testing.synth(esmProject);
 
@@ -172,6 +192,9 @@ test("typescript-esm-project-instantiate precommitConfig", () => {
 });
 
 test("typescript-esm-project-instantiate prettierFlatConfig, precommitConfig", () => {
+  // Arrange - Given
+
+  // Act - When
   const esmProject = new TypeScriptESMProject({
     name: "test-esm-project",
     description: "test-esm-project description",
@@ -185,6 +208,7 @@ test("typescript-esm-project-instantiate prettierFlatConfig, precommitConfig", (
     prettierFlatConfig: true,
   });
 
+  // Assert - Then
   // create the project
   const snapshot = Testing.synth(esmProject);
 
@@ -208,6 +232,8 @@ test("typescript-esm-project-instantiate prettierFlatConfig, precommitConfig", (
 
 test("typescript-esm-project-instantiate addDocIndex, apiDocumentation", () => {
   // Arrange - Given
+
+  // Act - When
   const esmProject = new TypeScriptESMProject({
     name: "test-esm-project",
     description: "test-esm-project description",
@@ -222,11 +248,10 @@ test("typescript-esm-project-instantiate addDocIndex, apiDocumentation", () => {
     apiEntryPoints: ["src/file1.ts", "src/file2.ts"],
   });
 
-  // Act - When
+  // Assert - Then
   // create the project
   const snapshot = Testing.synth(esmProject);
 
-  // Assert - Then
   // read the file
   const synthedTypedoc = snapshot["typedoc.json"];
 
@@ -238,4 +263,90 @@ test("typescript-esm-project-instantiate addDocIndex, apiDocumentation", () => {
   expect(synthedTypedoc.entryPoints[0]).toBe("src/file1.ts");
   expect(synthedTypedoc.out).toBe("docs/api");
   expect(synthedTypedoc.disableSources).toBe(true);
+});
+
+test("typescript-esm-project-instantiate packageManger NPM, buildTagTask, addVersionFile", () => {
+  // Arrange - Given
+
+  // Act - When
+  const esmProject = new TypeScriptESMProject({
+    name: "test-esm-project",
+    description: "test-esm-project description",
+    packageName: "test-esm-package-name",
+    defaultReleaseBranch: "main",
+
+    // Remove implied dependency on/use of yarn package manager
+    packageManager: NodePackageManager.NPM,
+
+    buildTagTask: true,
+    addVersionFile: true,
+  });
+
+  // Assert - Then
+  // create the project
+  const snapshot = Testing.synth(esmProject);
+
+  // read the file
+  const synthedPackageJson = snapshot["package.json"];
+
+  // read the prettier.config.ts file
+  const tasksJson = snapshot[".projen/tasks.json"];
+
+  expect(synthedPackageJson.scripts["build:tag"]).toBe("projen build:tag");
+  expect(synthedPackageJson.scripts["build:tag:env"]).toBe(
+    "projen build:tag:env",
+  );
+  expect(tasksJson.tasks["build:tag"].steps[0].name).toBe("set environment");
+  expect(tasksJson.tasks["setpkg:version"].steps[0].exec).toStrictEqual(
+    "npm version --no-git-tag-version from-git",
+  );
+  expect(tasksJson.tasks["build:tag:env"].steps[1].spawn).toStrictEqual(
+    "stash:push",
+  );
+  expect(tasksJson.tasks["create-version"].steps[0].exec).toStrictEqual(
+    "npm run create-version",
+  );
+});
+
+test("typescript-esm-project-instantiate packageManger PNPM, buildTagTask, addVersionFile", () => {
+  // Arrange - Given
+
+  // Act - When
+  const esmProject = new TypeScriptESMProject({
+    name: "test-esm-project",
+    description: "test-esm-project description",
+    packageName: "test-esm-package-name",
+    defaultReleaseBranch: "main",
+
+    // Remove implied dependency on/use of yarn package manager
+    packageManager: NodePackageManager.PNPM,
+
+    buildTagTask: true,
+    addVersionFile: true,
+  });
+
+  // Assert - Then
+  // create the project
+  const snapshot = Testing.synth(esmProject);
+
+  // read the file
+  const synthedPackageJson = snapshot["package.json"];
+
+  // read the prettier.config.ts file
+  const tasksJson = snapshot[".projen/tasks.json"];
+
+  expect(synthedPackageJson.scripts["build:tag"]).toBe("projen build:tag");
+  expect(synthedPackageJson.scripts["build:tag:env"]).toBe(
+    "projen build:tag:env",
+  );
+  expect(tasksJson.tasks["build:tag"].steps[0].name).toBe("set environment");
+  expect(tasksJson.tasks["setpkg:version"].steps[0].exec).toStrictEqual(
+    "pnpm version --no-git-tag-version from-git",
+  );
+  expect(tasksJson.tasks["build:tag:env"].steps[1].spawn).toStrictEqual(
+    "stash:push",
+  );
+  expect(tasksJson.tasks["create-version"].steps[0].exec).toStrictEqual(
+    "pnpm create-version",
+  );
 });

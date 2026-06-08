@@ -194,6 +194,23 @@ export interface TypeScriptESMProjectOptions
    * @default true if `repository` is set, `false` otherwise
    */
   readonly releaseToGithub?: boolean;
+
+  /**
+   * Add a `build:tag` task to the set of tasks for the project.
+   * The `build:tag` task requires a single argument which **MUST**
+   * match an existing tag (released version) in the git repository.
+   *
+   * This task runs only in "local" (non-CI) environments.
+   *
+   * Example for running the task (assumes tag/release `v0.0.4` exists):
+   *
+   * ```bash
+   * pnpm build:tag v0.0.4
+   * ```
+   *
+   * @default false
+   */
+  readonly buildTagTask?: boolean;
 }
 
 /**
@@ -269,6 +286,11 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
    * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
    */
   public readonly localPackageArchiveDir: string;
+
+  /**
+   * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+   */
+  public readonly buildTagTask: boolean;
 
   /**
    * Create a TypeScriptESMProject construct for the project.
@@ -386,6 +408,33 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
       RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY;
     this.localPackageArchiveDir =
       options.localPackageArchiveDir ?? "~/.local-build-packages";
+    this.buildTagTask = options.buildTagTask ?? false;
+
+    // define the run command to use based on the package manager specified
+    let packageManagerRunCommand: string;
+    let packageManagerCommand: string;
+    switch (options.packageManager) {
+      case NodePackageManager.NPM:
+        packageManagerRunCommand = "npm run";
+        packageManagerCommand = "npm";
+        break;
+      case NodePackageManager.BUN:
+        packageManagerRunCommand = "bun run";
+        packageManagerCommand = "bun";
+        break;
+      case NodePackageManager.PNPM:
+        packageManagerRunCommand = "pnpm";
+        packageManagerCommand = "pnpm";
+        break;
+      case NodePackageManager.YARN_BERRY:
+      case NodePackageManager.YARN_CLASSIC:
+        packageManagerRunCommand = "yarn";
+        packageManagerCommand = "yarn";
+        break;
+      default:
+        packageManagerRunCommand = "npm run";
+        packageManagerCommand = "npm";
+    }
 
     // set "type": "module" in package.json
     this.package.addField("type", "module");
@@ -421,7 +470,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
       const createVersion = this.addTask("create-version", {
         description:
           "customized task to run a script which generates version.ts",
-        exec: "npm run create-version",
+        exec: `${packageManagerRunCommand} create-version`,
       });
 
       // this adds the create-version task as a sub-task of the pre-created preCompileTask.
@@ -552,25 +601,6 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
       new DocsIndexSampleFile(this);
 
       if (this.apiDocumentation) {
-        let packageManagerRunCommand: string;
-        switch (options.packageManager) {
-          case NodePackageManager.NPM:
-            packageManagerRunCommand = "npm run";
-            break;
-          case NodePackageManager.BUN:
-            packageManagerRunCommand = "bun run";
-            break;
-          case NodePackageManager.PNPM:
-            packageManagerRunCommand = "pnpm";
-            break;
-          case NodePackageManager.YARN_BERRY:
-          case NodePackageManager.YARN_CLASSIC:
-            packageManagerRunCommand = "yarn";
-            break;
-          default:
-            packageManagerRunCommand = "npm run";
-        }
-
         // install typedoc and markdown plugin
         this.addDevDeps("typedoc", "typedoc-plugin-markdown");
 
@@ -637,6 +667,11 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
           LogLevel.ERROR,
           `incorrect repoBuildPackageModel ${this.repoBuildPackageModel} specified after constructor`,
         );
+    }
+
+    // add a build:tag task (along with sub-tasks to support it)
+    if (this.buildTagTask) {
+      this.addBuildTagTask(packageManagerCommand, packageManagerRunCommand);
     }
 
     // end additional features
@@ -734,5 +769,156 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     if (publishTask && publishGithubTask) {
       publishTask.spawn(publishGithubTask);
     }
+  }
+
+  private addBuildTagTask(
+    packageManagerCommand: string,
+    packageManagerRunCommand: string,
+  ) {
+    const stashPushTask = this.addTask("stash:push", {
+      receiveArgs: false,
+      steps: [
+        {
+          exec: 'if test $(git status --short | wc -l) -ne 0; then git stash push -m "save:work"; fi',
+          receiveArgs: false,
+        },
+      ],
+    });
+
+    const stashPopTask = this.addTask("stash:pop", {
+      receiveArgs: false,
+      steps: [
+        {
+          exec: 'if test $(git stash list | grep "save:work" | wc -l) -eq 1; then git stash pop; fi',
+          receiveArgs: false,
+        },
+      ],
+    });
+
+    const gitCheckoutTask = this.addTask("git:checkout", {
+      receiveArgs: false,
+      requiredEnv: ["PROJEN_BUILD_TAG"],
+      steps: [
+        {
+          exec: "git checkout ${PROJEN_BUILD_TAG}",
+          receiveArgs: false,
+        },
+      ],
+    });
+
+    const setPackageVersionTask = this.addTask("setpkg:version", {
+      receiveArgs: false,
+      steps: [
+        {
+          exec: `${packageManagerCommand} version --no-git-tag-version from-git`,
+          receiveArgs: false,
+        },
+      ],
+    });
+
+    const restoreBranchTask = this.addTask("restore:branch", {
+      receiveArgs: false,
+      requiredEnv: ["PROJEN_RESTORE_BRANCH"],
+      steps: [
+        {
+          exec: `git status --short;
+                git restore .;
+                echo "restoring to branch: \${PROJEN_RESTORE_BRANCH}";
+                git checkout \${PROJEN_RESTORE_BRANCH}`,
+          receiveArgs: false,
+        },
+      ],
+    });
+
+    this.addTask("build:tag:env", {
+      receiveArgs: true,
+      requiredEnv: ["PROJEN_BUILD_TAG", "PROJEN_RESTORE_BRANCH"],
+      condition: 'node -e "if (process.env.CI) process.exit(1)"',
+      steps: [
+        {
+          exec: 'echo "Building at ${PROJEN_BUILD_TAG}"',
+          receiveArgs: true,
+        },
+        {
+          spawn: stashPushTask.name,
+          receiveArgs: false,
+        },
+        {
+          spawn: gitCheckoutTask.name,
+          receiveArgs: false,
+        },
+        {
+          spawn: "default",
+          receiveArgs: false,
+        },
+        {
+          spawn: setPackageVersionTask.name,
+          receiveArgs: false,
+        },
+        {
+          spawn: "pre-compile",
+          receiveArgs: false,
+        },
+        {
+          spawn: "compile",
+          receiveArgs: false,
+        },
+        {
+          spawn: "post-compile",
+          receiveArgs: false,
+        },
+        {
+          spawn: "test",
+          receiveArgs: false,
+        },
+        {
+          spawn: "package",
+          receiveArgs: false,
+        },
+        {
+          spawn: restoreBranchTask.name,
+          receiveArgs: false,
+        },
+        {
+          spawn: stashPopTask.name,
+          receiveArgs: false,
+        },
+      ],
+    });
+
+    this.addTask("build:tag", {
+      receiveArgs: true,
+      condition: 'node -e "if (process.env.CI) process.exit(1)"',
+      steps: [
+        {
+          name: "set environment",
+          exec: `set -- $@;
+                arg1=$1;
+                if test $# -eq 1; then
+                  if test $(git tag -l | grep $1); then
+                    currentBranch=$(git branch --show-current);
+                    echo "current branch: $currentBranch";
+                    echo "building at tag: $1";
+                    export PROJEN_BUILD_TAG=$1;
+                    export PROJEN_RESTORE_BRANCH=$currentBranch;
+                    ${packageManagerRunCommand} build:tag:env;
+                  else
+                    echo "tag not found: $1";
+                    exit 1;
+                  fi;
+                else
+                  echo "usage: build:tag <tag>";
+                  exit 1;
+                fi`,
+          receiveArgs: true,
+        },
+      ],
+    });
+
+    this.removeScript(stashPushTask.name);
+    this.removeScript(stashPopTask.name);
+    this.removeScript(setPackageVersionTask.name);
+    this.removeScript(gitCheckoutTask.name);
+    this.removeScript(restoreBranchTask.name);
   }
 }
