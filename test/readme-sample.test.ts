@@ -80,9 +80,9 @@ test("readme all options specified, ReadmeSampleFile() construct", () => {
     authorGithubUser: "githubUserId",
   });
 
+  // Assert - Then
   const snapshot = Testing.synth(project);
 
-  // Assert - Then
   // get information from synthed project
   const synthedReadme = snapshot["README.md"];
 
