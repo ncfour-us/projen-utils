@@ -24,6 +24,15 @@
         }
       ]
     },
+    "build:docs": {
+      "name": "build:docs",
+      "description": "Generate Typedoc documentation",
+      "steps": [
+        {
+          "exec": "pnpm typedoc"
+        }
+      ]
+    },
     "bump": {
       "name": "bump",
       "description": "Bumps version based on latest git tag and generates a changelog entry",
@@ -210,6 +219,9 @@
       "steps": [
         {
           "spawn": "docgen"
+        },
+        {
+          "spawn": "build:docs"
         }
       ]
     },
@@ -292,13 +304,13 @@
       },
       "steps": [
         {
-          "exec": "pnpm dlx npm-check-updates@20 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@eslint/compat,@eslint/eslintrc,@eslint/js,@jest/globals,@types/jest,@types/node,eslint-config-prettier,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,fs,globals,jest,jsii-diff,jsii-pacmak,prettier,projen,ts-jest,ts-node,typescript,yaml,constructs"
+          "exec": "pnpm dlx npm-check-updates@20 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@eslint/compat,@eslint/eslintrc,@eslint/js,@jest/globals,@types/jest,@types/node,eslint-config-prettier,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,fs,globals,jest,jsii-diff,jsii-pacmak,prettier,projen,ts-jest,ts-node,typedoc,typedoc-plugin-markdown,typescript,yaml,constructs"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @eslint/compat @eslint/eslintrc @eslint/js @jest/globals @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser commit-and-tag-version constructs eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint fs globals jest jest-junit jsii-diff jsii-docgen jsii-pacmak jsii-rosetta jsii prettier projen ts-jest ts-node typescript yaml"
+          "exec": "pnpm update @eslint/compat @eslint/eslintrc @eslint/js @jest/globals @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser commit-and-tag-version constructs eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint fs globals jest jest-junit jsii-diff jsii-docgen jsii-pacmak jsii-rosetta jsii prettier projen ts-jest ts-node typedoc typedoc-plugin-markdown typescript yaml"
         },
         {
           "exec": "pnpm exec projen"
