@@ -8,11 +8,21 @@ import { SampleFile, Project, SampleReadmeProps, Component } from "projen";
 /**
  * Used to configure the ReadmeSampleFile construct
  *
- * If any values are NOT set, then the associated markers
- * in the sample file will NOT be replaced.  This allows
+ * If values are **NOT** set, then the associated markers
+ * in the sample file will **NOT be replaced**.  This allows
  * an author to easily find and replace those values
  * when updating the file after the project has been
  * synthesized.
+ *
+ * If neither `namespace` (deprecated) or `npmScope`
+ * are specified, then the package is presumed to **NOT**
+ * have a NPM scope and is omitted from the generated
+ * `README.md` text.
+ *
+ * If `authorGithubUser` is specified and `organization`
+ * is **NOT** specified, then the project is presumed
+ * to be a personal project and the Github userid is
+ * used for the organization name.
  */
 export interface ReadmeSampleFileOptions {
   /**
@@ -22,8 +32,15 @@ export interface ReadmeSampleFileOptions {
 
   /**
    * Namespace/organization/user associated with the Git repository.
+   *
+   * @deprecated use `npmScope` instead
    */
   readonly namespace?: string;
+
+  /**
+   * NPM scope for the package.
+   */
+  readonly npmScope?: string;
 
   /**
    * Name of the Git repository.
@@ -194,9 +211,15 @@ export function sampleReadmeProps(
 }
 
 function generateFileContents(options?: ReadmeSampleFileOptions) {
-  const namespace: string = options?.namespace ?? "{{namespace}}";
+  const namespace: string = options?.namespace ?? "{{npmScope}}";
+
+  let npmScope: string = options?.npmScope ?? "";
   const projectName: string = options?.project ?? "{{project}}";
-  const organization: string = options?.organization ?? "{{organization}}";
+  const organization: string = options?.organization
+    ? options?.organization
+    : options?.authorGithubUser
+      ? options.authorGithubUser
+      : "{{organization}}";
   const author: string = options?.author ?? "{{author}}";
   const authorEmail: string = options?.authorEmail ?? "{{authorEmail}}";
   const authorGithubUser: string =
@@ -210,7 +233,19 @@ function generateFileContents(options?: ReadmeSampleFileOptions) {
     },
   );
 
-  fileContents = replaceAll(fileContents, "{{namespace}}", namespace);
+  // support deprecated option
+  if (npmScope === "" && namespace !== "{{npmScope}}") {
+    npmScope = namespace;
+  }
+
+  const fullPackageName: string =
+    npmScope.length > 0 ? `${npmScope}/${projectName}` : projectName;
+
+  fileContents = replaceAll(
+    fileContents,
+    "{{npmScope}}/{{project}}",
+    fullPackageName,
+  );
   fileContents = replaceAll(fileContents, "{{project}}", projectName);
   fileContents = replaceAll(fileContents, "{{organization}}", organization);
   fileContents = replaceAll(fileContents, "{{author}}", author);
