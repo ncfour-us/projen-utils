@@ -3897,11 +3897,21 @@ For JavaScript and/or TypeScript support, the package manager defined for the pr
 
 Used to configure the ReadmeSampleFile construct.
 
-If any values are NOT set, then the associated markers
-in the sample file will NOT be replaced.  This allows
+If values are **NOT** set, then the associated markers
+in the sample file will **NOT be replaced**.  This allows
 an author to easily find and replace those values
 when updating the file after the project has been
 synthesized.
+
+If neither `namespace` (deprecated) or `npmScope`
+are specified, then the package is presumed to **NOT**
+have a NPM scope and is omitted from the generated
+`README.md` text.
+
+If `authorGithubUser` is specified and `organization`
+is **NOT** specified, then the project is presumed
+to be a personal project and the Github userid is
+used for the organization name.
 
 #### Initializer <a name="Initializer" id="@ncfour-us/projen-utils.ReadmeSampleFileOptions.Initializer"></a>
 
@@ -3921,6 +3931,7 @@ const readmeSampleFileOptions: ReadmeSampleFileOptions = { ... }
 | <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.filename">filename</a></code> | <code>string</code> | filename of the Readme sample file. |
 | <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.license">license</a></code> | <code>string</code> | Designated license for the project. |
 | <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.namespace">namespace</a></code> | <code>string</code> | Namespace/organization/user associated with the Git repository. |
+| <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.npmScope">npmScope</a></code> | <code>string</code> | NPM scope for the package. |
 | <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.organization">organization</a></code> | <code>string</code> | Namespace/organization/user associated with the Git repository. |
 | <code><a href="#@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.project">project</a></code> | <code>string</code> | Name of the Git repository. |
 
@@ -3986,7 +3997,9 @@ Designated license for the project.
 
 ---
 
-##### `namespace`<sup>Optional</sup> <a name="namespace" id="@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.namespace"></a>
+##### ~~`namespace`~~<sup>Optional</sup> <a name="namespace" id="@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.namespace"></a>
+
+- *Deprecated:* use `npmScope` instead
 
 ```typescript
 public readonly namespace: string;
@@ -3995,6 +4008,18 @@ public readonly namespace: string;
 - *Type:* string
 
 Namespace/organization/user associated with the Git repository.
+
+---
+
+##### `npmScope`<sup>Optional</sup> <a name="npmScope" id="@ncfour-us/projen-utils.ReadmeSampleFileOptions.property.npmScope"></a>
+
+```typescript
+public readonly npmScope: string;
+```
+
+- *Type:* string
+
+NPM scope for the package.
 
 ---
 
