@@ -1,4 +1,4 @@
-# {{namespace}}/{{project}}
+# {{npmScope}}/{{project}}
 
 **TODO:** Enter a short description of the project here.
 
@@ -32,7 +32,7 @@
 Install using `npm`, `yarn`, or `pnpm` (preferred).
 
 ```bash
-pnpm add --save-dev {{namespace}}/{{project}}
+pnpm add --save-dev {{npmScope}}/{{project}}
 ```
 
 **TODO:** Enter additional installation instructions here.
