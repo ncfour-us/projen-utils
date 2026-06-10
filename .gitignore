@@ -50,4 +50,5 @@ junit.xml
 tsconfig.json
 !/API.md
 !/.pre-commit-config.yaml
+!/typedoc.json
 !/.projenrc.ts

@@ -23,6 +23,8 @@ tsconfig.tsbuildinfo
 /.eslintrc.json
 !.jsii
 .pre-commit-config.yaml
+typedoc.json
+docs
 /.gitattributes
 /.projenrc.ts
 /projenrc
