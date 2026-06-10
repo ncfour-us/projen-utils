@@ -3,14 +3,14 @@
   "plugin": [
     "typedoc-plugin-markdown"
   ],
-  "entryPoints": [
-    "./src/index.ts"
-  ],
   "out": "docs/api",
   "cleanOutputDir": true,
   "readme": "none",
   "disableSources": true,
   "entryFileName": "index",
   "mergeReadme": false,
-  "hidePageHeader": true
+  "hidePageHeader": true,
+  "entryPoints": [
+    "./src/index.ts"
+  ]
 }

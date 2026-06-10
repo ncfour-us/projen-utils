@@ -12,7 +12,7 @@ This construct defines a `docs/index.md` sample file for the project.
 
 ### Constructor
 
-> **new DocsIndexSampleFile**(`project`): `DocsIndexSampleFile`
+> **new DocsIndexSampleFile**(`project`, `options?`): `DocsIndexSampleFile`
 
 Creates a `DocsIndexSampleFile` construct and adds it to the project.
 
@@ -23,6 +23,10 @@ Creates a `DocsIndexSampleFile` construct and adds it to the project.
 `Project`
 
 the project that this construct belongs to
+
+##### options?
+
+[`DocsIndexSampleFileOptions`](../interfaces/DocsIndexSampleFileOptions.md)
 
 #### Returns
 

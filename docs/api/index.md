@@ -17,6 +17,7 @@
 ## Interfaces
 
 - [CommandParameters](interfaces/CommandParameters.md)
+- [DocsIndexSampleFileOptions](interfaces/DocsIndexSampleFileOptions.md)
 - [PnpmWorkspaceOptions](interfaces/PnpmWorkspaceOptions.md)
 - [PreCommitConfigFileOptions](interfaces/PreCommitConfigFileOptions.md)
 - [ReadmeSampleFileOptions](interfaces/ReadmeSampleFileOptions.md)

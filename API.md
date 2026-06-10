@@ -11,12 +11,13 @@ This construct defines a `docs/index.md` sample file for the project.
 ```typescript
 import { DocsIndexSampleFile } from '@ncfour-us/projen-utils'
 
-new DocsIndexSampleFile(project: Project)
+new DocsIndexSampleFile(project: Project, options?: DocsIndexSampleFileOptions)
 ```
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@ncfour-us/projen-utils.DocsIndexSampleFile.Initializer.parameter.project">project</a></code> | <code>projen.Project</code> | the project that this construct belongs to. |
+| <code><a href="#@ncfour-us/projen-utils.DocsIndexSampleFile.Initializer.parameter.options">options</a></code> | <code><a href="#@ncfour-us/projen-utils.DocsIndexSampleFileOptions">DocsIndexSampleFileOptions</a></code> | *No description.* |
 
 ---
 
@@ -25,6 +26,12 @@ new DocsIndexSampleFile(project: Project)
 - *Type:* projen.Project
 
 the project that this construct belongs to.
+
+---
+
+##### `options`<sup>Optional</sup> <a name="options" id="@ncfour-us/projen-utils.DocsIndexSampleFile.Initializer.parameter.options"></a>
+
+- *Type:* <a href="#@ncfour-us/projen-utils.DocsIndexSampleFileOptions">DocsIndexSampleFileOptions</a>
 
 ---
 
@@ -1459,7 +1466,7 @@ This construct defines a `typedoc.json` file for the project which is used by th
 ```typescript
 import { TypedocJson } from '@ncfour-us/projen-utils'
 
-new TypedocJson(project: Project, options: TypedocJsonOptions)
+new TypedocJson(project: Project, options?: TypedocJsonOptions)
 ```
 
 | **Name** | **Type** | **Description** |
@@ -1477,7 +1484,7 @@ the project that this construct belongs to.
 
 ---
 
-##### `options`<sup>Required</sup> <a name="options" id="@ncfour-us/projen-utils.TypedocJson.Initializer.parameter.options"></a>
+##### `options`<sup>Optional</sup> <a name="options" id="@ncfour-us/projen-utils.TypedocJson.Initializer.parameter.options"></a>
 
 - *Type:* <a href="#@ncfour-us/projen-utils.TypedocJsonOptions">TypedocJsonOptions</a>
 
@@ -3704,9 +3711,56 @@ name of the command.
 
 ---
 
+### DocsIndexSampleFileOptions <a name="DocsIndexSampleFileOptions" id="@ncfour-us/projen-utils.DocsIndexSampleFileOptions"></a>
+
+Options for the `DocsIndexSampleFile` construct.
+
+#### Initializer <a name="Initializer" id="@ncfour-us/projen-utils.DocsIndexSampleFileOptions.Initializer"></a>
+
+```typescript
+import { DocsIndexSampleFileOptions } from '@ncfour-us/projen-utils'
+
+const docsIndexSampleFileOptions: DocsIndexSampleFileOptions = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.DocsIndexSampleFileOptions.property.docsFolderName">docsFolderName</a></code> | <code>string</code> | The folder name to use for storing documentation. |
+| <code><a href="#@ncfour-us/projen-utils.DocsIndexSampleFileOptions.property.githubPagesConfig">githubPagesConfig</a></code> | <code>boolean</code> | Generate a `_config.yml` file in the docs folder. |
+
+---
+
+##### `docsFolderName`<sup>Optional</sup> <a name="docsFolderName" id="@ncfour-us/projen-utils.DocsIndexSampleFileOptions.property.docsFolderName"></a>
+
+```typescript
+public readonly docsFolderName: string;
+```
+
+- *Type:* string
+- *Default:* 'docs'
+
+The folder name to use for storing documentation.
+
+---
+
+##### `githubPagesConfig`<sup>Optional</sup> <a name="githubPagesConfig" id="@ncfour-us/projen-utils.DocsIndexSampleFileOptions.property.githubPagesConfig"></a>
+
+```typescript
+public readonly githubPagesConfig: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Generate a `_config.yml` file in the docs folder.
+
+---
+
 ### PnpmWorkspaceOptions <a name="PnpmWorkspaceOptions" id="@ncfour-us/projen-utils.PnpmWorkspaceOptions"></a>
 
-Used to configure the PreCommitConfigFile construct.
+Used to configure the `PnpmWorkspace` construct.
 
 If any values are NOT set, then the associated markers
 in the sample file will NOT be replaced.  This allows
@@ -3726,11 +3780,11 @@ const pnpmWorkspaceOptions: PnpmWorkspaceOptions = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspaceOptions.property.allowBuilds">allowBuilds</a></code> | <code>{[ key: string ]: boolean}</code> | pnpm.allowBuilds value for pnpm-workspace.yaml. |
-| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspaceOptions.property.blockExoticSubdeps">blockExoticSubdeps</a></code> | <code>number</code> | pnpm.blockExoticSubdeps value for pnpm-workspace.yaml. |
-| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspaceOptions.property.minimumReleaseAge">minimumReleaseAge</a></code> | <code>number</code> | pnpm.minimumReleaseAge value for pnpm-workspace.yaml. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspaceOptions.property.allowBuilds">allowBuilds</a></code> | <code>{[ key: string ]: boolean}</code> | `allowBuilds` value for `pnpm-workspace.yaml`. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspaceOptions.property.blockExoticSubdeps">blockExoticSubdeps</a></code> | <code>number</code> | `blockExoticSubdeps` value for `pnpm-workspace.yaml`. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspaceOptions.property.minimumReleaseAge">minimumReleaseAge</a></code> | <code>number</code> | `minimumReleaseAge` value for `pnpm-workspace.yaml`. |
 | <code><a href="#@ncfour-us/projen-utils.PnpmWorkspaceOptions.property.packages">packages</a></code> | <code>string[]</code> | package folders for the monorepo workspace. |
-| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspaceOptions.property.trustPolicy">trustPolicy</a></code> | <code>string</code> | pnpm.trustPolicy value for pnpm-workspace.yaml. |
+| <code><a href="#@ncfour-us/projen-utils.PnpmWorkspaceOptions.property.trustPolicy">trustPolicy</a></code> | <code>string</code> | `trustPolicy` value for `pnpm-workspace.yaml`. |
 
 ---
 
@@ -3742,7 +3796,7 @@ public readonly allowBuilds: {[ key: string ]: boolean};
 
 - *Type:* {[ key: string ]: boolean}
 
-pnpm.allowBuilds value for pnpm-workspace.yaml.
+`allowBuilds` value for `pnpm-workspace.yaml`.
 
 ---
 
@@ -3754,7 +3808,7 @@ public readonly blockExoticSubdeps: number;
 
 - *Type:* number
 
-pnpm.blockExoticSubdeps value for pnpm-workspace.yaml.
+`blockExoticSubdeps` value for `pnpm-workspace.yaml`.
 
 ---
 
@@ -3766,7 +3820,7 @@ public readonly minimumReleaseAge: number;
 
 - *Type:* number
 
-pnpm.minimumReleaseAge value for pnpm-workspace.yaml.
+`minimumReleaseAge` value for `pnpm-workspace.yaml`.
 
 ---
 
@@ -3790,7 +3844,7 @@ public readonly trustPolicy: string;
 
 - *Type:* string
 
-pnpm.trustPolicy value for pnpm-workspace.yaml.
+`trustPolicy` value for `pnpm-workspace.yaml`.
 
 ---
 

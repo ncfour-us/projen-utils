@@ -4,6 +4,16 @@
 
 Used to configure the TypedocJson construct
 
+## Indexable
+
+> \[`key`: `string`\]: `string` \| `number` \| `boolean` \| `object` \| `string`[] \| `undefined`
+
+Additional options to add to the `pnpm-workspace.yaml` file
+
+### Jsii
+
+ignore
+
 ## Properties
 
 ### entryPoints?

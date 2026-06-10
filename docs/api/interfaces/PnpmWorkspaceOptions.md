@@ -2,7 +2,7 @@
 
 # Interface: PnpmWorkspaceOptions
 
-Used to configure the PreCommitConfigFile construct
+Used to configure the `PnpmWorkspace` construct
 
 If any values are NOT set, then the associated markers
 in the sample file will NOT be replaced.  This allows
@@ -10,13 +10,23 @@ an author to easily find and replace those values
 when updating the file after the project has been
 synthesized.
 
+## Indexable
+
+> \[`key`: `string`\]: `string` \| `number` \| `boolean` \| `object` \| `string`[] \| `undefined`
+
+Additional options to add to the `pnpm-workspace.yaml` file
+
+### Jsii
+
+ignore
+
 ## Properties
 
 ### allowBuilds?
 
 > `readonly` `optional` **allowBuilds?**: `object`
 
-pnpm.allowBuilds value for pnpm-workspace.yaml
+`allowBuilds` value for `pnpm-workspace.yaml`
 
 #### Index Signature
 
@@ -28,7 +38,7 @@ pnpm.allowBuilds value for pnpm-workspace.yaml
 
 > `readonly` `optional` **blockExoticSubdeps?**: `number`
 
-pnpm.blockExoticSubdeps value for pnpm-workspace.yaml
+`blockExoticSubdeps` value for `pnpm-workspace.yaml`
 
 ***
 
@@ -36,7 +46,7 @@ pnpm.blockExoticSubdeps value for pnpm-workspace.yaml
 
 > `readonly` `optional` **minimumReleaseAge?**: `number`
 
-pnpm.minimumReleaseAge value for pnpm-workspace.yaml
+`minimumReleaseAge` value for `pnpm-workspace.yaml`
 
 ***
 
@@ -52,4 +62,4 @@ package folders for the monorepo workspace
 
 > `readonly` `optional` **trustPolicy?**: `string`
 
-pnpm.trustPolicy value for pnpm-workspace.yaml
+`trustPolicy` value for `pnpm-workspace.yaml`
