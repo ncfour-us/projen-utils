@@ -41,6 +41,10 @@ pnpm add --save-dev @ncfour-us/projen-utils
 
 ## Getting Started
 
+> Documentation on constructs.dev: [@ncfour-us/projen-utils](https://constructs.dev/packages/@ncfour-us/projen-utils/)
+>
+> Project documentation: [@ncfour-us/projen-utils](https://ncfour-us.github.io/projen-utils)
+
 The `TypeScriptESMProject` supports both "local" and "Github workflow" styles
 of build/release handling.  (**NOTE**: "Github workflow" handling is still
 under development).
@@ -91,8 +95,10 @@ Once these steps are completed, the publish tasks for NPM and GitHub can
 be enabled by setting:
 
 ```typescript
-    releaseToNpm: true
+    ...
+    releaseToNpm: true,
     releaseToGithub: true
+    ...
 ```
 
 in the constructor options of the `TypeScriptESMProject` project.
