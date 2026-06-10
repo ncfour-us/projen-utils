@@ -61,6 +61,12 @@ const project = new cdk.JsiiProject({
     "@eslint/eslintrc",
   ],
 
+  // exclude projen from dependency upgrade checks
+  // Upgrades of the projen package require updates to pnpm-lock.yaml
+  depsUpgradeOptions: {
+    exclude: ["projen"],
+  },
+
   // use "Trusted Publishing" to interact with NPMJS (better than using NPM_TOKENs)
   npmTrustedPublishing: true,
 
