@@ -51,7 +51,35 @@ export enum RepoBuildPackageModel {
    * to define it's own customizations/configuration
    * for build/packaging and distribution/publishing
    */
-  SKIP_SETUP,
+  SKIP_SETUP = "SKIP_SETUP",
+
+  /**
+   * All development/build/packaging/distribution/publishing
+   * is driven from a local workstation or cloned repository.
+   *
+   * A "local" repository/registry (just a folder on the local
+   * system) is the default location to distribute/publish.
+   * Use the `releaseToLocal` (default: `true`) option to configure.
+   * Use the [localPackageArchiveDir](#typescriptesmprojectoptions) option to specify
+   * the folder location.
+   *
+   * A remote git repository can be configured/used and becomes
+   * a distribution/publishing "target" for "release" operations.
+   * Use the `releaseToGithub` (default: `false`) option to configure.
+   *
+   * The NPM registry (npmjs.com) can be configured as an additional
+   * distribution/publishing "target".
+   * Use the `releaseToNpm` (default: `true` if
+   * `repository` is set, `false` otherwise) option to configure.
+   *
+   * When using this mode, the user **MUST** have active
+   * credentials in the local environment
+   * for the remote distribution locations
+   * when "release" tasks are invoked.
+   *
+   * @deprecated use `LOCAL_BUILD_PACKAGE`
+   */
+  LOCAL_DEV_BUILD_REGISTRY = "LOCAL_DEV_BUILD_REGISTRY",
 
   /**
    * All development/build/packaging/distribution/publishing
@@ -77,7 +105,43 @@ export enum RepoBuildPackageModel {
    * for the remote distribution locations
    * when "release" tasks are invoked.
    */
-  LOCAL_DEV_BUILD_REGISTRY,
+  LOCAL_BUILD_PACKAGE = "LOCAL_BUILD_PACKAGE",
+
+  /**
+   *
+   * Development uses a trunk-based development model.
+   *
+   * No direct commits are expect on the `main` branch
+   * which is the development trunk branch.
+   *
+   * All new work or updates are done on feature branches
+   * in locally cloned or forked repositories.  Changes
+   * are managed through pull requests to the `main` branch.
+   *
+   * All build/packaging/distribution/publishing is
+   * driven through Github actions associated with
+   * commits to the trunk (`main` branch).
+   *
+   * A new release is published on each non-"chore(release)"
+   * commit to the `main` branch.
+   *
+   * A remote git repository **MUST** be used which will
+   * run the Github actions associated with the repository.
+   *
+   * Use the `releaseToGithub` (default: `true`) option to configure
+   * whether a Github release is created on each release.
+   *
+   * The NPM registry (npmjs.com) can be configured as an additional
+   * distribution/publishing "target".
+   * Use the `releaseToNpm` (default: `true` if
+   * `repository` is set, `false` otherwise) option to configure.
+   *
+   * When using this mode, trusted publishing from Github
+   * to NPM **MUST** be configured and a Github App **MUST**
+   * be defined to allow for background Github actions to run
+   * with appropriate credentials.
+   */
+  GITHUB_BUILD_PACKAGE = "GITHUB_BUILD_PACKAGE",
 }
 
 /**
@@ -316,6 +380,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
         githubOptions = options.githubOptions ?? undefined;
         break;
       case RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY:
+      case RepoBuildPackageModel.LOCAL_BUILD_PACKAGE:
         // release-related options
         if (options.repository) {
           // if there is a remote repository, then enable a git push to the repository
@@ -331,6 +396,9 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
         githubOptions = {
           workflows: false,
         };
+        break;
+      case RepoBuildPackageModel.GITHUB_BUILD_PACKAGE:
+        deferredErrorMessage = `repoBuildPackageModel setting: ${repoBuildPackageModel} is UNDER CONSTRUCTION`;
         break;
       default:
         deferredErrorMessage = `incorrect repoBuildPackageModel setting: ${repoBuildPackageModel} specified before constructor`;
@@ -636,6 +704,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
         // no additional actions needed here
         break;
       case RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY:
+      case RepoBuildPackageModel.LOCAL_BUILD_PACKAGE:
         this.addPackageIgnore("CHANGELOG.md");
 
         // add a condition to the publish:git task so that it only runs if the current branch is "main"
@@ -661,6 +730,12 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
             options.publishDryRun ?? false,
           );
         }
+        break;
+      case RepoBuildPackageModel.GITHUB_BUILD_PACKAGE:
+        this.logger?.log(
+          LogLevel.ERROR,
+          `repoBuildPackageModel ${this.repoBuildPackageModel} specified after constructor is UNDER CONSTRUCTION`,
+        );
         break;
       default:
         this.logger?.log(

@@ -6852,6 +6852,8 @@ branching/merging strategy.
 | --- | --- |
 | <code><a href="#@ncfour-us/projen-utils.RepoBuildPackageModel.SKIP_SETUP">SKIP_SETUP</a></code> | Skip any build/release configuration that is offered by the TypeScriptESMProject component. |
 | <code><a href="#@ncfour-us/projen-utils.RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY">LOCAL_DEV_BUILD_REGISTRY</a></code> | All development/build/packaging/distribution/publishing is driven from a local workstation or cloned repository. |
+| <code><a href="#@ncfour-us/projen-utils.RepoBuildPackageModel.LOCAL_BUILD_PACKAGE">LOCAL_BUILD_PACKAGE</a></code> | All development/build/packaging/distribution/publishing is driven from a local workstation or cloned repository. |
+| <code><a href="#@ncfour-us/projen-utils.RepoBuildPackageModel.GITHUB_BUILD_PACKAGE">GITHUB_BUILD_PACKAGE</a></code> | Development uses a trunk-based development model. |
 
 ---
 
@@ -6866,7 +6868,9 @@ for build/packaging and distribution/publishing
 ---
 
 
-##### `LOCAL_DEV_BUILD_REGISTRY` <a name="LOCAL_DEV_BUILD_REGISTRY" id="@ncfour-us/projen-utils.RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY"></a>
+##### ~~`LOCAL_DEV_BUILD_REGISTRY`~~ <a name="LOCAL_DEV_BUILD_REGISTRY" id="@ncfour-us/projen-utils.RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY"></a>
+
+- *Deprecated:* use `LOCAL_BUILD_PACKAGE`
 
 All development/build/packaging/distribution/publishing is driven from a local workstation or cloned repository.
 
@@ -6889,6 +6893,70 @@ When using this mode, the user **MUST** have active
 credentials in the local environment
 for the remote distribution locations
 when "release" tasks are invoked.
+
+---
+
+
+##### `LOCAL_BUILD_PACKAGE` <a name="LOCAL_BUILD_PACKAGE" id="@ncfour-us/projen-utils.RepoBuildPackageModel.LOCAL_BUILD_PACKAGE"></a>
+
+All development/build/packaging/distribution/publishing is driven from a local workstation or cloned repository.
+
+A "local" repository/registry (just a folder on the local
+system) is the default location to distribute/publish.
+Use the `releaseToLocal` (default: `true`) option to configure.
+Use the [localPackageArchiveDir](#typescriptesmprojectoptions) option to specify
+the folder location.
+
+A remote git repository can be configured/used and becomes
+a distribution/publishing "target" for "release" operations.
+Use the `releaseToGithub` (default: `false`) option to configure.
+
+The NPM registry (npmjs.com) can be configured as an additional
+distribution/publishing "target".
+Use the `releaseToNpm` (default: `true` if
+`repository` is set, `false` otherwise) option to configure.
+
+When using this mode, the user **MUST** have active
+credentials in the local environment
+for the remote distribution locations
+when "release" tasks are invoked.
+
+---
+
+
+##### `GITHUB_BUILD_PACKAGE` <a name="GITHUB_BUILD_PACKAGE" id="@ncfour-us/projen-utils.RepoBuildPackageModel.GITHUB_BUILD_PACKAGE"></a>
+
+Development uses a trunk-based development model.
+
+No direct commits are expect on the `main` branch
+which is the development trunk branch.
+
+All new work or updates are done on feature branches
+in locally cloned or forked repositories.  Changes
+are managed through pull requests to the `main` branch.
+
+All build/packaging/distribution/publishing is
+driven through Github actions associated with
+commits to the trunk (`main` branch).
+
+A new release is published on each non-"chore(release)"
+commit to the `main` branch.
+
+A remote git repository **MUST** be used which will
+run the Github actions associated with the repository.
+
+Use the `releaseToGithub` (default: `true`) option to configure
+whether a Github release is created on each release.
+
+The NPM registry (npmjs.com) can be configured as an additional
+distribution/publishing "target".
+Use the `releaseToNpm` (default: `true` if
+`repository` is set, `false` otherwise) option to configure.
+
+When using this mode, trusted publishing from Github
+to NPM **MUST** be configured and a Github App **MUST**
+be defined to allow for background Github actions to run
+with appropriate credentials.
 
 ---
 
