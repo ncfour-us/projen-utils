@@ -21,6 +21,9 @@ export {
 
 export { PnpmWorkspace, PnpmWorkspaceOptions } from "./pnpm-workspace";
 
-export { DocsIndexSampleFile } from "./docs-index-sample";
+export {
+  DocsIndexSampleFile,
+  DocsIndexSampleFileOptions,
+} from "./docs-index-sample";
 
 export { TypedocJson, TypedocJsonOptions } from "./typedoc-json";

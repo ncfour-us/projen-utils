@@ -14,7 +14,7 @@ for the project.
 
 ### Constructor
 
-> **new TypedocJson**(`project`, `options`): `TypedocJson`
+> **new TypedocJson**(`project`, `options?`): `TypedocJson`
 
 Creates a `TypedocJson` construct and adds it to the project.
 
@@ -28,7 +28,7 @@ The `typedoc.json` file is also added to the package ignore list.
 
 the project that this construct belongs to
 
-##### options
+##### options?
 
 [`TypedocJsonOptions`](../interfaces/TypedocJsonOptions.md)
 

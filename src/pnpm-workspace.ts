@@ -4,7 +4,7 @@ import { YamlFile, Project } from "projen";
 import { NodePackageManager, NodeProject } from "projen/lib/javascript";
 
 /**
- * Used to configure the PreCommitConfigFile construct
+ * Used to configure the `PnpmWorkspace` construct
  *
  * If any values are NOT set, then the associated markers
  * in the sample file will NOT be replaced.  This allows
@@ -19,24 +19,31 @@ export interface PnpmWorkspaceOptions {
   readonly packages?: string[];
 
   /**
-   * pnpm.minimumReleaseAge value for pnpm-workspace.yaml
+   * `minimumReleaseAge` value for `pnpm-workspace.yaml`
    */
   readonly minimumReleaseAge?: number;
 
   /**
-   * pnpm.blockExoticSubdeps value for pnpm-workspace.yaml
+   * `blockExoticSubdeps` value for `pnpm-workspace.yaml`
    */
   readonly blockExoticSubdeps?: number;
 
   /**
-   * pnpm.trustPolicy value for pnpm-workspace.yaml
+   * `trustPolicy` value for `pnpm-workspace.yaml`
    */
   readonly trustPolicy?: string;
 
   /**
-   * pnpm.allowBuilds value for pnpm-workspace.yaml
+   * `allowBuilds` value for `pnpm-workspace.yaml`
    */
   readonly allowBuilds?: { [key: string]: boolean };
+
+  /**
+   * Additional options to add to the `pnpm-workspace.yaml` file
+   *
+   * @jsii ignore
+   */
+  [key: string]: string | string[] | boolean | number | object | undefined;
 }
 
 /**
@@ -57,6 +64,7 @@ export class PnpmWorkspace extends YamlFile {
    */
   constructor(project: Project, options?: PnpmWorkspaceOptions) {
     const contents: any = {
+      ...options, // pass through any additional configuration attributes
       packages: options?.packages
         ? options.packages.length === 0
           ? undefined

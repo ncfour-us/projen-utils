@@ -13,6 +13,13 @@ export interface TypedocJsonOptions {
    * If not specified, Typedoc will use information from `package.json`
    */
   readonly entryPoints?: string[];
+
+  /**
+   * Additional options to add to the `pnpm-workspace.yaml` file
+   *
+   * @jsii ignore
+   */
+  [key: string]: string | string[] | boolean | number | object | undefined;
 }
 
 /**
@@ -29,12 +36,11 @@ export class TypedocJson extends JsonFile {
    *
    * @param project the project that this construct belongs to
    */
-  constructor(project: Project, options: TypedocJsonOptions) {
+  constructor(project: Project, options?: TypedocJsonOptions) {
     super(project, "typedoc.json", {
       obj: {
         $schema: "https://typedoc.org/schema.json",
         plugin: ["typedoc-plugin-markdown"],
-        entryPoints: options?.entryPoints ?? undefined,
         out: "docs/api",
         cleanOutputDir: true,
         readme: "none",
@@ -43,6 +49,8 @@ export class TypedocJson extends JsonFile {
         entryFileName: "index",
         mergeReadme: false,
         hidePageHeader: true,
+        ...options,
+        entryPoints: options?.entryPoints ?? undefined,
       },
       marker: false,
     });
