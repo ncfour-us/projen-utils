@@ -37,6 +37,13 @@ export interface PnpmWorkspaceOptions {
    * pnpm.allowBuilds value for pnpm-workspace.yaml
    */
   readonly allowBuilds?: { [key: string]: boolean };
+
+  /**
+   * Additional options to add to the `pnpm-workspace.yaml` file
+   *
+   * @jsii ignore
+   */
+  [key: string]: string | string[] | boolean | number | object | undefined;
 }
 
 /**
@@ -57,6 +64,7 @@ export class PnpmWorkspace extends YamlFile {
    */
   constructor(project: Project, options?: PnpmWorkspaceOptions) {
     const contents: any = {
+      ...options, // pass through any additional configuration attributes
       packages: options?.packages
         ? options.packages.length === 0
           ? undefined

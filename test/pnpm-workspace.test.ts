@@ -93,3 +93,50 @@ test("PnpmWorkspace - zero length packages array", () => {
     }),
   );
 });
+
+test("PnpmWorkspace - adding additional, arbitrary attributes to options", () => {
+  // Arrange - Given
+  const project = new TypeScriptProject({
+    // logging: {
+    //   level: LogLevel.DEBUG,
+    // },
+    name: "test-project",
+    description: "test-project description",
+    packageName: "test-package-name",
+    defaultReleaseBranch: "main",
+
+    // Remove implied dependency on/use of yarn package manager
+    packageManager: NodePackageManager.NPM,
+  });
+
+  // Act - When
+  new PnpmWorkspace(project, {
+    packages: [],
+    hoist: true,
+    nodeLinker: "isolated",
+  });
+
+  const snapshot = Testing.synth(project);
+
+  // Assert - Then
+
+  // get information from synthed project
+  const synthedPnpmWorkspace = snapshot["pnpm-workspace.yaml"];
+
+  const pnpmWorkspace = YAML.parse(synthedPnpmWorkspace);
+
+  console.log(`synthed file:\n${synthedPnpmWorkspace}`);
+
+  expect(pnpmWorkspace.packages).toBeUndefined();
+  expect(pnpmWorkspace.minimumReleaseAge).toStrictEqual(1440);
+  expect(pnpmWorkspace.blockExoticSubdeps).toStrictEqual(true);
+  expect(pnpmWorkspace.trustPolicy).toStrictEqual("no-downgrade");
+  expect(pnpmWorkspace.hoist).toStrictEqual(true);
+  expect(pnpmWorkspace.nodeLinker).toStrictEqual("isolated");
+  expect(JSON.stringify(pnpmWorkspace.allowBuilds)).toBe(
+    JSON.stringify({
+      electron: true,
+      esbuild: true,
+    }),
+  );
+});
