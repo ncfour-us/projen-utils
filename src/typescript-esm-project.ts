@@ -758,7 +758,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
       .replace("/", "-");
     this.addTask("publish:local", {
       condition:
-        'test -f "dist/version.txt" && test "$(git branch --show-current)" = "main"',
+        'sh -c "test -f \\"dist/version.txt\\" && test \\"$(git branch --show-current)\\" = \\"main\\""',
       steps: [
         {
           name: `copy package to ${this.localPackageArchiveDir} folder (dryrun: ${publishDryRun})`,
