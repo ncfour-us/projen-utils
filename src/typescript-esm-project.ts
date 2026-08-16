@@ -758,7 +758,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
       .replace("/", "-");
     this.addTask("publish:local", {
       condition:
-        'test -f "dist/version.txt" && test "$(git branch --show-current)" = "main"',
+        'sh -c "test -f \\"dist/version.txt\\" && test \\"$(git branch --show-current)\\" = \\"main\\""',
       steps: [
         {
           name: `copy package to ${this.localPackageArchiveDir} folder (dryrun: ${publishDryRun})`,
@@ -795,7 +795,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
         NPM_REGISTRY: "registry.npmjs.org",
       },
       condition:
-        'test -f "dist/version.txt" && test "$(git branch --show-current)" = "main"',
+        'sh -c "test -f \\"dist/version.txt\\" && test \\"$(git branch --show-current)\\" = \\"main\\""',
       steps: [
         {
           exec: `npm publish${publishDryRun ? " --dry-run" : ""} dist/js/${packageFileNameSlug}-$(cat dist/version.txt).tgz`,
@@ -830,7 +830,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     this.addTask("publish:github", {
       description: "Publish this package to GitHub Releases",
       condition:
-        'test -f "dist/version.txt" && test "$(git branch --show-current)" = "main"',
+        'sh -c "test -f \\"dist/version.txt\\" && test \\"$(git branch --show-current)\\" = \\"main\\""',
       steps: [
         {
           exec: command,
