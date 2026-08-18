@@ -167,7 +167,8 @@ export class PreCommitConfigFile extends YamlFile {
                   "LICENSE|" +
                   "\.mergify\.yml|" +
                   "tsconfig\.json|" +
-                  "tsconfig\.dev\.json|" +
+                  "test/tsconfig\.json|" +
+                  "projenrc/tsconfig\.json|" +
                   "\.npmignore|" +
                   "API.md|" +
                   "CHANGELOG.md|" +

@@ -327,20 +327,6 @@ This will be `undefined` if gitpod boolean is false
 
 ***
 
-### initProject?
-
-> `readonly` `optional` **initProject?**: `InitProject`
-
-The options used when this project is bootstrapped via `projen new`. It
-includes the original set of options passed to the CLI and also the JSII
-FQN of the project type.
-
-#### Inherited from
-
-`typescript.TypeScriptProject.initProject`
-
-***
-
 ### jest?
 
 > `readonly` `optional` **jest?**: `Jest`
@@ -505,33 +491,6 @@ Manages the build process of the project.
 
 ***
 
-### projectType
-
-> `readonly` **projectType**: `ProjectType`
-
-#### Inherited from
-
-`typescript.TypeScriptProject.projectType`
-
-***
-
-### ~~publisher?~~
-
-> `readonly` `optional` **publisher?**: `Publisher`
-
-Package publisher. This will be `undefined` if the project does not have a
-release workflow.
-
-#### Deprecated
-
-use `release.publisher`.
-
-#### Inherited from
-
-`typescript.TypeScriptProject.publisher`
-
-***
-
 ### release?
 
 > `readonly` `optional` **release?**: `Release`
@@ -549,6 +508,18 @@ Release management.
 > `readonly` **repoBuildPackageModel**: [`RepoBuildPackageModel`](../enumerations/RepoBuildPackageModel.md)
 
 see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+
+***
+
+### runner
+
+> `readonly` **runner**: `TypeScriptRunner`
+
+The TypeScript runner used for executing TypeScript files.
+
+#### Inherited from
+
+`typescript.TypeScriptProject.runner`
 
 ***
 
@@ -713,26 +684,6 @@ this task should synthesize the project files.
 
 ## Accessors
 
-### allowLibraryDependencies
-
-#### Get Signature
-
-> **get** **allowLibraryDependencies**(): `boolean`
-
-##### Deprecated
-
-use `package.allowLibraryDependencies`
-
-##### Returns
-
-`boolean`
-
-#### Inherited from
-
-`typescript.TypeScriptProject.allowLibraryDependencies`
-
-***
-
 ### buildTask
 
 #### Get Signature
@@ -819,26 +770,6 @@ Whether or not the project is being ejected.
 
 ***
 
-### entrypoint
-
-#### Get Signature
-
-> **get** **entrypoint**(): `string`
-
-##### Deprecated
-
-use `package.entrypoint`
-
-##### Returns
-
-`string`
-
-#### Inherited from
-
-`typescript.TypeScriptProject.entrypoint`
-
-***
-
 ### files
 
 #### Get Signature
@@ -857,23 +788,27 @@ All files in this project.
 
 ***
 
-### manifest
+### initProject
 
 #### Get Signature
 
-> **get** **manifest**(): `any`
+> **get** **initProject**(): `InitProject` \| `undefined`
+
+The options used when this project is bootstrapped via `projen new`. It
+includes the original set of options passed to the CLI and also the JSII
+FQN of the project type.
 
 ##### Deprecated
 
-use `package.addField(x, y)`
+use the `initProject` argument passed to `Component.projectCreation()` instead.
 
 ##### Returns
 
-`any`
+`InitProject` \| `undefined`
 
 #### Inherited from
 
-`typescript.TypeScriptProject.manifest`
+`typescript.TypeScriptProject.initProject`
 
 ***
 
@@ -932,28 +867,6 @@ The .npmrc file
 #### Inherited from
 
 `typescript.TypeScriptProject.npmrc`
-
-***
-
-### packageManager
-
-#### Get Signature
-
-> **get** **packageManager**(): `NodePackageManager`
-
-The package manager to use.
-
-##### Deprecated
-
-use `package.packageManager`
-
-##### Returns
-
-`NodePackageManager`
-
-#### Inherited from
-
-`typescript.TypeScriptProject.packageManager`
 
 ***
 
@@ -1123,32 +1036,6 @@ add/update`. If you wish to specify a version range use this syntax:
 #### Inherited from
 
 `typescript.TypeScriptProject.addBundledDeps`
-
-***
-
-### ~~addCompileCommand()~~
-
-> **addCompileCommand**(...`commands`): `void`
-
-DEPRECATED
-
-#### Parameters
-
-##### commands
-
-...`string`[]
-
-#### Returns
-
-`void`
-
-#### Deprecated
-
-use `project.compileTask.exec()`
-
-#### Inherited from
-
-`typescript.TypeScriptProject.addCompileCommand`
 
 ***
 
@@ -1416,60 +1303,6 @@ Task properties
 
 ***
 
-### ~~addTestCommand()~~
-
-> **addTestCommand**(...`commands`): `void`
-
-DEPRECATED
-
-#### Parameters
-
-##### commands
-
-...`string`[]
-
-#### Returns
-
-`void`
-
-#### Deprecated
-
-use `project.testTask.exec()`
-
-#### Inherited from
-
-`typescript.TypeScriptProject.addTestCommand`
-
-***
-
-### ~~addTip()~~
-
-> **addTip**(`message`): `void`
-
-Prints a "tip" message during synthesis.
-
-#### Parameters
-
-##### message
-
-`string`
-
-The message
-
-#### Returns
-
-`void`
-
-#### Deprecated
-
-- use `project.logger.info(message)` to show messages during synthesis
-
-#### Inherited from
-
-`typescript.TypeScriptProject.addTip`
-
-***
-
 ### annotateGenerated()
 
 > **annotateGenerated**(`glob`): `void`
@@ -1513,34 +1346,6 @@ Projen default Typescript compiler options.
 #### Inherited from
 
 `typescript.TypeScriptProject.defaultTypeScriptCompilerOptions`
-
-***
-
-### ~~hasScript()~~
-
-> **hasScript**(`name`): `boolean`
-
-Indicates if a script by the name name is defined.
-
-#### Parameters
-
-##### name
-
-`string`
-
-The name of the script
-
-#### Returns
-
-`boolean`
-
-#### Deprecated
-
-Use `project.tasks.tryFind(name)`
-
-#### Inherited from
-
-`typescript.TypeScriptProject.hasScript`
 
 ***
 
@@ -1718,8 +1523,10 @@ Synthesize all project files into `outdir`.
 2. Delete all generated files
 3. Synthesize all subprojects
 4. Synthesize all components of this project
-5. Call "postSynthesize()" for all components of this project
-6. Call "this.postSynthesize()"
+5. Call "projectCreation()" for all components, only if the project is being created for the first time
+6. Call "postSynthesize()" for all components of this project
+7. Call "this.postSynthesize()"
+8. Call "postProjectCreation()" for all components, only if the project is being created for the first time
 
 #### Returns
 
@@ -1772,34 +1579,6 @@ a `FileBase` or undefined if there is no file in that path
 #### Inherited from
 
 `typescript.TypeScriptProject.tryFindFile`
-
-***
-
-### ~~tryFindJsonFile()~~
-
-> **tryFindJsonFile**(`filePath`): `JsonFile` \| `undefined`
-
-Finds a json file by name.
-
-#### Parameters
-
-##### filePath
-
-`string`
-
-The file path.
-
-#### Returns
-
-`JsonFile` \| `undefined`
-
-#### Deprecated
-
-use `tryFindObjectFile`
-
-#### Inherited from
-
-`typescript.TypeScriptProject.tryFindJsonFile`
 
 ***
 

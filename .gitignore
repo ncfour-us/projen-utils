@@ -4,6 +4,7 @@
 !/.projen/deps.json
 !/.projen/files.json
 !/.github/workflows/pull-request-lint.yml
+!/pnpm-workspace.yaml
 !/package.json
 !/LICENSE
 !/.npmignore
@@ -41,13 +42,14 @@ junit.xml
 !/.github/workflows/upgrade-main.yml
 !/.github/pull_request_template.md
 !/test/
-!/tsconfig.dev.json
+!/tsconfig.json
+!/test/tsconfig.json
 !/src/
 /lib
 /dist/
 !/.eslintrc.json
+!/projenrc/tsconfig.json
 .jsii
-tsconfig.json
 !/API.md
 !/.pre-commit-config.yaml
 !/typedoc.json

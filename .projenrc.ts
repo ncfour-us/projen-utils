@@ -49,7 +49,7 @@ const project = new cdk.JsiiProject({
   /* Build dependencies for this module. */
   // Needed to add peerDeps for 'projen' and 'constructs' to devDeps as well when switching to a JSII module
   devDeps: [
-    "projen",
+    "projen@^0.100.4",
     "constructs",
     "@types/node",
     "@jest/globals",

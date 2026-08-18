@@ -364,7 +364,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
   constructor(options: TypeScriptESMProjectOptions) {
     const repoBuildPackageModel: RepoBuildPackageModel =
       options.repoBuildPackageModel ??
-      RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY;
+      RepoBuildPackageModel.LOCAL_BUILD_PACKAGE;
 
     // Handle settings related to build/release to be passed into super() constructor:
     let releaseTrigger: ReleaseTrigger | undefined = undefined;
@@ -429,21 +429,6 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
           target: "esnext",
         },
       },
-
-      jestOptions: {
-        jestConfig: {
-          extensionsToTreatAsEsm: [".ts"],
-          moduleNameMapper: {
-            "^(\\.{1,2}/.*)\\.js$": "$1",
-          },
-          transform: {
-            "^.+\\.(mt|t|cj|j)s$": new javascript.Transform("ts-jest", {
-              useESM: true,
-              tsconfig: "tsconfig.dev.json",
-            }),
-          },
-        },
-      },
       // end clauses added to enable ESM module usage
 
       // start clauses to set up build/package/release model
@@ -473,7 +458,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     this.commands = options.commands ?? [];
     this.repoBuildPackageModel =
       options.repoBuildPackageModel ??
-      RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY;
+      RepoBuildPackageModel.LOCAL_BUILD_PACKAGE;
     this.localPackageArchiveDir =
       options.localPackageArchiveDir ?? "~/.local-build-packages";
     this.buildTagTask = options.buildTagTask ?? false;
@@ -516,8 +501,28 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     // getting ts-node to work in ESM mode just wasn't working.  Switch to using tsx to run the projen generator
     this.addDevDeps("tsx");
 
-    this.defaultTask?.reset(
-      `tsx --tsconfig ${this.tsconfigDev.file.path} .projenrc.ts`,
+    const tsconfigProjen = this.tryFindObjectFile("projenrc/tsconfig.json");
+    if (tsconfigProjen) {
+      this.defaultTask?.reset(
+        `tsx --tsconfig ${tsconfigProjen.path} .projenrc.ts`,
+      );
+    } else {
+      this.defaultTask?.reset(
+        `tsx --tsconfig ${this.tsconfigDev.file.path} .projenrc.ts`,
+      );
+    }
+
+    // patch package.json to use ESM for ts-jest
+    this.package.file.patch(
+      JsonPatch.replace("/jest/transform", {
+        "^.+\\.(mt|t|cj|j)s$": [
+          "ts-jest",
+          {
+            useESM: true,
+            tsconfig: this.tsconfigDev.file.path,
+          },
+        ],
+      }),
     );
 
     // end project adjustments to enable ESM module usage
@@ -577,6 +582,8 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
       // prettier for handling code formatting.  See: https://eslint.style/guide/why
       // for a discussion about this.
 
+      // adjust the project to enable running eslint
+      //  - add a package dev dependency
       this.addDevDeps(
         ...[
           "jiti",
@@ -593,6 +600,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
         ],
       );
 
+      //  - create a eslint.config.ts file
       const eslintConfigContents = readFileSync(
         `${__dirname}/files/eslint.config.ts.sample`,
         {
@@ -624,9 +632,10 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
         spawn: "eslint",
       });
 
-      const tsconfigDev = this.tryFindObjectFile("tsconfig.dev.json");
-
-      tsconfigDev?.patch(JsonPatch.add("/include/-", "eslint.config.ts"));
+      //  - update test/tsconfig.json
+      this.tsconfigDev.file.patch(
+        JsonPatch.add("/include/-", "eslint.config.ts"),
+      );
 
       // end of lines used to re-establish the 'eslint' task.
     }
@@ -649,9 +658,10 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
         contents: prettierConfigContents,
       });
 
-      //  - update tsconfig.json
-      const tsconfigDev = this.tryFindObjectFile("tsconfig.dev.json");
-      tsconfigDev?.patch(JsonPatch.add("/include/-", "prettier.config.ts"));
+      //  - update test/tsconfig.json
+      this.tsconfigDev.file.patch(
+        JsonPatch.add("/include/-", "prettier.config.ts"),
+      );
 
       //  - add the file to .npmignore
       this.addPackageIgnore("prettier.config.ts");
@@ -779,7 +789,7 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     const publishGitTask = this.tasks.tryFind("publish:git");
     if (publishGitTask) {
       publishGitTask.addCondition(
-        'test "$(git branch --show-current)" = "main"',
+        'sh -c "test \\"$(git branch --show-current)\\" = \\"main\\""',
       );
     }
   }
