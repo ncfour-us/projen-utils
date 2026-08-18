@@ -64,6 +64,51 @@ true
 
 ***
 
+### allowScripts?
+
+> `readonly` `optional` **allowScripts?**: `string`[]
+
+List of dependency (package) names that are allowed to run lifecycle
+install scripts (`preinstall`, `install`, `postinstall`, `prepare`)
+during dependency installation.
+
+These scripts can execute arbitrary code, making them a common
+supply-chain attack vector. Package managers are moving toward
+blocking them by default and requiring an explicit allowlist.
+Configuring `allowScripts` sets up that allowlist so scripts only run
+for the packages you have explicitly reviewed and trust.
+
+Support for this setting depends on the configured `packageManager`:
+
+- `NPM`: written to the native `allowScripts` field in `package.json`
+  (requires npm >= 11.16; see https://docs.npmjs.com/cli/v11/commands/npm-approve-scripts).
+- `BUN`: written to the native `trustedDependencies` field in
+  `package.json` (see https://bun.com/docs/pm/lifecycle).
+- `PNPM`: written to the `onlyBuiltDependencies` setting in
+  `pnpm-workspace.yaml` (see https://pnpm.io/settings#onlybuiltdependencies).
+- `YARN2`, `YARN_BERRY`: written to the native
+  `dependenciesMeta.<pkg>.built` allowlist in `package.json`, combined
+  with `enableScripts: false` in `.yarnrc.yml` (see
+  https://yarnpkg.com/features/security#postinstalls). If you set
+  `yarnBerryOptions.yarnRcOptions.enableScripts` explicitly, that value
+  is respected instead of being overridden.
+- `YARN`, `YARN_CLASSIC`: not supported. Yarn Classic has no native
+  mechanism to allowlist install scripts for specific dependencies.
+  Setting this option with one of these package managers throws an
+  error at synthesis time.
+
+#### Default
+
+```ts
+- all install scripts are allowed to run (package manager default)
+```
+
+#### Inherited from
+
+`typescript.TypeScriptProjectOptions.allowScripts`
+
+***
+
 ### apiDocumentation?
 
 > `readonly` `optional` **apiDocumentation?**: `boolean`
@@ -422,28 +467,6 @@ Options for PR build workflow.
 
 ***
 
-### ~~buildWorkflowTriggers?~~
-
-> `readonly` `optional` **buildWorkflowTriggers?**: `Triggers`
-
-Build workflow triggers
-
-#### Default
-
-```ts
-"{ pullRequest: {}, workflowDispatch: {} }"
-```
-
-#### Deprecated
-
-- Use `buildWorkflowOptions.workflowTriggers`
-
-#### Inherited from
-
-`typescript.TypeScriptProjectOptions.buildWorkflowTriggers`
-
-***
-
 ### bumpPackage?
 
 > `readonly` `optional` **bumpPackage?**: `string`
@@ -648,6 +671,10 @@ true
 
 License copyright owner.
 
+This value is only used if the selected license text contains the
+`$copyright_owner` placeholder. For example, it has no effect on the
+MPL-2.0 license text.
+
 #### Default
 
 - defaults to the value of authorName or "" if `authorName` is undefined.
@@ -664,6 +691,10 @@ License copyright owner.
 
 The copyright years to put in the LICENSE file.
 
+This value is only used if the selected license text contains the
+`$copyright_period` placeholder. For example, it has no effect on the
+MPL-2.0 license text.
+
 #### Default
 
 ```ts
@@ -676,9 +707,40 @@ The copyright years to put in the LICENSE file.
 
 ***
 
-### defaultReleaseBranch
+### dedupeDeps?
 
-> `readonly` **defaultReleaseBranch**: `string`
+> `readonly` `optional` **dedupeDeps?**: `boolean`
+
+Add a `dedupe` task that deduplicates project dependencies.
+
+Deduplication prevents multiple versions of the same package from being
+installed, if a single version can satisfy all requested version ranges.
+This prevents version proliferation and reduces the size of the dependency
+tree.
+
+The behavior depends on the package manager:
+- npm: runs `npm dedupe` after every mutating install.
+- pnpm: runs `pnpm dedupe` after every mutating install.
+- Yarn Berry: runs `yarn dedupe` after every mutating install. If
+  `yarnBerryOptions.dedupePackages` is set, only the listed packages are
+  deduplicated.
+- Yarn Classic: `yarn install` already deduplicates, so the task only
+  prints an informational message.
+- Bun: not supported, enabling this option throws an error.
+
+#### Default
+
+- false, unless `yarnBerryOptions.dedupePackages` is set
+
+#### Inherited from
+
+`typescript.TypeScriptProjectOptions.dedupeDeps`
+
+***
+
+### defaultReleaseBranch?
+
+> `readonly` `optional` **defaultReleaseBranch?**: `string`
 
 The name of the main release branch.
 
@@ -687,6 +749,8 @@ The name of the main release branch.
 ```ts
 "main"
 ```
+
+#### Featured
 
 #### Inherited from
 
@@ -933,7 +997,7 @@ false
 
 > `readonly` `optional` **disableTsconfigDev?**: `boolean`
 
-Do not generate a `tsconfig.dev.json` file.
+Do not generate a development tsconfig file.
 
 #### Default
 
@@ -1393,50 +1457,6 @@ Consider this option only if your package is known to not function with newer ve
 
 ***
 
-### ~~mergify?~~
-
-> `readonly` `optional` **mergify?**: `boolean`
-
-Whether mergify should be enabled on this repository or not.
-
-#### Default
-
-```ts
-true
-```
-
-#### Deprecated
-
-use `githubOptions.mergify` instead
-
-#### Inherited from
-
-`typescript.TypeScriptProjectOptions.mergify`
-
-***
-
-### ~~mergifyOptions?~~
-
-> `readonly` `optional` **mergifyOptions?**: `MergifyOptions`
-
-Options for mergify
-
-#### Default
-
-```ts
-- default options
-```
-
-#### Deprecated
-
-use `githubOptions.mergifyOptions` instead
-
-#### Inherited from
-
-`typescript.TypeScriptProjectOptions.mergifyOptions`
-
-***
-
 ### minMajorVersion?
 
 > `readonly` `optional` **minMajorVersion?**: `number`
@@ -1486,32 +1506,6 @@ To change the node version of your CI/CD workflows, use `workflowNodeVersion`.
 #### Inherited from
 
 `typescript.TypeScriptProjectOptions.minNodeVersion`
-
-***
-
-### ~~mutableBuild?~~
-
-> `readonly` `optional` **mutableBuild?**: `boolean`
-
-Automatically update files modified during builds to pull-request branches. This means
-that any files synthesized by projen or e.g. test snapshots will always be up-to-date
-before a PR is merged.
-
-Implies that PR builds do not have anti-tamper checks.
-
-#### Default
-
-```ts
-true
-```
-
-#### Deprecated
-
-- Use `buildWorkflowOptions.mutableBuild`
-
-#### Inherited from
-
-`typescript.TypeScriptProjectOptions.mutableBuild`
 
 ***
 
@@ -1611,22 +1605,6 @@ for each branch.
 
 ***
 
-### ~~npmignore?~~
-
-> `readonly` `optional` **npmignore?**: `string`[]
-
-Additional entries to .npmignore.
-
-#### Deprecated
-
-- use `project.addPackageIgnore`
-
-#### Inherited from
-
-`typescript.TypeScriptProjectOptions.npmignore`
-
-***
-
 ### npmignoreEnabled?
 
 > `readonly` `optional` **npmignoreEnabled?**: `boolean`
@@ -1683,22 +1661,6 @@ https://docs.npmjs.com/generating-provenance-statements
 #### Inherited from
 
 `typescript.TypeScriptProjectOptions.npmProvenance`
-
-***
-
-### ~~npmRegistry?~~
-
-> `readonly` `optional` **npmRegistry?**: `string`
-
-The host name of the npm registry to publish to. Cannot be set together with `npmRegistryUrl`.
-
-#### Deprecated
-
-use `npmRegistryUrl` instead
-
-#### Inherited from
-
-`typescript.TypeScriptProjectOptions.npmRegistry`
 
 ***
 
@@ -1898,6 +1860,24 @@ test your module against the lowest peer version required.
 
 ***
 
+### pnpmOptions?
+
+> `readonly` `optional` **pnpmOptions?**: `PnpmOptions`
+
+Options for pnpm
+
+#### Default
+
+```ts
+- all default options
+```
+
+#### Inherited from
+
+`typescript.TypeScriptProjectOptions.pnpmOptions`
+
+***
+
 ### pnpmVersion?
 
 > `readonly` `optional` **pnpmVersion?**: `string`
@@ -2038,28 +2018,6 @@ false
 #### Inherited from
 
 `typescript.TypeScriptProjectOptions.projectTree`
-
-***
-
-### ~~projectType?~~
-
-> `readonly` `optional` **projectType?**: `ProjectType`
-
-Which type of project this is (library/app).
-
-#### Default
-
-```ts
-ProjectType.UNKNOWN
-```
-
-#### Deprecated
-
-no longer supported at the base project level
-
-#### Inherited from
-
-`typescript.TypeScriptProjectOptions.projectType`
 
 ***
 
@@ -2224,30 +2182,6 @@ Options for .projenrc.ts
 #### Inherited from
 
 `typescript.TypeScriptProjectOptions.projenrcTsOptions`
-
-***
-
-### ~~projenTokenSecret?~~
-
-> `readonly` `optional` **projenTokenSecret?**: `string`
-
-The name of a secret which includes a GitHub Personal Access Token to be
-used by projen workflows. This token needs to have the `repo`, `workflows`
-and `packages` scope.
-
-#### Default
-
-```ts
-"PROJEN_GITHUB_TOKEN"
-```
-
-#### Deprecated
-
-use `projenCredentials`
-
-#### Inherited from
-
-`typescript.TypeScriptProjectOptions.projenTokenSecret`
 
 ***
 
@@ -2455,28 +2389,6 @@ on a per artifact basis.
 
 ***
 
-### ~~releaseEveryCommit?~~
-
-> `readonly` `optional` **releaseEveryCommit?**: `boolean`
-
-Automatically release new versions every commit to one of branches in `releaseBranches`.
-
-#### Default
-
-```ts
-true
-```
-
-#### Deprecated
-
-Use `releaseTrigger: ReleaseTrigger.continuous()` instead
-
-#### Inherited from
-
-`typescript.TypeScriptProjectOptions.releaseEveryCommit`
-
-***
-
 ### releaseFailureIssue?
 
 > `readonly` `optional` **releaseFailureIssue?**: `boolean`
@@ -2511,28 +2423,6 @@ Only applies if `releaseFailureIssue` is true.
 #### Inherited from
 
 `typescript.TypeScriptProjectOptions.releaseFailureIssueLabel`
-
-***
-
-### ~~releaseSchedule?~~
-
-> `readonly` `optional` **releaseSchedule?**: `string`
-
-CRON schedule to trigger new releases.
-
-#### Default
-
-```ts
-- no scheduled releases
-```
-
-#### Deprecated
-
-Use `releaseTrigger: ReleaseTrigger.scheduled()` instead
-
-#### Inherited from
-
-`typescript.TypeScriptProjectOptions.releaseSchedule`
 
 ***
 
@@ -2618,28 +2508,6 @@ The release trigger to use.
 #### Inherited from
 
 `typescript.TypeScriptProjectOptions.releaseTrigger`
-
-***
-
-### ~~releaseWorkflow?~~
-
-> `readonly` `optional` **releaseWorkflow?**: `boolean`
-
-DEPRECATED: renamed to `release`.
-
-#### Default
-
-```ts
-- true if not a subproject
-```
-
-#### Deprecated
-
-see `release`.
-
-#### Inherited from
-
-`typescript.TypeScriptProjectOptions.releaseWorkflow`
 
 ***
 
@@ -2776,6 +2644,27 @@ you can specify the directory in which it lives.
 
 ***
 
+### runner?
+
+> `readonly` `optional` **runner?**: `TypeScriptRunner`
+
+The TypeScript runner to use for executing TypeScript files.
+
+This is a project-level setting that components (e.g. projenrc) will
+use as their default runner.
+
+#### Default
+
+```ts
+TypeScriptRunner.tsNode()
+```
+
+#### Inherited from
+
+`typescript.TypeScriptProjectOptions.runner`
+
+***
+
 ### sampleCode?
 
 > `readonly` `optional` **sampleCode?**: `boolean`
@@ -2809,34 +2698,6 @@ Options for privately hosted scoped packages
 #### Inherited from
 
 `typescript.TypeScriptProjectOptions.scopedPackagesOptions`
-
-***
-
-### ~~scripts?~~
-
-> `readonly` `optional` **scripts?**: `object`
-
-npm scripts to include. If a script has the same name as a standard script,
-the standard script will be overwritten.
-Also adds the script as a task.
-
-#### Index Signature
-
-\[`name`: `string`\]: `string`
-
-#### Default
-
-```ts
-{}
-```
-
-#### Deprecated
-
-use `project.addTask()` or `package.setScript()`
-
-#### Inherited from
-
-`typescript.TypeScriptProjectOptions.scripts`
 
 ***
 
@@ -2967,12 +2828,16 @@ Custom tsconfig options for the development tsconfig.json file (used for testing
 
 > `readonly` `optional` **tsconfigDevFile?**: `string`
 
-The name of the development tsconfig.json file.
+The name (and path) of the development tsconfig file.
+
+By default this lives inside the test directory (e.g. `test/tsconfig.json`)
+so that the TypeScript language service resolves it as the nearest config
+for test files.
 
 #### Default
 
 ```ts
-"tsconfig.dev.json"
+- "{testdir}/tsconfig.json"
 ```
 
 #### Inherited from

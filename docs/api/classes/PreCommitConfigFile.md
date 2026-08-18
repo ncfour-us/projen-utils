@@ -83,11 +83,23 @@ The absolute path of this file.
 
 ***
 
+### committed
+
+> `readonly` **committed**: `boolean`
+
+Indicates if the file will be committed.
+
+#### Inherited from
+
+`YamlFile.committed`
+
+***
+
 ### executable
 
 > **executable**: `boolean`
 
-Indicates if the file should be marked as executable
+Indicates if the file should be marked as executable.
 
 #### Inherited from
 
@@ -448,6 +460,35 @@ The patch operations to apply
 
 ***
 
+### postProjectCreation()
+
+> **postProjectCreation**(`initProject`): `void`
+
+Called once, right after `postSynthesize()`, only when the project is created for the first time.
+
+It does not run on later `projen` invocations. It only fires for `projen new` (or `Projects.createProject`).
+It is also skipped when post-synthesis steps are disabled, e.g. `--no-post` or `PROJEN_DISABLE_POST`.
+Use it for one-off setup that can be turned off by the user, like running a task to give the user immediate
+feedback on their new project. Order across components is not guaranteed.
+
+#### Parameters
+
+##### initProject
+
+`InitProject`
+
+Details about how the project was created, e.g. its type and the original CLI args.
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+`YamlFile.postProjectCreation`
+
+***
+
 ### postSynthesize()
 
 > **postSynthesize**(): `void`
@@ -477,6 +518,33 @@ Called before synthesis.
 #### Inherited from
 
 `YamlFile.preSynthesize`
+
+***
+
+### projectCreation()
+
+> **projectCreation**(`initProject`): `void`
+
+Called once, right after `synthesize()`, only when the project is created for the first time.
+
+It does not run on later `projen` invocations. It only fires for `projen new` (or `Projects.createProject`).
+Use it for deterministic, one-off file generation. Order across components is not guaranteed.
+
+#### Parameters
+
+##### initProject
+
+`InitProject`
+
+Details about how the project was created, e.g. its type and the original CLI args.
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+`YamlFile.projectCreation`
 
 ***
 
