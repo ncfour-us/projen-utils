@@ -233,6 +233,256 @@ public readonly project: Project;
 ---
 
 
+### ExamplesFolder <a name="ExamplesFolder" id="@ncfour-us/projen-utils.ExamplesFolder"></a>
+
+This construct defines a folder to hold example programs for the project.
+
+The source code, if present, in the examples folder will be included
+in packaged resources but not compiled versions of that source code.
+
+A separate "compile:examples" task is added to package.json.
+
+Use command:
+  pnpm compile:examples
+to compile the examples programs.  Generated javascript files
+will be placed in a lib folder under the examples folder.
+
+To run the examples, use:
+  node <examplesFolderName/lib/<exampleProgramName>.js
+
+Example program source files are included in built packages.
+
+Compiled examples files excluded from Git and excluded from a built package.
+
+#### Initializers <a name="Initializers" id="@ncfour-us/projen-utils.ExamplesFolder.Initializer"></a>
+
+```typescript
+import { ExamplesFolder } from '@ncfour-us/projen-utils'
+
+new ExamplesFolder(project: TypeScriptProject, options?: ExamplesFolderOptions)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.ExamplesFolder.Initializer.parameter.project">project</a></code> | <code>projen.typescript.TypeScriptProject</code> | the project that this construct belongs to. |
+| <code><a href="#@ncfour-us/projen-utils.ExamplesFolder.Initializer.parameter.options">options</a></code> | <code><a href="#@ncfour-us/projen-utils.ExamplesFolderOptions">ExamplesFolderOptions</a></code> | configuration options for the examples folder. |
+
+---
+
+##### `project`<sup>Required</sup> <a name="project" id="@ncfour-us/projen-utils.ExamplesFolder.Initializer.parameter.project"></a>
+
+- *Type:* projen.typescript.TypeScriptProject
+
+the project that this construct belongs to.
+
+---
+
+##### `options`<sup>Optional</sup> <a name="options" id="@ncfour-us/projen-utils.ExamplesFolder.Initializer.parameter.options"></a>
+
+- *Type:* <a href="#@ncfour-us/projen-utils.ExamplesFolderOptions">ExamplesFolderOptions</a>
+
+configuration options for the examples folder.
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.ExamplesFolder.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@ncfour-us/projen-utils.ExamplesFolder.with">with</a></code> | Applies one or more mixins to this construct. |
+| <code><a href="#@ncfour-us/projen-utils.ExamplesFolder.postProjectCreation">postProjectCreation</a></code> | Called once, right after `postSynthesize()`, only when the project is created for the first time. |
+| <code><a href="#@ncfour-us/projen-utils.ExamplesFolder.postSynthesize">postSynthesize</a></code> | Called after synthesis. |
+| <code><a href="#@ncfour-us/projen-utils.ExamplesFolder.preSynthesize">preSynthesize</a></code> | Called before synthesis. |
+| <code><a href="#@ncfour-us/projen-utils.ExamplesFolder.projectCreation">projectCreation</a></code> | Called once, right after `synthesize()`, only when the project is created for the first time. |
+| <code><a href="#@ncfour-us/projen-utils.ExamplesFolder.synthesize">synthesize</a></code> | Synthesizes files to the project output directory. |
+
+---
+
+##### `toString` <a name="toString" id="@ncfour-us/projen-utils.ExamplesFolder.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@ncfour-us/projen-utils.ExamplesFolder.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@ncfour-us/projen-utils.ExamplesFolder.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+The mixins to apply.
+
+---
+
+##### `postProjectCreation` <a name="postProjectCreation" id="@ncfour-us/projen-utils.ExamplesFolder.postProjectCreation"></a>
+
+```typescript
+public postProjectCreation(initProject: InitProject): void
+```
+
+Called once, right after `postSynthesize()`, only when the project is created for the first time.
+
+It does not run on later `projen` invocations. It only fires for `projen new` (or `Projects.createProject`).
+It is also skipped when post-synthesis steps are disabled, e.g. `--no-post` or `PROJEN_DISABLE_POST`.
+Use it for one-off setup that can be turned off by the user, like running a task to give the user immediate
+feedback on their new project. Order across components is not guaranteed.
+
+###### `initProject`<sup>Required</sup> <a name="initProject" id="@ncfour-us/projen-utils.ExamplesFolder.postProjectCreation.parameter.initProject"></a>
+
+- *Type:* projen.InitProject
+
+Details about how the project was created, e.g. its type and the original CLI args.
+
+---
+
+##### `postSynthesize` <a name="postSynthesize" id="@ncfour-us/projen-utils.ExamplesFolder.postSynthesize"></a>
+
+```typescript
+public postSynthesize(): void
+```
+
+Called after synthesis.
+
+Order is *not* guaranteed.
+
+##### `preSynthesize` <a name="preSynthesize" id="@ncfour-us/projen-utils.ExamplesFolder.preSynthesize"></a>
+
+```typescript
+public preSynthesize(): void
+```
+
+Called before synthesis.
+
+##### `projectCreation` <a name="projectCreation" id="@ncfour-us/projen-utils.ExamplesFolder.projectCreation"></a>
+
+```typescript
+public projectCreation(initProject: InitProject): void
+```
+
+Called once, right after `synthesize()`, only when the project is created for the first time.
+
+It does not run on later `projen` invocations. It only fires for `projen new` (or `Projects.createProject`).
+Use it for deterministic, one-off file generation. Order across components is not guaranteed.
+
+###### `initProject`<sup>Required</sup> <a name="initProject" id="@ncfour-us/projen-utils.ExamplesFolder.projectCreation.parameter.initProject"></a>
+
+- *Type:* projen.InitProject
+
+Details about how the project was created, e.g. its type and the original CLI args.
+
+---
+
+##### `synthesize` <a name="synthesize" id="@ncfour-us/projen-utils.ExamplesFolder.synthesize"></a>
+
+```typescript
+public synthesize(): void
+```
+
+Synthesizes files to the project output directory.
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.ExamplesFolder.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#@ncfour-us/projen-utils.ExamplesFolder.isComponent">isComponent</a></code> | Test whether the given construct is a component. |
+
+---
+
+##### `isConstruct` <a name="isConstruct" id="@ncfour-us/projen-utils.ExamplesFolder.isConstruct"></a>
+
+```typescript
+import { ExamplesFolder } from '@ncfour-us/projen-utils'
+
+ExamplesFolder.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+###### `x`<sup>Required</sup> <a name="x" id="@ncfour-us/projen-utils.ExamplesFolder.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isComponent` <a name="isComponent" id="@ncfour-us/projen-utils.ExamplesFolder.isComponent"></a>
+
+```typescript
+import { ExamplesFolder } from '@ncfour-us/projen-utils'
+
+ExamplesFolder.isComponent(x: any)
+```
+
+Test whether the given construct is a component.
+
+###### `x`<sup>Required</sup> <a name="x" id="@ncfour-us/projen-utils.ExamplesFolder.isComponent.parameter.x"></a>
+
+- *Type:* any
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.ExamplesFolder.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#@ncfour-us/projen-utils.ExamplesFolder.property.project">project</a></code> | <code>projen.Project</code> | *No description.* |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="@ncfour-us/projen-utils.ExamplesFolder.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `project`<sup>Required</sup> <a name="project" id="@ncfour-us/projen-utils.ExamplesFolder.property.project"></a>
+
+```typescript
+public readonly project: Project;
+```
+
+- *Type:* projen.Project
+
+---
+
+
 ### PnpmWorkspace <a name="PnpmWorkspace" id="@ncfour-us/projen-utils.PnpmWorkspace"></a>
 
 This construct defines a pnpm-workspace.yaml file for the project.
@@ -3859,6 +4109,53 @@ public readonly githubPagesConfig: boolean;
 - *Default:* true
 
 Generate a `_config.yml` file in the docs folder.
+
+---
+
+### ExamplesFolderOptions <a name="ExamplesFolderOptions" id="@ncfour-us/projen-utils.ExamplesFolderOptions"></a>
+
+Options for the `ExamplesFolder` construct.
+
+#### Initializer <a name="Initializer" id="@ncfour-us/projen-utils.ExamplesFolderOptions.Initializer"></a>
+
+```typescript
+import { ExamplesFolderOptions } from '@ncfour-us/projen-utils'
+
+const examplesFolderOptions: ExamplesFolderOptions = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@ncfour-us/projen-utils.ExamplesFolderOptions.property.examplesFolderName">examplesFolderName</a></code> | <code>string</code> | The folder name to use for storing documentation. |
+| <code><a href="#@ncfour-us/projen-utils.ExamplesFolderOptions.property.exampleTsFile">exampleTsFile</a></code> | <code>boolean</code> | Generate a `example.ts` file in the examples folder. |
+
+---
+
+##### `examplesFolderName`<sup>Optional</sup> <a name="examplesFolderName" id="@ncfour-us/projen-utils.ExamplesFolderOptions.property.examplesFolderName"></a>
+
+```typescript
+public readonly examplesFolderName: string;
+```
+
+- *Type:* string
+- *Default:* 'examples'
+
+The folder name to use for storing documentation.
+
+---
+
+##### `exampleTsFile`<sup>Optional</sup> <a name="exampleTsFile" id="@ncfour-us/projen-utils.ExamplesFolderOptions.property.exampleTsFile"></a>
+
+```typescript
+public readonly exampleTsFile: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Generate a `example.ts` file in the examples folder.
 
 ---
 

@@ -62,14 +62,15 @@ export class ExamplesFolder extends Component {
     if (exampleTsFile) {
       new SampleFile(project, `${examplesFolderName}/example.ts`, {
         contents: `
-// This is an example of an example Typescript program
+// This is an example of an example TypeScript program
 // Compile this using:
-//   pnpm compile:examples
+//   pnpm compile:${examplesFolderName}
 // Run this using:
-//   node examples/lib/example.js
+//   node ${examplesFolderName}/lib/${examplesFolderName}/example.js
 
-// If compiling this outside of the package, replace this include with:
+// If compiling this outside of the package, replace this import with:
 // import { Hello } from '${project.package.packageName}'
+
 import { Hello } from '../src/index.js';
 
 const myHello = new Hello();
@@ -79,7 +80,7 @@ myHello.sayHello();
       });
     }
 
-    new javascript.TypescriptConfig(project, {
+    const tsconfigExamples = new javascript.TypescriptConfig(project, {
       fileName: `${examplesFolderName}/tsconfig.json`,
       extends: project.tsconfig
         ? javascript.TypescriptConfigExtends.fromTypescriptConfigs([
@@ -95,16 +96,16 @@ myHello.sayHello();
       exclude: ["lib"],
     });
 
-    project.addTask("compile:examples", {
-      description: "compile examples",
+    project.addTask(`compile:${examplesFolderName}`, {
+      description: `compile ${examplesFolderName}`,
       steps: [
         {
-          execArgs: ["tsc", "--project", "examples/tsconfig.json"],
+          execArgs: ["tsc", "--project", tsconfigExamples.fileName],
         },
       ],
     });
 
-    project.addGitIgnore("examples/lib/");
-    project.addPackageIgnore("examples/lib/");
+    project.addGitIgnore(`${examplesFolderName}/lib/`);
+    project.addPackageIgnore(`${examplesFolderName}/lib/`);
   }
 }

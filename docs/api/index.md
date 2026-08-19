@@ -8,6 +8,7 @@
 ## Classes
 
 - [DocsIndexSampleFile](classes/DocsIndexSampleFile.md)
+- [ExamplesFolder](classes/ExamplesFolder.md)
 - [PnpmWorkspace](classes/PnpmWorkspace.md)
 - [PreCommitConfigFile](classes/PreCommitConfigFile.md)
 - [ReadmeSampleFile](classes/ReadmeSampleFile.md)
@@ -18,6 +19,7 @@
 
 - [CommandParameters](interfaces/CommandParameters.md)
 - [DocsIndexSampleFileOptions](interfaces/DocsIndexSampleFileOptions.md)
+- [ExamplesFolderOptions](interfaces/ExamplesFolderOptions.md)
 - [PnpmWorkspaceOptions](interfaces/PnpmWorkspaceOptions.md)
 - [PreCommitConfigFileOptions](interfaces/PreCommitConfigFileOptions.md)
 - [ReadmeSampleFileOptions](interfaces/ReadmeSampleFileOptions.md)
