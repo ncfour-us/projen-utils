@@ -26,4 +26,6 @@ export {
   DocsIndexSampleFileOptions,
 } from "./docs-index-sample";
 
+export { ExamplesFolder, ExamplesFolderOptions } from "./examples-folder";
+
 export { TypedocJson, TypedocJsonOptions } from "./typedoc-json";
