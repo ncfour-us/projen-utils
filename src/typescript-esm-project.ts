@@ -495,9 +495,6 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     // set NODE_OPTIONS environment variable when running jest during tests
     this.testTask.env("NODE_OPTIONS", "--experimental-vm-modules");
 
-    // patch package.json to remove a transform inserted by the TypeScriptProject package
-    this.package.file.patch(JsonPatch.remove("/jest/transform/^.+\\.[t]sx?$"));
-
     // getting ts-node to work in ESM mode just wasn't working.  Switch to using tsx to run the projen generator
     this.addDevDeps("tsx");
 
@@ -512,6 +509,9 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
       );
     }
 
+    // patch package.json to remove a transform inserted by the TypeScriptProject package
+    this.package.file.patch(JsonPatch.remove("/jest/transform/^.+\\.[t]sx?$"));
+
     // patch package.json to use ESM for ts-jest
     this.package.file.patch(
       JsonPatch.replace("/jest/transform", {
@@ -524,6 +524,27 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
         ],
       }),
     );
+
+    // with projen@^0.101.34, these two items were somehow removed.  Adding them back
+    this.package.file.patch(
+      JsonPatch.add("/jest/extensionsToTreatAsEsm", [".ts"]),
+    );
+    this.package.file.patch(
+      JsonPatch.add("/jest/moduleNameMapper", {
+        "^(\\.{1,2}/.*)\\.js$": "$1",
+      }),
+    );
+
+    // update the tsconfigDev TypeScript config to reference the right source files relative to the location of the config file
+    if (this.tsconfigDev.fileName === "test/tsconfig.json") {
+      this.tsconfigDev.file.patch(
+        JsonPatch.add("/compilerOptions/isolatedModules", true),
+      );
+
+      this.tsconfigDev.file.patch(
+        JsonPatch.replace("/include", ["../**/*.ts", "../.projenrc.ts"]),
+      );
+    }
 
     // end project adjustments to enable ESM module usage
 
