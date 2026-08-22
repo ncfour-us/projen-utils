@@ -68,15 +68,12 @@ export class ExamplesFolder extends Component {
 // Run this using:
 //   node ${examplesFolderName}/lib/${examplesFolderName}/example.js
 
-// If compiling this outside of the package, replace this import with:
-// import { Hello } from '${project.package.packageName}'
-
-import { Hello } from '../src/index.js';
+import { Hello } from '${project.package.packageName}';
 
 const myHello = new Hello();
 
 myHello.sayHello();
-        `,
+`,
       });
     }
 
