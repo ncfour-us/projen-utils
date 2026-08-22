@@ -654,9 +654,15 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
       });
 
       //  - update test/tsconfig.json
-      this.tsconfigDev.file.patch(
-        JsonPatch.add("/include/-", "eslint.config.ts"),
-      );
+      if (this.tsconfigDev.fileName === "test/tsconfig.json") {
+        this.tsconfigDev.file.patch(
+          JsonPatch.add("/include/-", "../eslint.config.ts"),
+        );
+      } else {
+        this.tsconfigDev.file.patch(
+          JsonPatch.add("/include/-", "eslint.config.ts"),
+        );
+      }
 
       // end of lines used to re-establish the 'eslint' task.
     }
@@ -680,9 +686,15 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
       });
 
       //  - update test/tsconfig.json
-      this.tsconfigDev.file.patch(
-        JsonPatch.add("/include/-", "prettier.config.ts"),
-      );
+      if (this.tsconfigDev.fileName === "test/tsconfig.json") {
+        this.tsconfigDev.file.patch(
+          JsonPatch.add("/include/-", "../prettier.config.ts"),
+        );
+      } else {
+        this.tsconfigDev.file.patch(
+          JsonPatch.add("/include/-", "prettier.config.ts"),
+        );
+      }
 
       //  - add the file to .npmignore
       this.addPackageIgnore("prettier.config.ts");
