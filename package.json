@@ -71,7 +71,7 @@
     "yaml": "^2.9.0"
   },
   "peerDependencies": {
-    "constructs": "^10.6.0",
+    "constructs": "^10.8.1",
     "projen": "^0.101.32"
   },
   "pnpm": {},
