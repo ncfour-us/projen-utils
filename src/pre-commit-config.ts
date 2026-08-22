@@ -165,15 +165,16 @@ export class PreCommitConfigFile extends YamlFile {
                   ".*\\.svg|" +
                   "\\.yarn/.*|" +
                   "LICENSE|" +
-                  "\.mergify\.yml|" +
-                  "tsconfig\.json|" +
-                  "test/tsconfig\.json|" +
-                  "projenrc/tsconfig\.json|" +
-                  "\.npmignore|" +
-                  "API.md|" +
-                  "CHANGELOG.md|" +
-                  "typedoc.json|" +
-                  "pnpm-workspace.yaml" +
+                  "\\.mergify\\.yml|" +
+                  "tsconfig\\.json|" +
+                  "test/tsconfig\\.json|" +
+                  "projenrc/tsconfig\\.json|" +
+                  "examples/tsconfig\\.json|" +
+                  "\\.npmignore|" +
+                  "API\\.md|" +
+                  "CHANGELOG\\.md|" +
+                  "typedoc\\.json|" +
+                  "pnpm-workspace\\.yaml" +
                   ")$",
                 stages: ["pre-commit"],
               },
@@ -207,14 +208,16 @@ export class PreCommitConfigFile extends YamlFile {
               ".*\\.svg|" +
               "\\.yarn/.*|" +
               "LICENSE|" +
-              "\.mergify\.yml|" +
-              "tsconfig\.json|" +
-              "tsconfig\.dev\.json|" +
-              "\.npmignore|" +
-              "API.md|" +
-              "CHANGELOG.md|" +
-              "typedoc.json|" +
-              "pnpm-workspace.yaml|" +
+              "\\.mergify\\.yml|" +
+              "tsconfig\\.json|" +
+              "test/tsconfig\\.json|" +
+              "projenrc/tsconfig\\.json|" +
+              "examples/tsconfig\\.json|" +
+              "\\.npmignore|" +
+              "API\\.md|" +
+              "CHANGELOG\\.md|" +
+              "typedoc\\.json|" +
+              "pnpm-workspace\\.yaml|" +
               "setup\\.py|" +
               "requirements\\.txt|" +
               "requirements-dev\\.txt" +
