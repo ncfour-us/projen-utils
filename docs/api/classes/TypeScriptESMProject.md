@@ -275,6 +275,14 @@ see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
 
 ***
 
+### examplesFolder
+
+> `readonly` **examplesFolder**: `boolean`
+
+see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+
+***
+
 ### gitattributes
 
 > `readonly` **gitattributes**: `GitAttributesFile`
@@ -450,6 +458,14 @@ A parent project. If undefined, this is the root project.
 #### Inherited from
 
 `typescript.TypeScriptProject.parent`
+
+***
+
+### pnpmWorkspace
+
+> `readonly` **pnpmWorkspace**: `boolean`
+
+see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
 
 ***
 
