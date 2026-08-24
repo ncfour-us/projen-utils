@@ -3147,7 +3147,9 @@ When given a project, this it the project itself.
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.commands">commands</a></code> | <code><a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.docsIndex">docsIndex</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.eslintFlatConfig">eslintFlatConfig</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.examplesFolder">examplesFolder</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.localPackageArchiveDir">localPackageArchiveDir</a></code> | <code>string</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.pnpmWorkspace">pnpmWorkspace</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.precommitConfig">precommitConfig</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.prettierFlatConfig">prettierFlatConfig</a></code> | <code>boolean</code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProject.property.repoBuildPackageModel">repoBuildPackageModel</a></code> | <code><a href="#@ncfour-us/projen-utils.RepoBuildPackageModel">RepoBuildPackageModel</a></code> | see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions). |
@@ -3924,6 +3926,18 @@ see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
 
 ---
 
+##### `examplesFolder`<sup>Required</sup> <a name="examplesFolder" id="@ncfour-us/projen-utils.TypeScriptESMProject.property.examplesFolder"></a>
+
+```typescript
+public readonly examplesFolder: boolean;
+```
+
+- *Type:* boolean
+
+see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+
+---
+
 ##### `localPackageArchiveDir`<sup>Required</sup> <a name="localPackageArchiveDir" id="@ncfour-us/projen-utils.TypeScriptESMProject.property.localPackageArchiveDir"></a>
 
 ```typescript
@@ -3931,6 +3945,18 @@ public readonly localPackageArchiveDir: string;
 ```
 
 - *Type:* string
+
+see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+
+---
+
+##### `pnpmWorkspace`<sup>Required</sup> <a name="pnpmWorkspace" id="@ncfour-us/projen-utils.TypeScriptESMProject.property.pnpmWorkspace"></a>
+
+```typescript
+public readonly pnpmWorkspace: boolean;
+```
+
+- *Type:* boolean
 
 see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
 
@@ -4656,7 +4682,9 @@ const typeScriptESMProjectOptions: TypeScriptESMProjectOptions = { ... }
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.commands">commands</a></code> | <code><a href="#@ncfour-us/projen-utils.CommandParameters">CommandParameters</a>[]</code> | Additional commands (scripts) to add to the `package.json` file. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.docsIndex">docsIndex</a></code> | <code>boolean</code> | Add a `docs/index.md` file to the project as a sample file. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.eslintFlatConfig">eslintFlatConfig</a></code> | <code>boolean</code> | Use `eslint.config.ts` instead of `.eslintrc.json` for eslint config. |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.examplesFolder">examplesFolder</a></code> | <code>boolean</code> | Add a `examples` folder to the project. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.localPackageArchiveDir">localPackageArchiveDir</a></code> | <code>string</code> | Location for local archive of released artifacts. |
+| <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.pnpmWorkspace">pnpmWorkspace</a></code> | <code>boolean</code> | Add (or replace) a `pnpm-workspace.yaml` file for the project. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.precommitConfig">precommitConfig</a></code> | <code>boolean</code> | Add a `.pre-commit-config.yaml` file to support use of `pre-commit` tool. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.prettierFlatConfig">prettierFlatConfig</a></code> | <code>boolean</code> | Use `prettier.config.ts` instead of `.prettierrc.json` for eslint config. |
 | <code><a href="#@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.releaseToGithub">releaseToGithub</a></code> | <code>boolean</code> | Release to Github when running release tasks. |
@@ -6979,6 +7007,22 @@ Use `eslint.config.ts` instead of `.eslintrc.json` for eslint config.
 
 ---
 
+##### `examplesFolder`<sup>Optional</sup> <a name="examplesFolder" id="@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.examplesFolder"></a>
+
+```typescript
+public readonly examplesFolder: boolean;
+```
+
+- *Type:* boolean
+
+Add a `examples` folder to the project.
+
+The examples folder name is set to `examples`.
+A sample file named `example.ts` is created in the folder
+when the folder is first created.
+
+---
+
 ##### `localPackageArchiveDir`<sup>Optional</sup> <a name="localPackageArchiveDir" id="@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.localPackageArchiveDir"></a>
 
 ```typescript
@@ -6992,6 +7036,21 @@ Location for local archive of released artifacts.
 
 Used only when `repoBuildPackageModel is set to
 `RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY`.
+
+---
+
+##### `pnpmWorkspace`<sup>Optional</sup> <a name="pnpmWorkspace" id="@ncfour-us/projen-utils.TypeScriptESMProjectOptions.property.pnpmWorkspace"></a>
+
+```typescript
+public readonly pnpmWorkspace: boolean;
+```
+
+- *Type:* boolean
+
+Add (or replace) a `pnpm-workspace.yaml` file for the project.
+
+The default options for the `pnpm-workspace.yaml` file are used
+to construct the construct.
 
 ---
 

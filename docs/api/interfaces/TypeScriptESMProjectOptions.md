@@ -1149,6 +1149,18 @@ Eslint options
 
 ***
 
+### examplesFolder?
+
+> `readonly` `optional` **examplesFolder?**: `boolean`
+
+Add a `examples` folder to the project.
+
+The examples folder name is set to `examples`.
+A sample file named `example.ts` is created in the folder
+when the folder is first created.
+
+***
+
 ### github?
 
 > `readonly` `optional` **github?**: `boolean`
@@ -1893,6 +1905,17 @@ The version of PNPM to use if using PNPM as a package manager.
 #### Inherited from
 
 `typescript.TypeScriptProjectOptions.pnpmVersion`
+
+***
+
+### pnpmWorkspace?
+
+> `readonly` `optional` **pnpmWorkspace?**: `boolean`
+
+Add (or replace) a `pnpm-workspace.yaml` file for the project.
+
+The default options for the `pnpm-workspace.yaml` file are used
+to construct the construct.
 
 ***
 

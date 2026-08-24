@@ -12,9 +12,10 @@ required, just suggested.
 - [TypeScriptESMProject](#typescriptesmproject-typescript-esm)
 - [PreCommitConfigFile](#precommitconfigfile)
 - [ReadmeSampleFile](#readmesamplefile)
-- [PnpmWorkspace](#pnpmworkspace)
+- [PnpmWorkspace](#pnpmworkspace-1)
 - [DocsIndexSampleFile](#docsindexsamplefile)
-- [TypdocJson](#typedocjson)
+- [TypedocJson](#typedocjson)
+- [ExamplesFolder](#examplesfolder-1)
 
 ## TypeScriptESMProject (typescript-esm)
 
@@ -249,7 +250,7 @@ This build/packaging mode **turns OFF** any build/packaging setup by
 the `TypeScriptESMProject`.  All build/packaging setup configuration
 is the responsibility of the project team.
 
-##### LOCAL_BUILD_PACKAGE / LOCAL_DEV_BUILD_REGISTRY
+##### LOCAL_BUILD_PACKAGE / LOCAL_DEV_BUILD_REGISTRY (deprecated)
 
 This build/packaging mode enables/implements local (from the local
 `git` repository) build/packaging processing, including package publishing.
@@ -433,6 +434,20 @@ Specifying a tag value that does not exist results in an error.
 
 Specifying multiple tag values results in an error.
 
+#### pnpmWorkspace
+
+The default value for this option is `false`.
+
+When set to `true`, a `pnpm-workspace.yaml` file is created for the project.
+
+#### examplesFolder
+
+The default value for this option is `true`.
+
+When set to `true`, a folder is created at the root of the project
+which contains an `example.ts` file.  An additional task is defined
+to allow compiling the examples using `pnpm compile:examples`.
+
 ## PreCommitConfigFile
 
 This construct can be used with a `TypeScriptESMProject` or any other project.
@@ -511,7 +526,7 @@ To use the `readme` option for the project, add something like:
     ...
     readme: sampleReadmeProps({
         namespace: '@my-npm-namespace', // NPM scope
-        projectName: 'my-project', // NPM package name
+        project: 'my-project', // NPM package name
         organization: 'my-org', // GitHub organization or user name
         author: 'My First and Last Name', // Author name
         authorEmail: 'myemail@example.com', // Author e-mail
@@ -526,7 +541,7 @@ To use the `ReadmeSampleFile` construct, add something like:
 ```typescript
 new ReadmeSampleFile(project, {
     namespace: '@my-npm-namespace', // NPM scope
-    projectName: 'my-project', // NPM package name
+    project: 'my-project', // NPM package name
     organization: 'my-org', // GitHub organization or user name
     author: 'My First and Last Name', // Author name
     authorEmail: 'myemail@example.com', // Author e-mail
@@ -656,3 +671,38 @@ project.postCompileTask.addSteps({
 The code snippet adds as task called `build:docs` to the project
 and then adds this task to the `post-compile` stage of the `build`
 task.
+
+## ExamplesFolder
+
+This construct can be used with a `TypeScriptESMProject` or any other project.
+
+Use this construct to create a folder to hold example TypeScript programs
+which show how to use the capabilities of the package.  A `tsconfig.json` file
+specific to compiling the examples is created in `<examplesFolderName>/tsconfig.json`.
+An additional task is created called `compile:<examplesFolderName>` which can
+be used to compile the exmaples.  This allows:
+
+```bash
+pnpm compile:examples
+
+node examples/lib/examples/example.js
+```
+
+to run the example programs.
+
+To use the `ExamplesFolder` construct, add something like:
+
+```typescript
+new ExamplesFolder(project, {
+  examplesFolderName: 'exmamples',
+  exampleTsFile: true,
+});
+
+```
+
+to your `.projenrc.ts` file.
+
+The following attributes are set in the file:
+
+- `examplesFolderName`: defaults to `examples`.
+- `exampleTsFile`: defaults to `true`.

@@ -18,6 +18,8 @@ import { ReleaseTrigger } from "projen/lib/release";
 // a subtle dependency by the projen tool on using yarn "classic".
 
 import { DocsIndexSampleFile } from "./docs-index-sample";
+import { ExamplesFolder } from "./examples-folder";
+import { PnpmWorkspace } from "./pnpm-workspace";
 import {
   PreCommitConfigFile,
   PreCommitConfigFileTypes,
@@ -275,6 +277,23 @@ export interface TypeScriptESMProjectOptions
    * @default false
    */
   readonly buildTagTask?: boolean;
+
+  /**
+   * Add (or replace) a `pnpm-workspace.yaml` file for the project.
+   *
+   * The default options for the `pnpm-workspace.yaml` file are used
+   * to construct the construct.
+   */
+  readonly pnpmWorkspace?: boolean;
+
+  /**
+   * Add a `examples` folder to the project.
+   *
+   * The examples folder name is set to `examples`.
+   * A sample file named `example.ts` is created in the folder
+   * when the folder is first created.
+   */
+  readonly examplesFolder?: boolean;
 }
 
 /**
@@ -355,6 +374,16 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
    * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
    */
   public readonly buildTagTask: boolean;
+
+  /**
+   * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+   */
+  public readonly pnpmWorkspace: boolean;
+
+  /**
+   * see [TypeScriptESMProjectOptions](#typescriptesmprojectoptions).
+   */
+  public readonly examplesFolder: boolean;
 
   /**
    * Create a TypeScriptESMProject construct for the project.
@@ -462,6 +491,8 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     this.localPackageArchiveDir =
       options.localPackageArchiveDir ?? "~/.local-build-packages";
     this.buildTagTask = options.buildTagTask ?? false;
+    this.pnpmWorkspace = options.pnpmWorkspace ?? false;
+    this.examplesFolder = options.examplesFolder ?? false;
 
     // define the run command to use based on the package manager specified
     let packageManagerRunCommand: string;
@@ -790,6 +821,25 @@ export class TypeScriptESMProject extends typescript.TypeScriptProject {
     // add a build:tag task (along with sub-tasks to support it)
     if (this.buildTagTask) {
       this.addBuildTagTask(packageManagerCommand, packageManagerRunCommand);
+    }
+
+    if (this.pnpmWorkspace) {
+      this.tryRemoveFile("pnpm-workspace.yaml");
+      const pnpmWorkspace = new PnpmWorkspace(this);
+
+      if (pnpmWorkspace) {
+        pnpmWorkspace.addOverride("allowBuilds.unrs-resolver", true);
+        pnpmWorkspace.addOverride("trustPolicyExclude", ["semver"]);
+        pnpmWorkspace.addOverride("minimumReleaseAgeExclude", [
+          "@ncfour-us/projen-utils",
+        ]);
+      }
+    }
+
+    if (this.examplesFolder) {
+      new ExamplesFolder(this, {
+        exampleTsFile: true,
+      });
     }
 
     // end additional features
